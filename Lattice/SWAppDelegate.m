@@ -7,15 +7,44 @@
 //
 
 #import "SWAppDelegate.h"
+#import "SWPostAPI.h"
 
 @implementation SWAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.42 green:0.42 blue:0.42 alpha:1]];
+    
+    
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [defaults objectForKey:@"SWAPToken"];
+    if (token){
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        UITableViewController *menuNavController = [storyboard instantiateViewControllerWithIdentifier:@"SWMainMenuNavController"];
+        self.window.rootViewController = menuNavController;        
+    }
+    
     return YES;
 }
-							
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+{
+
+    NSString *route = [[url host] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    if ([route isEqualToString:@"authenticate"]){
+        NSString *token = [url.fragment substringFromIndex:[url.fragment rangeOfString:@"="].location + 1];
+        if (!token) return TRUE;
+        
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:token forKey:@"SWAPToken"];
+        [defaults synchronize];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"SWUserConnected" object:nil];
+    }
+    
+    return YES;
+}
+						
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

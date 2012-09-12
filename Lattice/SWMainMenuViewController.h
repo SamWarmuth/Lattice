@@ -1,5 +1,5 @@
 //
-//  SWFirstViewController.h
+//  SWMainMenuViewController.h
 //  Lattice
 //
 //  Created by Samuel Warmuth on 9/11/12.
@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SWFirstViewController : UIViewController
+@interface SWMainMenuViewController : UITableViewController
+
+
 
 @end

@@ -1,5 +1,5 @@
 //
-//  SWSecondViewController.h
+//  SWConnectViewController.h
 //  Lattice
 //
 //  Created by Samuel Warmuth on 9/11/12.
@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SWSecondViewController : UIViewController
+@interface SWConnectViewController : UIViewController
+
+
+- (IBAction)connectPressed:(id)sender;
 
 @end
