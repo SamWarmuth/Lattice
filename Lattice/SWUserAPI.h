@@ -10,4 +10,7 @@
 
 @interface SWUserAPI : NSObject
 
++ (void)getUserWithID:(NSString *)userID completed:(void (^)(NSError *error, NSDictionary *user, NSDictionary *metadata))block;
+
+
 @end

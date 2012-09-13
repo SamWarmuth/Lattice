@@ -34,6 +34,19 @@
 		88510EF216006611009892C7 /* NSAttributedString+Attributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 88510EEF16006611009892C7 /* NSAttributedString+Attributes.m */; };
 		88510EF316006611009892C7 /* OHAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 88510EF116006611009892C7 /* OHAttributedLabel.m */; };
 		88510EF6160066C4009892C7 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88510EF4160066BD009892C7 /* CoreText.framework */; };
+		8878B03B160122C600691C54 /* repostIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8878B037160122C600691C54 /* repostIcon.png */; };
+		8878B03C160122C600691C54 /* repostIconSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 8878B038160122C600691C54 /* repostIconSmall.png */; };
+		8878B03D160122C600691C54 /* repostIconSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8878B039160122C600691C54 /* repostIconSmall@2x.png */; };
+		8878B03E160122C600691C54 /* repostIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8878B03A160122C600691C54 /* repostIcon@2x.png */; };
+		8878B04716012BB500691C54 /* moreIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8878B04516012BB500691C54 /* moreIcon.png */; };
+		8878B04816012BB500691C54 /* moreIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8878B04616012BB500691C54 /* moreIcon@2x.png */; };
+		8878B05A16014E0F00691C54 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = 8878B05616014E0F00691C54 /* back.png */; };
+		8878B05B16014E0F00691C54 /* back@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8878B05716014E0F00691C54 /* back@2x.png */; };
+		8878B05C16014E0F00691C54 /* forward.png in Resources */ = {isa = PBXBuildFile; fileRef = 8878B05816014E0F00691C54 /* forward.png */; };
+		8878B05D16014E0F00691C54 /* forward@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8878B05916014E0F00691C54 /* forward@2x.png */; };
+		8878B06116014ED100691C54 /* SWWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8878B06016014ED100691C54 /* SWWebViewController.m */; };
+		8878B06C16015F0F00691C54 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8878B06B16015F0F00691C54 /* TTTAttributedLabel.m */; };
+		8878B0731601704200691C54 /* SWComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8878B0721601704200691C54 /* SWComposeViewController.m */; };
 		88AA3BFB15FF8BB800B550D2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AA3BFA15FF8BB800B550D2 /* UIKit.framework */; };
 		88AA3BFD15FF8BB800B550D2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AA3BFC15FF8BB800B550D2 /* Foundation.framework */; };
 		88AA3BFF15FF8BB800B550D2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AA3BFE15FF8BB800B550D2 /* CoreGraphics.framework */; };
@@ -105,6 +118,22 @@
 		88510EF016006611009892C7 /* OHAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OHAttributedLabel.h; sourceTree = "<group>"; };
 		88510EF116006611009892C7 /* OHAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OHAttributedLabel.m; sourceTree = "<group>"; };
 		88510EF4160066BD009892C7 /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		8878B037160122C600691C54 /* repostIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repostIcon.png; sourceTree = "<group>"; };
+		8878B038160122C600691C54 /* repostIconSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repostIconSmall.png; sourceTree = "<group>"; };
+		8878B039160122C600691C54 /* repostIconSmall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "repostIconSmall@2x.png"; sourceTree = "<group>"; };
+		8878B03A160122C600691C54 /* repostIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "repostIcon@2x.png"; sourceTree = "<group>"; };
+		8878B04516012BB500691C54 /* moreIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moreIcon.png; sourceTree = "<group>"; };
+		8878B04616012BB500691C54 /* moreIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "moreIcon@2x.png"; sourceTree = "<group>"; };
+		8878B05616014E0F00691C54 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
+		8878B05716014E0F00691C54 /* back@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "back@2x.png"; sourceTree = "<group>"; };
+		8878B05816014E0F00691C54 /* forward.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = forward.png; sourceTree = "<group>"; };
+		8878B05916014E0F00691C54 /* forward@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "forward@2x.png"; sourceTree = "<group>"; };
+		8878B05F16014ED100691C54 /* SWWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWWebViewController.h; sourceTree = "<group>"; };
+		8878B06016014ED100691C54 /* SWWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWWebViewController.m; sourceTree = "<group>"; };
+		8878B06A16015F0F00691C54 /* TTTAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTAttributedLabel.h; sourceTree = "<group>"; };
+		8878B06B16015F0F00691C54 /* TTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
+		8878B0711601704200691C54 /* SWComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWComposeViewController.h; sourceTree = "<group>"; };
+		8878B0721601704200691C54 /* SWComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWComposeViewController.m; sourceTree = "<group>"; };
 		88AA3BF615FF8BB800B550D2 /* Lattice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lattice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88AA3BFA15FF8BB800B550D2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		88AA3BFC15FF8BB800B550D2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -188,6 +217,7 @@
 		88510EB216004A28009892C7 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				8878B06916015F0F00691C54 /* TTTAttributedLabel */,
 				88510EED16006611009892C7 /* OHAttributedLabel */,
 				88510EBD16004C89009892C7 /* ODRefreshControl */,
 				88510EB316004A44009892C7 /* SVProgressHUD */,
@@ -219,6 +249,16 @@
 		88510ED816005E5D009892C7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				8878B05616014E0F00691C54 /* back.png */,
+				8878B05716014E0F00691C54 /* back@2x.png */,
+				8878B05816014E0F00691C54 /* forward.png */,
+				8878B05916014E0F00691C54 /* forward@2x.png */,
+				8878B04516012BB500691C54 /* moreIcon.png */,
+				8878B04616012BB500691C54 /* moreIcon@2x.png */,
+				8878B037160122C600691C54 /* repostIcon.png */,
+				8878B038160122C600691C54 /* repostIconSmall.png */,
+				8878B039160122C600691C54 /* repostIconSmall@2x.png */,
+				8878B03A160122C600691C54 /* repostIcon@2x.png */,
 				88510EE116005F7A009892C7 /* starIcon.png */,
 				88510EE216005F7A009892C7 /* starIconSmall.png */,
 				88510EE316005F7A009892C7 /* starIconSmall@2x.png */,
@@ -250,6 +290,26 @@
 				88510EF116006611009892C7 /* OHAttributedLabel.m */,
 			);
 			path = OHAttributedLabel;
+			sourceTree = "<group>";
+		};
+		8878B05E16014EB300691C54 /* Misc. View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				8878B05F16014ED100691C54 /* SWWebViewController.h */,
+				8878B06016014ED100691C54 /* SWWebViewController.m */,
+				8878B0711601704200691C54 /* SWComposeViewController.h */,
+				8878B0721601704200691C54 /* SWComposeViewController.m */,
+			);
+			name = "Misc. View Controllers";
+			sourceTree = "<group>";
+		};
+		8878B06916015F0F00691C54 /* TTTAttributedLabel */ = {
+			isa = PBXGroup;
+			children = (
+				8878B06A16015F0F00691C54 /* TTTAttributedLabel.h */,
+				8878B06B16015F0F00691C54 /* TTTAttributedLabel.m */,
+			);
+			path = TTTAttributedLabel;
 			sourceTree = "<group>";
 		};
 		88AA3BEB15FF8BB800B550D2 = {
@@ -290,6 +350,7 @@
 				88AA3C4C15FFD2C200B550D2 /* Connect */,
 				88AA3C2215FF963800B550D2 /* Feed */,
 				88AA3C4115FFCC0F00B550D2 /* Menu */,
+				8878B05E16014EB300691C54 /* Misc. View Controllers */,
 				88AA3C8115FFD89F00B550D2 /* API */,
 				88AA3C8815FFDACD00B550D2 /* Models */,
 				88510ED816005E5D009892C7 /* Images */,
@@ -386,12 +447,12 @@
 		88AA3C8115FFD89F00B550D2 /* API */ = {
 			isa = PBXGroup;
 			children = (
-				88AA3C8215FFD8B100B550D2 /* SWPostAPI.h */,
-				88AA3C8315FFD8B100B550D2 /* SWPostAPI.m */,
 				88AA3C8515FFD97500B550D2 /* SWAuthAPI.h */,
 				88AA3C8615FFD97500B550D2 /* SWAuthAPI.m */,
 				88510EA715FFEB49009892C7 /* SWHelpers.h */,
 				88510EA815FFEB49009892C7 /* SWHelpers.m */,
+				88AA3C8215FFD8B100B550D2 /* SWPostAPI.h */,
+				88AA3C8315FFD8B100B550D2 /* SWPostAPI.m */,
 				88510EC116004E4B009892C7 /* SWUserAPI.h */,
 				88510EC216004E4B009892C7 /* SWUserAPI.m */,
 			);
@@ -480,6 +541,16 @@
 				88510EE616005F7A009892C7 /* starIconSmall.png in Resources */,
 				88510EE716005F7A009892C7 /* starIconSmall@2x.png in Resources */,
 				88510EE816005F7B009892C7 /* starIcon@2x.png in Resources */,
+				8878B03B160122C600691C54 /* repostIcon.png in Resources */,
+				8878B03C160122C600691C54 /* repostIconSmall.png in Resources */,
+				8878B03D160122C600691C54 /* repostIconSmall@2x.png in Resources */,
+				8878B03E160122C600691C54 /* repostIcon@2x.png in Resources */,
+				8878B04716012BB500691C54 /* moreIcon.png in Resources */,
+				8878B04816012BB500691C54 /* moreIcon@2x.png in Resources */,
+				8878B05A16014E0F00691C54 /* back.png in Resources */,
+				8878B05B16014E0F00691C54 /* back@2x.png in Resources */,
+				8878B05C16014E0F00691C54 /* forward.png in Resources */,
+				8878B05D16014E0F00691C54 /* forward@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -519,6 +590,9 @@
 				88510ECF16005BA0009892C7 /* SWUserDetailViewController.m in Sources */,
 				88510EF216006611009892C7 /* NSAttributedString+Attributes.m in Sources */,
 				88510EF316006611009892C7 /* OHAttributedLabel.m in Sources */,
+				8878B06116014ED100691C54 /* SWWebViewController.m in Sources */,
+				8878B06C16015F0F00691C54 /* TTTAttributedLabel.m in Sources */,
+				8878B0731601704200691C54 /* SWComposeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

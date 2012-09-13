@@ -9,22 +9,25 @@
 #import "SWUserCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "AFNetworking.h"
+#import "NSAttributedString+Attributes.h"
 
 @implementation SWUserCell
 
 + (CGFloat)messageHeightForUser:(NSDictionary *)user
 {
-    NSString *text = [user objectForKey:@"text"];
+    NSString *text = [[user objectForKey:@"description"] objectForKey:@"text"];
     
-    CGSize constraint = CGSizeMake(225.0, 20000.0f);
-    CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:13.0] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
-    return size.height;
+    NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:text];
+    
+    CGSize constraint = CGSizeMake(172.0, 20000.0f);
+    CGSize size = [messageString sizeConstrainedToSize:constraint];
+    return size.height + 5.0;
+    
 }
 
 + (CGFloat)heightForUser:(NSDictionary *)user
 {
-    return 141.0;
-    CGFloat height = MAX([self messageHeightForUser:user] + 55.0, 88.0);
+    CGFloat height = MAX([self messageHeightForUser:user] + 72.0, 141.0);
     return height;
 }
 
@@ -51,6 +54,9 @@
 
     if (!user) return;
     
+    CGRect oldFrame = self.messageLabel.frame;
+    self.messageLabel.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, oldFrame.size.width, [[self class] messageHeightForUser:user]);
+    
     self.messageLabel.text = [[user objectForKey:@"description"] objectForKey:@"text"];
         
     NSDictionary *avatarInfo = [user objectForKey:@"avatar_image"];
@@ -58,8 +64,18 @@
     self.usernameLabel.text = [user objectForKey:@"username"];
     
     NSURL *avatarURL = [NSURL URLWithString:[avatarInfo objectForKey:@"url"]];    
-    [self.avatarImageView setImageWithURL:avatarURL];
-    
-    
+    [self.avatarImageView setImageWithURL:avatarURL];    
 }
+
+- (void)handleLinkTappedWithBlock:(void (^)(NSTextCheckingResult *linkInfo))block
+{
+    self.URLCallbackBlock = block;
+}
+
+-(BOOL)attributedLabel:(OHAttributedLabel *)attributedLabel shouldFollowLink:(NSTextCheckingResult *)linkInfo
+{
+    if (self.URLCallbackBlock) self.URLCallbackBlock(linkInfo);
+    return NO;
+}
+
 @end

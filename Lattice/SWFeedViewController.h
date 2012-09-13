@@ -13,11 +13,18 @@
 @interface SWFeedViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, TimeScrollerDelegate>
 
 @property (nonatomic, strong) IBOutlet UITableView *tv;
+@property (nonatomic, strong) UIView *dateOverlay;
 @property (nonatomic, strong) NSMutableArray *posts;
 @property (nonatomic, strong) NSString *threadID, *minID, *maxID;
-@property BOOL morePostsAvailable;
 @property (nonatomic, strong) TimeScroller *timeScroller;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
+@property BOOL morePostsAvailable, loadingPosts, isScrollingQuickly;;
+@property CGPoint lastTableViewOffset;
+@property NSTimeInterval lastOffsetCapture;
+
+@property CGFloat loadingCellHeight;
+
+- (IBAction)composeButtonPressed:(id)sender;
 
 
 @end

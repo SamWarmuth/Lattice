@@ -12,5 +12,6 @@
 
 + (void)getFeedWithMin:(NSString *)minID max:(NSString *)maxID completed:(void (^)(NSError *error, NSMutableArray *posts, NSDictionary *metadata))block;
 + (void)getThreadWithID:(NSString *)threadID min:(NSString *)minID max:(NSString *)maxID completed:(void (^)(NSError *error, NSMutableArray *posts, NSDictionary *metadata))block;
++ (NSMutableArray *)mutableArrayWithoutDeletedItems:(NSArray *)posts;
 
 @end

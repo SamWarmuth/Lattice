@@ -12,5 +12,6 @@
 
 @property (nonatomic, strong) IBOutlet UITableView *tv;
 @property (nonatomic, strong) NSDictionary *user;
+@property (nonatomic, strong) NSString *userID;
 
 @end

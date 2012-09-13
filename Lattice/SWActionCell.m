@@ -35,7 +35,6 @@
 
 - (void)prepareUI
 {
-    self.contentView.backgroundColor = [UIColor whiteColor];
 }
 
 @end

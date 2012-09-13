@@ -7,13 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OHAttributedLabel.h"
 
-@interface SWUserCell : UITableViewCell
+typedef void ((^SWURLCallbackBlock)(NSTextCheckingResult *linkInfo));
+
+@interface SWUserCell : UITableViewCell <OHAttributedLabelDelegate>
 
 @property (nonatomic, strong) IBOutlet UIImageView *avatarImageView;
-@property (nonatomic, strong) IBOutlet UILabel *messageLabel, *usernameLabel, *URLLabel;
+@property (nonatomic, strong) IBOutlet OHAttributedLabel *messageLabel;
+@property (nonatomic, strong) IBOutlet UILabel *usernameLabel;
+@property (nonatomic, strong) SWURLCallbackBlock URLCallbackBlock;
 
 + (CGFloat)heightForUser:(NSDictionary *)user;
 - (void)prepareUIWithUser:(NSDictionary *)user;
+
+- (void)handleLinkTappedWithBlock:(void (^)(NSTextCheckingResult *linkInfo))block;
 
 @end

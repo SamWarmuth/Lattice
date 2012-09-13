@@ -7,6 +7,7 @@
 //
 
 #import "SWAppDelegate.h"
+#import "OHAttributedLabel.h"
 #import "SWPostAPI.h"
 
 @implementation SWAppDelegate
@@ -14,7 +15,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.42 green:0.42 blue:0.42 alpha:1]];
+    [[UIToolbar appearance] setTintColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]];
     
+    [[OHAttributedLabel appearance] setLinkColor:[UIColor colorWithRed:0.011 green:0.562 blue:0.817 alpha:1]];
+    [[OHAttributedLabel appearance] setLinkUnderlineStyle:kCTUnderlineStyleNone];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults objectForKey:@"SWAPToken"];

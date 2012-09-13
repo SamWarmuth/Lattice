@@ -8,6 +8,7 @@
 
 #import "SWPostDetailViewController.h"
 #import "SWUserDetailViewController.h"
+#import "SWWebViewController.h"
 #import "SWPostCell.h"
 #import "SWActionCell.h"
 
@@ -42,7 +43,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) return [SWPostCell heightForPost:self.post];
-    return 64.0;
+    return 84.0;
 }
 
 
@@ -69,6 +70,13 @@
     cell.profileButton.tag = indexPath.row;
     [cell.profileButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
     [cell.profileButton addTarget:self action:@selector(profilePressed:) forControlEvents:UIControlEventTouchUpInside];
+    
+    [cell handleLinkTappedWithBlock:^(NSTextCheckingResult *linkInfo) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        SWWebViewController *webController = [storyboard instantiateViewControllerWithIdentifier:@"SWWebViewController"];
+        webController.initialURL = linkInfo.URL;
+        [self.navigationController pushViewController:webController animated:TRUE];
+    }];
     
     [cell prepareUIWithPost:self.post];
     

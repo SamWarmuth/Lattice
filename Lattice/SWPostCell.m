@@ -9,7 +9,9 @@
 #import "SWPostCell.h"
 #import <QuartzCore/QuartzCore.h>
 #import "AFNetworking.h"
+#import "SWWebViewController.h"
 #import "SWHelpers.h"
+#import "NSAttributedString+Attributes.h"
 
 @implementation SWPostCell
 
@@ -17,8 +19,10 @@
 {
     NSString *text = [post objectForKey:@"text"];
     
+    NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:text];
+    [messageString setFont:[UIFont systemFontOfSize:13]];
     CGSize constraint = CGSizeMake(225.0, 20000.0f);
-    CGSize size = [text sizeWithFont:[UIFont systemFontOfSize:13.0] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+    CGSize size = [messageString sizeConstrainedToSize:constraint];
     return size.height;
 }
 
@@ -53,14 +57,40 @@
     CGRect oldFrame = self.messageLabel.frame;
     self.messageLabel.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, oldFrame.size.width, [SWPostCell messageHeightForPost:post]);
     //self.messageLabel.backgroundColor = [UIColor greenColor];
-        
-    NSLog(@"POST!: %@", post);
+    
+    
     self.messageLabel.text = [post objectForKey:@"text"];
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    //    "created_at" = "2012-09-11T17:57:49Z";
+    //NSLog(@"POST! %@", post);
     
-    [dateFormatter setDateFormat:@"MMM dd h:mm a"];
+    
+    [self.messageLabel setAutomaticallyAddLinksForType:0];
+    
+    NSDictionary *entities = [post objectForKey:@"entities"];
+    NSArray *hashtags = [entities objectForKey:@"hashtags"];
+    NSArray *links = [entities objectForKey:@"links"];
+    NSArray *mentions = [entities objectForKey:@"mentions"];
+    
+    for (NSDictionary *hashTag in hashtags){
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"@%@", [hashTag objectForKey:@"name"]]];
+        NSRange linkRange = {[[hashTag objectForKey:@"pos"] intValue], [[hashTag objectForKey:@"len"] intValue]};
+        [self.messageLabel addCustomLink:url inRange:linkRange];
+    }
+    for (NSDictionary *link in links) {
+        NSURL *url = [NSURL URLWithString:[link objectForKey:@"url"]];
+        NSRange linkRange = {[[link objectForKey:@"pos"] intValue], [[link objectForKey:@"len"] intValue]};
+        [self.messageLabel addCustomLink:url inRange:linkRange];
+    }
+    for (NSDictionary *mention in mentions) {
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"@%@", [mention objectForKey:@"name"]]];
+        NSRange linkRange = {[[mention objectForKey:@"pos"] intValue], [[mention objectForKey:@"len"] intValue]};
+        [self.messageLabel addCustomLink:url inRange:linkRange];
+
+    }
+
+        
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];    
+    [dateFormatter setDateFormat:@"MMM d h:mma"];
     
     self.dateLabel.text = [dateFormatter stringFromDate:[SWHelpers dateFromRailsDateString:[post objectForKey:@"created_at"]]];
     
@@ -71,8 +101,18 @@
 
     NSURL *avatarURL = [NSURL URLWithString:[avatarInfo objectForKey:@"url"]];
     
-    
     [self.avatarImageView setImageWithURL:avatarURL];
+}
+
+- (void)handleLinkTappedWithBlock:(void (^)(NSTextCheckingResult *linkInfo))block
+{
+    self.URLCallbackBlock = block;
+}
+
+-(BOOL)attributedLabel:(OHAttributedLabel *)attributedLabel shouldFollowLink:(NSTextCheckingResult *)linkInfo
+{
+    if (self.URLCallbackBlock) self.URLCallbackBlock(linkInfo);
+    return NO;
 }
 
 

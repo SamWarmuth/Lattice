@@ -7,8 +7,12 @@
 //
 
 #import "SWUserDetailViewController.h"
+#import "SWWebViewController.h"
 #import "SWUserCell.h"
 #import "SWActionCell.h"
+#import "SWUserAPI.h"
+#import "SVProgressHUD.h"
+
 @interface SWUserDetailViewController ()
 
 @end
@@ -32,15 +36,32 @@
 
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    //+ (void)getUserWithID:(NSString *)userID completed:(void (^)(NSError *error, NSDictionary *user, NSDictionary *metadata))block
+    if (!self.user && self.userID){
+        [SVProgressHUD show];
+        [SWUserAPI getUserWithID:self.userID completed:^(NSError *error, NSDictionary *user, NSDictionary *metadata) {
+            [SVProgressHUD dismiss];
+            @synchronized(self.user) {
+                self.user = user;
+            }
+            [self.tv reloadData];
+        }];
+    }
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    if (!self.user) return 0;
     return 2;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) return [SWUserCell heightForUser:self.user];
-    return 64.0;
+    return 140.0;
 }
 
 
@@ -65,6 +86,13 @@
     }
     
     [cell prepareUIWithUser:self.user];
+    
+    [cell handleLinkTappedWithBlock:^(NSTextCheckingResult *linkInfo) {
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        SWWebViewController *webController = [storyboard instantiateViewControllerWithIdentifier:@"SWWebViewController"];
+        webController.initialURL = linkInfo.URL;
+        [self.navigationController pushViewController:webController animated:TRUE];
+    }];
     
     return cell;
 }
