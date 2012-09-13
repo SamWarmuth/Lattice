@@ -46,7 +46,7 @@
 
 - (id)initWithDelegate:(id<TimeScrollerDelegate>)delegate {
     
-    UIImage *background = [[UIImage imageNamed:@"timescroll_pointer"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0f, 35.0f, 0.0f, 10.0f)];
+    UIImage *background = [[UIImage imageNamed:@"timescroll_pointer"] resizableImageWithCapInsets:UIEdgeInsetsMake(0.0f, 35.0f, 31.0f, 10.0f)];
     
     self = [super initWithFrame:CGRectMake(0.0f, 0.0f, 320.0f, background.size.height)];
     if (self) {
@@ -60,7 +60,6 @@
         _backgroundView = [[UIImageView alloc] initWithImage:background];
         _backgroundView.frame = CGRectMake(CGRectGetWidth(self.frame) - 80.0f, 0.0f, 80.0f, CGRectGetHeight(self.frame));
         [self addSubview:_backgroundView];
-        
         
         
         _timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(30.0f, 4.0f, 50.0f, 20.0f)];

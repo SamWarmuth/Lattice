@@ -174,7 +174,7 @@
                                             <outlet property="usernameLabel" destination="Pah-4R-Z2S" id="qA7-tD-Ave"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SWActionCell" rowHeight="140" id="BIp-ma-5Ft" customClass="SWActionCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SWUserActionCell" rowHeight="140" id="BIp-ma-5Ft" customClass="SWActionCell">
                                         <rect key="frame" x="0.0" y="163" width="320" height="140"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -232,6 +232,12 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <outlet property="followersButton" destination="87Q-xI-TtT" id="VGN-ra-VBF"/>
+                                            <outlet property="followingButton" destination="LYo-ks-MO0" id="UEn-bC-nYD"/>
+                                            <outlet property="postsButton" destination="9sP-ra-ZHG" id="Wjh-ut-FVu"/>
+                                            <outlet property="starredButton" destination="0bD-N4-F0L" id="yOm-LM-kYu"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -292,7 +298,7 @@
                                                         <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="If they actually asked, I'd have to obey their request." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" id="jcP-OD-zRw" customClass="OHAttributedLabel">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="If they actually asked, I'd have to obey their request." lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="jcP-OD-zRw" customClass="OHAttributedLabel">
                                                     <rect key="frame" x="75" y="38" width="225" height="34"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
@@ -374,6 +380,11 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <outlet property="replyButton" destination="QCD-a1-DXw" id="Ufj-Bs-Pm8"/>
+                                            <outlet property="repostButton" destination="L9e-M0-VQP" id="oET-KZ-apJ"/>
+                                            <outlet property="starButton" destination="hkE-Wa-gFO" id="QkJ-im-gXO"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -670,6 +681,15 @@
         </class>
         <class className="SWActionCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SWActionCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="followersButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="followingButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="postsButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="replyButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="repostButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="starButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="starredButton" candidateClass="UIButton"/>
+            </relationships>
         </class>
         <class className="SWComposeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SWComposeViewController.h"/>
@@ -733,6 +753,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="mpJ-0F-TWA"/>
+        <segue reference="rAO-Vs-hHc"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -61,7 +61,7 @@
     
     self.messageLabel.text = [post objectForKey:@"text"];
     
-    //NSLog(@"POST! %@", post);
+    NSLog(@"POST! %@", post);
     
     
     [self.messageLabel setAutomaticallyAddLinksForType:0];
@@ -71,37 +71,53 @@
     NSArray *links = [entities objectForKey:@"links"];
     NSArray *mentions = [entities objectForKey:@"mentions"];
     
-    for (NSDictionary *hashTag in hashtags){
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"@%@", [hashTag objectForKey:@"name"]]];
-        NSRange linkRange = {[[hashTag objectForKey:@"pos"] intValue], [[hashTag objectForKey:@"len"] intValue]};
-        [self.messageLabel addCustomLink:url inRange:linkRange];
-    }
-    for (NSDictionary *link in links) {
-        NSURL *url = [NSURL URLWithString:[link objectForKey:@"url"]];
-        NSRange linkRange = {[[link objectForKey:@"pos"] intValue], [[link objectForKey:@"len"] intValue]};
-        [self.messageLabel addCustomLink:url inRange:linkRange];
-    }
-    for (NSDictionary *mention in mentions) {
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"@%@", [mention objectForKey:@"name"]]];
-        NSRange linkRange = {[[mention objectForKey:@"pos"] intValue], [[mention objectForKey:@"len"] intValue]};
-        [self.messageLabel addCustomLink:url inRange:linkRange];
+    NSInteger messageLength = self.messageLabel.text.length;
 
+    
+    for (NSDictionary *link in hashtags){
+        NSInteger position = [[link objectForKey:@"pos"] integerValue];
+        NSInteger length = [[link objectForKey:@"len"] integerValue];
+        if (position >= messageLength) continue;
+        if (position + length > messageLength) length = messageLength - position;
+        
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"#%@", [link objectForKey:@"name"]]];
+        [self.messageLabel addCustomLink:url inRange:NSMakeRange(position, length)];
+    }
+    
+    for (NSDictionary *link in links) {
+        NSInteger position = [[link objectForKey:@"pos"] integerValue];
+        NSInteger length = [[link objectForKey:@"len"] integerValue];
+        if (position >= messageLength) continue;
+        if (position + length > messageLength) length = messageLength - position;
+        NSLog(@"Add link.");
+        NSURL *url = [NSURL URLWithString:[link objectForKey:@"url"]];
+        [self.messageLabel addCustomLink:url inRange:NSMakeRange(position, length)];
+    }
+    for (NSDictionary *link in mentions) {
+        NSInteger position = [[link objectForKey:@"pos"] integerValue];
+        NSInteger length = [[link objectForKey:@"len"] integerValue];
+        if (position >= messageLength) continue;
+        if (position + length > messageLength) length = messageLength - position;
+        
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"@%@", [link objectForKey:@"name"]]];
+        [self.messageLabel addCustomLink:url inRange:NSMakeRange(position, length)];
     }
 
         
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];    
     [dateFormatter setDateFormat:@"MMM d h:mma"];
-    
     self.dateLabel.text = [dateFormatter stringFromDate:[SWHelpers dateFromRailsDateString:[post objectForKey:@"created_at"]]];
     
     NSDictionary *user = [post objectForKey:@"user"];
     NSDictionary *avatarInfo = [user objectForKey:@"avatar_image"];
-    
     self.usernameLabel.text = [user objectForKey:@"username"];
 
     NSURL *avatarURL = [NSURL URLWithString:[avatarInfo objectForKey:@"url"]];
     
     [self.avatarImageView setImageWithURL:avatarURL];
+    if ([post objectForKey:@"you_starred"] && [[post objectForKey:@"you_starred"] intValue] == 1){
+        self.contentView.backgroundColor = [UIColor colorWithRed:1.000 green:0.957 blue:0.580 alpha:1];
+    }
 }
 
 - (void)handleLinkTappedWithBlock:(void (^)(NSTextCheckingResult *linkInfo))block
@@ -114,6 +130,5 @@
     if (self.URLCallbackBlock) self.URLCallbackBlock(linkInfo);
     return NO;
 }
-
 
 @end

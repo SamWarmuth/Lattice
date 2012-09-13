@@ -18,10 +18,10 @@
     NSString *text = [[user objectForKey:@"description"] objectForKey:@"text"];
     
     NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:text];
-    
+    [messageString setFont:[UIFont systemFontOfSize:13]];
     CGSize constraint = CGSizeMake(172.0, 20000.0f);
     CGSize size = [messageString sizeConstrainedToSize:constraint];
-    return size.height + 5.0;
+    return size.height;
     
 }
 

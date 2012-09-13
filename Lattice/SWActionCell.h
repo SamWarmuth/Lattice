@@ -10,4 +10,6 @@
 
 @interface SWActionCell : UITableViewCell
 
+@property (nonatomic, strong) IBOutlet UIButton *replyButton, *repostButton, *starButton, *postsButton, *starredButton, *followingButton, *followersButton;
+
 @end

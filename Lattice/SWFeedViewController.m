@@ -45,21 +45,72 @@
 }
 - (void)pulledToRefresh:(ODRefreshControl *)control
 {    
-    [self loadNewerPostsInFeed];
+    [self loadNewerPosts];
     
 }
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     if (!self.posts || self.posts.count == 0) [self loadPosts];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [SVProgressHUD dismiss];
+}
+
 - (void)loadPosts
 {
+    if (self.loadingPosts) return;
+    self.loadingPosts = TRUE;
+    if (self.posts.count == 0) [SVProgressHUD show];
+    [self.refreshControl beginRefreshing];
+    
     if (self.threadID) {
         [self loadPostsInThread];
+    } else if (self.viewUserPosts) {
+        [self loadUserPosts];
+    } else if (self.viewUserStarred) {
+        [self loadUserStarredPosts];
     } else {
         [self loadPostsInFeed];
+    }
+}
+
+- (void)loadOlderPosts
+{
+    if (!self.morePostsAvailable || self.loadingPosts) return;
+    self.loadingPosts = TRUE;
+    if (self.posts.count == 0) [SVProgressHUD show];
+    
+    if (self.threadID) {
+        [self loadOlderPostsInThread];
+    } else if (self.viewUserPosts) {
+        [self loadOlderUserPosts];
+    } else if (self.viewUserStarred) {
+        [self loadOlderUserStarredPosts];
+    } else {
+        [self loadOlderPostsInFeed];
+    }
+}
+
+- (void)loadNewerPosts
+{
+    if (self.loadingPosts) return;
+    self.loadingPosts = TRUE;
+    if (self.posts.count == 0) [SVProgressHUD show];
+    
+    
+    if (self.threadID) {
+        [self loadNewerPostsInThread];
+    } else if (self.viewUserPosts) {
+        [self loadNewerUserPosts];
+    } else if (self.viewUserStarred) {
+        [self loadNewerUserStarredPosts];
+    } else {
+        [self loadNewerPostsInFeed];
     }
 }
 
@@ -68,94 +119,28 @@
 
 - (void)loadPostsInFeed
 {
-    if (self.loadingPosts) return;
-    self.loadingPosts = TRUE;
-    if (self.posts.count == 0) [SVProgressHUD show];
-    [self.refreshControl beginRefreshing];
     [SWPostAPI getFeedWithMin:nil max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        [self.refreshControl endRefreshing];
-        [SVProgressHUD dismiss];
-        self.loadingPosts = FALSE;
-        
-        @synchronized(self.posts) {
-            self.posts = posts;
-        }
-        
         self.minID = [metadata objectForKey:@"min_id"];
         self.maxID = [metadata objectForKey:@"max_id"];
         self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            [self.tv reloadData];
-        });
+        [self replacePostsInTableWithPosts:posts];
     }];
 }
 
 - (void)loadNewerPostsInFeed
 {
-    if (self.loadingPosts) return;
-    self.loadingPosts = TRUE;
-    if (self.posts.count == 0) [SVProgressHUD show];
-    [SWPostAPI getFeedWithMin:nil max:self.maxID completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-
-        [SVProgressHUD dismiss];
-        [self.refreshControl endRefreshing];
-        self.loadingPosts = FALSE;
-
-        if (posts.count == 0) return;
-        
-        self.maxID = [metadata objectForKey:@"max_id"];
-        
-        @synchronized(self.posts) {
-            self.posts = [[posts arrayByAddingObjectsFromArray:self.posts] mutableCopy];
-        }
-        
-        
-        
-        NSMutableArray *indexPaths = [NSMutableArray new];
-        for (int i = 0; i < posts.count; i++){
-            [indexPaths addObject:[NSIndexPath indexPathForRow:i  inSection:0]];
-        }
-        
-        [self.tv beginUpdates];
-        [self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
-        [self.tv endUpdates];
-        
+    [SWPostAPI getFeedWithMin:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
+        if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
+        [self addpostsToBeginningOfTable:posts];
     }];
 }
 
 - (void)loadOlderPostsInFeed
 {
-    if (!self.morePostsAvailable) {
-        NSLog(@"Error: No older posts available.");
-        [self.tv reloadData];
-        return;
-    }
-    if (self.loadingPosts) return;
-    self.loadingPosts = TRUE;
-    if (self.posts.count == 0) [SVProgressHUD show];
-
-    [SWPostAPI getFeedWithMin:self.minID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        [SVProgressHUD dismiss];
-        self.loadingPosts = FALSE;
-        NSInteger oldPostCount = self.posts.count;
-        
-        @synchronized(self.posts) {
-            self.posts = [[self.posts arrayByAddingObjectsFromArray:posts] mutableCopy];
-        }
-        
+    [SWPostAPI getFeedWithMin:nil max:self.minID completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
         self.minID = [metadata objectForKey:@"min_id"];
         self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        
-        NSMutableArray *indexPaths = [NSMutableArray new];
-        for (int i = 0; i < posts.count; i++){
-            [indexPaths addObject:[NSIndexPath indexPathForRow:oldPostCount + i  inSection:0]];
-        }
-
-        [self.tv beginUpdates];
-        [self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-        [self.tv endUpdates];
-
+        [self addPostsToEndOfTable:posts];
     }];
 }
 
@@ -164,44 +149,169 @@
 
 - (void)loadPostsInThread
 {
-    if (self.loadingPosts) return;
-    self.loadingPosts = TRUE;
-    if (self.posts.count == 0) [SVProgressHUD show];
     self.navigationItem.title = @"Conversation";
     [SWPostAPI getThreadWithID:self.threadID min:nil max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.loadingPosts = FALSE;
-        [self.refreshControl endRefreshing];
-
-        [SVProgressHUD dismiss];
-        @synchronized(self.posts) {
-            self.posts = posts;
-        }
         self.minID = [metadata objectForKey:@"min_id"];
-        self.maxID = [metadata objectForKey:@"min_id"];
+        self.maxID = [metadata objectForKey:@"max_id"];
         self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        
-        dispatch_async(dispatch_get_main_queue(), ^(void) {
-            [self.tv reloadData];
-        });
+        [self replacePostsInTableWithPosts:posts];
     }];
 }
 
 - (void)loadNewerPostsInThread
 {
-    self.loadingPosts = TRUE;
-    
-    self.loadingPosts = FALSE;
+    self.navigationItem.title = @"Conversation";
+    [SWPostAPI getThreadWithID:self.threadID min:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
+        if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
+        [self addpostsToBeginningOfTable:posts];
+    }];
 }
+
 
 - (void)loadOlderPostsInThread
 {
-    self.loadingPosts = TRUE;
-    if (!self.morePostsAvailable) {
-        NSLog(@"Error: No older posts available.");
+    self.navigationItem.title = @"Conversation";
+    [SWPostAPI getThreadWithID:self.threadID min:nil max:self.minID completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
+        self.minID = [metadata objectForKey:@"min_id"];
+        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
+        [self addPostsToEndOfTable:posts];
+    }];
+}
+
+// User Posts
+
+- (void)loadUserPosts
+{
+    self.navigationItem.title = @"User Posts";
+    [SWPostAPI getUserPostsWithID:self.userID min:nil max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
+        self.minID = [metadata objectForKey:@"min_id"];
+        self.maxID = [metadata objectForKey:@"max_id"];
+        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
+        [self replacePostsInTableWithPosts:posts];
+    }];
+}
+
+- (void)loadNewerUserPosts
+{
+    self.navigationItem.title = @"User Posts";
+    [SWPostAPI getUserPostsWithID:self.userID min:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
+        if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
+        [self addpostsToBeginningOfTable:posts];
+    }];
+}
+
+- (void)loadOlderUserPosts
+{
+    self.navigationItem.title = @"User Posts";
+    [SWPostAPI getUserPostsWithID:self.userID min:nil max:self.minID completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
+        self.minID = [metadata objectForKey:@"min_id"];
+        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
+        [self addPostsToEndOfTable:posts];
+    }];
+}
+
+// User Starred
+
+- (void)loadUserStarredPosts
+{
+    self.navigationItem.title = @"Starred";
+    [SWPostAPI getUserStarredWithID:self.userID min:nil max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
+        self.minID = [metadata objectForKey:@"min_id"];
+        self.maxID = [metadata objectForKey:@"max_id"];
+        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
+        [self replacePostsInTableWithPosts:posts];
+    }];
+}
+
+- (void)loadNewerUserStarredPosts
+{
+    self.navigationItem.title = @"Starred";
+    [SWPostAPI getUserStarredWithID:self.userID min:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
+        if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
+        [self addpostsToBeginningOfTable:posts];
+    }];
+}
+
+- (void)loadOlderUserStarredPosts
+{
+    self.navigationItem.title = @"Starred";
+    [SWPostAPI getUserStarredWithID:self.userID min:nil max:self.minID completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
+        self.minID = [metadata objectForKey:@"min_id"];
+        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
+        [self addPostsToEndOfTable:posts];
+    }];
+}
+
+
+- (void)replacePostsInTableWithPosts:(NSMutableArray *)posts
+{
+    [self.refreshControl endRefreshing];
+    [SVProgressHUD dismiss];
+    self.loadingPosts = FALSE;
+    
+    @synchronized(self.posts) {
+        self.posts = posts;
+    }
+    
+    
+    
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [self.tv reloadData];
+    });
+}
+
+- (void)addPostsToEndOfTable:(NSMutableArray *)posts
+{
+    [SVProgressHUD dismiss];
+    [self.refreshControl endRefreshing];
+    self.loadingPosts = FALSE;
+    if (posts.count == 0) return;
+    
+    NSInteger oldPostCount = self.posts.count;
+    
+    @synchronized(self.posts) {
+        self.posts = [[self.posts arrayByAddingObjectsFromArray:posts] mutableCopy];
+    }
+    
+    NSMutableArray *indexPaths = [NSMutableArray new];
+    for (int i = 0; i < posts.count; i++){
+        [indexPaths addObject:[NSIndexPath indexPathForRow:oldPostCount + i inSection:0]];
+    }
+    if (indexPaths.count != posts.count){
         [self.tv reloadData];
         return;
     }
+    
+    [self.tv beginUpdates];
+    
+    if (!self.morePostsAvailable){
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:oldPostCount inSection:0];
+        [self.tv deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+    
+    [self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+    [self.tv endUpdates];
+}
+
+- (void)addpostsToBeginningOfTable:(NSMutableArray *)posts
+{
+    [SVProgressHUD dismiss];
+    [self.refreshControl endRefreshing];
     self.loadingPosts = FALSE;
+    if (posts.count == 0) return;
+    
+    @synchronized(self.posts) {
+        self.posts = [[posts arrayByAddingObjectsFromArray:self.posts] mutableCopy];
+    }
+    
+    NSMutableArray *indexPaths = [NSMutableArray new];
+    for (int i = 0; i < posts.count; i++){
+        [indexPaths addObject:[NSIndexPath indexPathForRow:i  inSection:0]];
+    }
+    
+    [self.tv beginUpdates];
+    [self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
+    [self.tv endUpdates];
 }
 
 
@@ -243,7 +353,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.morePostsAvailable && indexPath.row + 8 > self.posts.count) [self loadOlderPostsInFeed];
+    if (self.morePostsAvailable && indexPath.row + 15 > self.posts.count) [self loadOlderPosts];
     
     
     if (indexPath.row >= self.posts.count) return [self loadingCellForIndexPath:indexPath];
@@ -275,7 +385,6 @@
             webController.initialURL = linkInfo.URL;
             [self.navigationController pushViewController:webController animated:TRUE];
         }
-        
 
     }];
     
@@ -284,7 +393,6 @@
     [cell.profileButton addTarget:self action:@selector(profilePressed:) forControlEvents:UIControlEventTouchUpInside];
     
     if ([(NSString *)[post objectForKey:@"id"] isEqualToString:self.threadID]) cell.contentView.backgroundColor = [UIColor colorWithRed:0.957 green:0.957 blue:0.957 alpha:1];
-    else cell.contentView.backgroundColor = [UIColor whiteColor];
     
     return cell;
 }

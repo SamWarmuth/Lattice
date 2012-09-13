@@ -14,4 +14,9 @@
 @property (nonatomic, strong) NSDictionary *user;
 @property (nonatomic, strong) NSString *userID;
 
+- (void)viewPosts;
+- (void)viewStarred;
+- (void)viewFollowing;
+- (void)viewFollowers;
+
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "SWUserDetailViewController.h"
+#import "SWFeedViewController.h"
 #import "SWWebViewController.h"
 #import "SWUserCell.h"
 #import "SWActionCell.h"
@@ -99,14 +100,56 @@
 
 - (UITableViewCell *)actionCell
 {
-    static NSString *CellIdentifier = @"SWActionCell";
+    static NSString *CellIdentifier = @"SWUserActionCell";
     SWActionCell *cell = [self.tv dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[SWActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    [cell.postsButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [cell.postsButton addTarget:self action:@selector(viewPosts) forControlEvents:UIControlEventTouchUpInside];
+    
+    [cell.starredButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [cell.starredButton addTarget:self action:@selector(viewStarred) forControlEvents:UIControlEventTouchUpInside];
+    
+    [cell.followingButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [cell.followingButton addTarget:self action:@selector(viewFollowing) forControlEvents:UIControlEventTouchUpInside];
+    
+    [cell.followersButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [cell.followersButton addTarget:self action:@selector(viewFollowers) forControlEvents:UIControlEventTouchUpInside];
     
     return cell;
 }
+
+- (void)viewPosts
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
+    feedViewController.userID = [self.user objectForKey:@"id"];
+    feedViewController.viewUserPosts = TRUE;
+    [self.navigationController pushViewController:feedViewController animated:TRUE];
+}
+
+- (void)viewStarred
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
+    feedViewController.userID = [self.user objectForKey:@"id"];
+    feedViewController.viewUserStarred = TRUE;
+    [self.navigationController pushViewController:feedViewController animated:TRUE];
+}
+
+- (void)viewFollowing
+{
+    
+}
+
+- (void)viewFollowers
+{
+    
+}
+
+
+
 
 - (void)viewDidUnload
 {
