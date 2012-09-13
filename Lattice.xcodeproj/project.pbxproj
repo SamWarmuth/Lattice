@@ -47,6 +47,19 @@
 		8878B06116014ED100691C54 /* SWWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8878B06016014ED100691C54 /* SWWebViewController.m */; };
 		8878B06C16015F0F00691C54 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8878B06B16015F0F00691C54 /* TTTAttributedLabel.m */; };
 		8878B0731601704200691C54 /* SWComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8878B0721601704200691C54 /* SWComposeViewController.m */; };
+		8878B07D160250F700691C54 /* SWUserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8878B07C160250F700691C54 /* SWUserListViewController.m */; };
+		8878B0821602584F00691C54 /* chatIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8878B07E1602584F00691C54 /* chatIcon.png */; };
+		8878B0831602584F00691C54 /* chatIconSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 8878B07F1602584F00691C54 /* chatIconSmall.png */; };
+		8878B0841602584F00691C54 /* chatIconSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8878B0801602584F00691C54 /* chatIconSmall@2x.png */; };
+		8878B0851602584F00691C54 /* chatIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8878B0811602584F00691C54 /* chatIcon@2x.png */; };
+		8887C115160285EA0035E804 /* starIconSmallWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 8887C113160285EA0035E804 /* starIconSmallWhite.png */; };
+		8887C116160285EA0035E804 /* starIconSmallWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8887C114160285EA0035E804 /* starIconSmallWhite@2x.png */; };
+		8887C11A160286250035E804 /* repostIconSmallWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 8887C118160286250035E804 /* repostIconSmallWhite.png */; };
+		8887C11B160286250035E804 /* repostIconSmallWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8887C119160286250035E804 /* repostIconSmallWhite@2x.png */; };
+		8887C11E160286630035E804 /* replyIconSmallWhite.png in Resources */ = {isa = PBXBuildFile; fileRef = 8887C11C160286630035E804 /* replyIconSmallWhite.png */; };
+		8887C11F160286630035E804 /* replyIconSmallWhite@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8887C11D160286630035E804 /* replyIconSmallWhite@2x.png */; };
+		8887C12116028F1F0035E804 /* latticeIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8887C12016028F1F0035E804 /* latticeIcon@2x.png */; };
+		8887C12316028F230035E804 /* latticeIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8887C12216028F230035E804 /* latticeIcon.png */; };
 		88AA3BFB15FF8BB800B550D2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AA3BFA15FF8BB800B550D2 /* UIKit.framework */; };
 		88AA3BFD15FF8BB800B550D2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AA3BFC15FF8BB800B550D2 /* Foundation.framework */; };
 		88AA3BFF15FF8BB800B550D2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AA3BFE15FF8BB800B550D2 /* CoreGraphics.framework */; };
@@ -134,6 +147,20 @@
 		8878B06B16015F0F00691C54 /* TTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
 		8878B0711601704200691C54 /* SWComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWComposeViewController.h; sourceTree = "<group>"; };
 		8878B0721601704200691C54 /* SWComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWComposeViewController.m; sourceTree = "<group>"; };
+		8878B07B160250F700691C54 /* SWUserListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUserListViewController.h; sourceTree = "<group>"; };
+		8878B07C160250F700691C54 /* SWUserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUserListViewController.m; sourceTree = "<group>"; };
+		8878B07E1602584F00691C54 /* chatIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chatIcon.png; sourceTree = "<group>"; };
+		8878B07F1602584F00691C54 /* chatIconSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chatIconSmall.png; sourceTree = "<group>"; };
+		8878B0801602584F00691C54 /* chatIconSmall@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chatIconSmall@2x.png"; sourceTree = "<group>"; };
+		8878B0811602584F00691C54 /* chatIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "chatIcon@2x.png"; sourceTree = "<group>"; };
+		8887C113160285EA0035E804 /* starIconSmallWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = starIconSmallWhite.png; sourceTree = "<group>"; };
+		8887C114160285EA0035E804 /* starIconSmallWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "starIconSmallWhite@2x.png"; sourceTree = "<group>"; };
+		8887C118160286250035E804 /* repostIconSmallWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = repostIconSmallWhite.png; sourceTree = "<group>"; };
+		8887C119160286250035E804 /* repostIconSmallWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "repostIconSmallWhite@2x.png"; sourceTree = "<group>"; };
+		8887C11C160286630035E804 /* replyIconSmallWhite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = replyIconSmallWhite.png; sourceTree = "<group>"; };
+		8887C11D160286630035E804 /* replyIconSmallWhite@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "replyIconSmallWhite@2x.png"; sourceTree = "<group>"; };
+		8887C12016028F1F0035E804 /* latticeIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "latticeIcon@2x.png"; sourceTree = "<group>"; };
+		8887C12216028F230035E804 /* latticeIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = latticeIcon.png; sourceTree = "<group>"; };
 		88AA3BF615FF8BB800B550D2 /* Lattice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lattice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		88AA3BFA15FF8BB800B550D2 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		88AA3BFC15FF8BB800B550D2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -249,6 +276,16 @@
 		88510ED816005E5D009892C7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				8887C11C160286630035E804 /* replyIconSmallWhite.png */,
+				8887C11D160286630035E804 /* replyIconSmallWhite@2x.png */,
+				8887C118160286250035E804 /* repostIconSmallWhite.png */,
+				8887C119160286250035E804 /* repostIconSmallWhite@2x.png */,
+				8887C113160285EA0035E804 /* starIconSmallWhite.png */,
+				8887C114160285EA0035E804 /* starIconSmallWhite@2x.png */,
+				8878B07F1602584F00691C54 /* chatIconSmall.png */,
+				8878B0801602584F00691C54 /* chatIconSmall@2x.png */,
+				8878B07E1602584F00691C54 /* chatIcon.png */,
+				8878B0811602584F00691C54 /* chatIcon@2x.png */,
 				8878B05616014E0F00691C54 /* back.png */,
 				8878B05716014E0F00691C54 /* back@2x.png */,
 				8878B05816014E0F00691C54 /* forward.png */,
@@ -315,6 +352,8 @@
 		88AA3BEB15FF8BB800B550D2 = {
 			isa = PBXGroup;
 			children = (
+				8887C12216028F230035E804 /* latticeIcon.png */,
+				8887C12016028F1F0035E804 /* latticeIcon@2x.png */,
 				88AA3C0015FF8BB800B550D2 /* Lattice */,
 				88AA3BF915FF8BB800B550D2 /* Frameworks */,
 				88AA3BF715FF8BB800B550D2 /* Products */,
@@ -380,6 +419,8 @@
 				88510EC5160050A9009892C7 /* SWPostDetailViewController.m */,
 				88510ECD16005BA0009892C7 /* SWUserDetailViewController.h */,
 				88510ECE16005BA0009892C7 /* SWUserDetailViewController.m */,
+				8878B07B160250F700691C54 /* SWUserListViewController.h */,
+				8878B07C160250F700691C54 /* SWUserListViewController.m */,
 				88AA3C2615FF96A200B550D2 /* Table Cells */,
 			);
 			name = Feed;
@@ -551,6 +592,18 @@
 				8878B05B16014E0F00691C54 /* back@2x.png in Resources */,
 				8878B05C16014E0F00691C54 /* forward.png in Resources */,
 				8878B05D16014E0F00691C54 /* forward@2x.png in Resources */,
+				8878B0821602584F00691C54 /* chatIcon.png in Resources */,
+				8878B0831602584F00691C54 /* chatIconSmall.png in Resources */,
+				8878B0841602584F00691C54 /* chatIconSmall@2x.png in Resources */,
+				8878B0851602584F00691C54 /* chatIcon@2x.png in Resources */,
+				8887C115160285EA0035E804 /* starIconSmallWhite.png in Resources */,
+				8887C116160285EA0035E804 /* starIconSmallWhite@2x.png in Resources */,
+				8887C11A160286250035E804 /* repostIconSmallWhite.png in Resources */,
+				8887C11B160286250035E804 /* repostIconSmallWhite@2x.png in Resources */,
+				8887C11E160286630035E804 /* replyIconSmallWhite.png in Resources */,
+				8887C11F160286630035E804 /* replyIconSmallWhite@2x.png in Resources */,
+				8887C12116028F1F0035E804 /* latticeIcon@2x.png in Resources */,
+				8887C12316028F230035E804 /* latticeIcon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -593,6 +646,7 @@
 				8878B06116014ED100691C54 /* SWWebViewController.m in Sources */,
 				8878B06C16015F0F00691C54 /* TTTAttributedLabel.m in Sources */,
 				8878B0731601704200691C54 /* SWComposeViewController.m in Sources */,
+				8878B07D160250F700691C54 /* SWUserListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

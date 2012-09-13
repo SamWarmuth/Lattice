@@ -37,4 +37,21 @@
 {
 }
 
+- (void)prepareUIWithUser:(NSDictionary *)user
+{
+    NSDictionary *counts = [user objectForKey:@"counts"];
+    
+    [self.postsButton     setTitle:[NSString stringWithFormat:@"%@ Posts",     [counts objectForKey:@"posts"]]     forState:UIControlStateNormal];
+    [self.starredButton   setTitle:[NSString stringWithFormat:@"%@ Starred",   [counts objectForKey:@"stars"]]     forState:UIControlStateNormal];
+    [self.followingButton setTitle:[NSString stringWithFormat:@"%@ Following", [counts objectForKey:@"following"]] forState:UIControlStateNormal];
+    [self.followersButton setTitle:[NSString stringWithFormat:@"%@ Followers", [counts objectForKey:@"followers"]] forState:UIControlStateNormal];
+    
+}
+
+- (void)prepareUIWithPost:(NSDictionary *)post
+{    
+    self.starButton.highlighted = ([[post objectForKey:@"you_starred"] intValue] == 1);
+}
+
+
 @end

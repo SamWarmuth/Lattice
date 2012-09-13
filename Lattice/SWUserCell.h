@@ -18,6 +18,8 @@ typedef void ((^SWURLCallbackBlock)(NSTextCheckingResult *linkInfo));
 @property (nonatomic, strong) IBOutlet UILabel *usernameLabel;
 @property (nonatomic, strong) SWURLCallbackBlock URLCallbackBlock;
 
++ (CGFloat)shortCellHeightForUser:(NSDictionary *)user;
+
 + (CGFloat)heightForUser:(NSDictionary *)user;
 - (void)prepareUIWithUser:(NSDictionary *)user;
 

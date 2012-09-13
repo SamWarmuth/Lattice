@@ -14,12 +14,14 @@ typedef void ((^SWURLCallbackBlock)(NSTextCheckingResult *linkInfo));
 
 @interface SWPostCell : UITableViewCell <OHAttributedLabelDelegate>
 
-@property (nonatomic, strong) IBOutlet UIImageView *avatarImageView;
+@property (nonatomic, strong) IBOutlet UIImageView *avatarImageView, *conversationMarkerImageView;
 @property (nonatomic, strong) IBOutlet OHAttributedLabel *messageLabel;
 @property (nonatomic, strong) IBOutlet UILabel *usernameLabel, *dateLabel;
 
 @property (nonatomic, strong) IBOutlet UIButton *profileButton;
 @property (nonatomic, strong) SWURLCallbackBlock URLCallbackBlock;
+@property BOOL suppressConversationMarker, marked;
+
 
 + (CGFloat)heightForPost:(NSDictionary *)post;
 - (void)prepareUIWithPost:(NSDictionary *)post;

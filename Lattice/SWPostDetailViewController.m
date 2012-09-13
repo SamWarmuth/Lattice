@@ -72,10 +72,18 @@
     [cell.profileButton addTarget:self action:@selector(profilePressed:) forControlEvents:UIControlEventTouchUpInside];
     
     [cell handleLinkTappedWithBlock:^(NSTextCheckingResult *linkInfo) {
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-        SWWebViewController *webController = [storyboard instantiateViewControllerWithIdentifier:@"SWWebViewController"];
-        webController.initialURL = linkInfo.URL;
-        [self.navigationController pushViewController:webController animated:TRUE];
+        NSString *firstCharacter = [[linkInfo.URL absoluteString] substringToIndex:1];
+        if ([firstCharacter isEqualToString:@"@"]) {
+            NSString *userID = [linkInfo.URL absoluteString];
+            [self performSegueWithIdentifier:@"SWPostDetailToUserDetail" sender:userID];
+        } else if ([firstCharacter isEqualToString:@"#"]) {
+            NSLog(@"Hash Tag!");
+        } else {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+            SWWebViewController *webController = [storyboard instantiateViewControllerWithIdentifier:@"SWWebViewController"];
+            webController.initialURL = linkInfo.URL;
+            [self.navigationController pushViewController:webController animated:TRUE];
+        }
     }];
     
     [cell prepareUIWithPost:self.post];
@@ -90,8 +98,34 @@
     if (cell == nil) {
         cell = [[SWActionCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    
+    [cell prepareUIWithPost:self.post];
+    
+    [cell.replyButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [cell.replyButton addTarget:self action:@selector(replyPressed) forControlEvents:UIControlEventTouchUpInside];
+    
+    [cell.repostButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [cell.repostButton addTarget:self action:@selector(repostPressed) forControlEvents:UIControlEventTouchUpInside];
+    
+    [cell.starButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [cell.starButton addTarget:self action:@selector(starPressed) forControlEvents:UIControlEventTouchUpInside];
 
     return cell;
+}
+
+- (void)replyPressed
+{
+    NSLog(@"Reply");
+}
+
+- (void)repostPressed
+{
+    NSLog(@"Repost");
+}
+
+- (void)starPressed
+{
+    NSLog(@"Star.");
 }
 
 - (void)profilePressed:(UIButton *)sender
@@ -103,7 +137,8 @@
 {
     if ([[segue identifier] isEqualToString:@"SWPostDetailToUserDetail"]) {
         SWUserDetailViewController *destinationView = segue.destinationViewController;
-        destinationView.user = (NSDictionary *)sender;
+        if ([sender isKindOfClass:[NSString class]]) destinationView.userID = (NSString *)sender;
+        if ([sender isKindOfClass:[NSDictionary class]]) destinationView.user = (NSDictionary *)sender;
     }
 }
 

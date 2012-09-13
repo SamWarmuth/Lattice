@@ -19,7 +19,7 @@
 {
     NSString *text = [post objectForKey:@"text"];
     
-    NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:text];
+    NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:[text stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
     [messageString setFont:[UIFont systemFontOfSize:13]];
     CGSize constraint = CGSizeMake(225.0, 20000.0f);
     CGSize size = [messageString sizeConstrainedToSize:constraint];
@@ -51,15 +51,27 @@
 - (void)prepareUIWithPost:(NSDictionary *)post
 {
     self.avatarImageView.layer.cornerRadius = 4.0;
-    self.contentView.backgroundColor = [UIColor whiteColor];
+    
+    if (self.marked) self.contentView.backgroundColor = [UIColor colorWithRed:0.957 green:0.957 blue:0.957 alpha:1];
+    else self.contentView.backgroundColor = [UIColor whiteColor];
+    
     if (!post) return;
         
     CGRect oldFrame = self.messageLabel.frame;
     self.messageLabel.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, oldFrame.size.width, [SWPostCell messageHeightForPost:post]);
-    //self.messageLabel.backgroundColor = [UIColor greenColor];
+        
+    oldFrame = self.conversationMarkerImageView.frame;
     
+    BOOL threadExists = ([post objectForKey:@"num_replies"] != @0 || [post objectForKey:@"reply_to"]);
+    if (!self.suppressConversationMarker && threadExists) {
+        self.conversationMarkerImageView.hidden = FALSE;
+        //self.conversationMarkerView.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, oldFrame.size.width, [SWPostCell heightForPost:post] - 40.0);
+        self.conversationMarkerImageView.frame = CGRectMake(oldFrame.origin.x, ([SWPostCell heightForPost:post]/2 - 8), oldFrame.size.width, oldFrame.size.height);
+    } else {
+        self.conversationMarkerImageView.hidden = TRUE;
+    }
     
-    self.messageLabel.text = [post objectForKey:@"text"];
+    self.messageLabel.text = [[post objectForKey:@"text"] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     
     NSLog(@"POST! %@", post);
     
@@ -72,7 +84,6 @@
     NSArray *mentions = [entities objectForKey:@"mentions"];
     
     NSInteger messageLength = self.messageLabel.text.length;
-
     
     for (NSDictionary *link in hashtags){
         NSInteger position = [[link objectForKey:@"pos"] integerValue];
@@ -83,13 +94,11 @@
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"#%@", [link objectForKey:@"name"]]];
         [self.messageLabel addCustomLink:url inRange:NSMakeRange(position, length)];
     }
-    
     for (NSDictionary *link in links) {
         NSInteger position = [[link objectForKey:@"pos"] integerValue];
         NSInteger length = [[link objectForKey:@"len"] integerValue];
         if (position >= messageLength) continue;
         if (position + length > messageLength) length = messageLength - position;
-        NSLog(@"Add link.");
         NSURL *url = [NSURL URLWithString:[link objectForKey:@"url"]];
         [self.messageLabel addCustomLink:url inRange:NSMakeRange(position, length)];
     }

@@ -12,4 +12,7 @@
 
 @property (nonatomic, strong) IBOutlet UIButton *replyButton, *repostButton, *starButton, *postsButton, *starredButton, *followingButton, *followersButton;
 
+- (void)prepareUIWithUser:(NSDictionary *)user;
+- (void)prepareUIWithPost:(NSDictionary *)post;
+
 @end

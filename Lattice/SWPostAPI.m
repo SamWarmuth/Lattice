@@ -45,6 +45,16 @@
     [self loadPostsWithPath:path min:minID max:maxID reversed:FALSE completed:block];
 }
 
++ (void)getPostsWithHashtag:(NSString *)hashtag
+                        min:(NSString *)minID
+                        max:(NSString *)maxID
+                  completed:(void (^)(NSError *error, NSMutableArray *posts, NSDictionary *metadata))block
+{
+    NSString *path = [NSString stringWithFormat:@"stream/0/posts/tag/%@", [hashtag substringFromIndex:1]];
+    [self loadPostsWithPath:path min:minID max:maxID reversed:FALSE completed:block];
+}
+
+
 + (void)loadPostsWithPath:(NSString *)path
                       min:(NSString *)minID
                       max:(NSString *)maxID
@@ -64,10 +74,11 @@
     
     [httpClient getPath:path parameters:parameters success:^(AFHTTPRequestOperation *request, id rawResponseData) {
         NSDictionary *response = [NSJSONSerialization JSONObjectWithData:rawResponseData options:kNilOptions error:nil];
-        NSMutableArray *data = [[response objectForKey:@"data"] mutableCopy];
-        if (reversed) {
-            data = [[[[response objectForKey:@"data"] reverseObjectEnumerator] allObjects] mutableCopy];
-        }
+        
+        NSMutableArray *data;
+        if (reversed) data = [[[[response objectForKey:@"data"] reverseObjectEnumerator] allObjects] mutableCopy];
+        else data = [[response objectForKey:@"data"] mutableCopy];
+        
         block(nil, data, [response objectForKey:@"meta"]);
     } failure:^(AFHTTPRequestOperation *request, NSError *error) {
         NSLog(@"Failure: %@", request.responseString);

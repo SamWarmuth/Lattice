@@ -13,10 +13,23 @@
 
 @implementation SWUserCell
 
++ (CGFloat)shortCellMessageHeightForUser:(NSDictionary *)user
+{
+    NSString *text = [[[user objectForKey:@"description"] objectForKey:@"text"] stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+    
+    NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:text];
+    [messageString setFont:[UIFont systemFontOfSize:13]];
+    
+    CGSize constraint = CGSizeMake(222.0, 20000.0f);
+    CGSize size = [messageString sizeConstrainedToSize:constraint];
+    return size.height;
+    
+}
+
 + (CGFloat)messageHeightForUser:(NSDictionary *)user
 {
-    NSString *text = [[user objectForKey:@"description"] objectForKey:@"text"];
-    
+    NSString *text = [[[user objectForKey:@"description"] objectForKey:@"text"] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+
     NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:text];
     [messageString setFont:[UIFont systemFontOfSize:13]];
     CGSize constraint = CGSizeMake(172.0, 20000.0f);
@@ -25,11 +38,19 @@
     
 }
 
++ (CGFloat)shortCellHeightForUser:(NSDictionary *)user
+{
+    CGFloat height = MAX([self shortCellMessageHeightForUser:user] + 61.0, 91.0);
+    return height;
+}
+
 + (CGFloat)heightForUser:(NSDictionary *)user
 {
     CGFloat height = MAX([self messageHeightForUser:user] + 72.0, 141.0);
     return height;
 }
+
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -54,17 +75,24 @@
 
     if (!user) return;
     
+    //NSLog(@"User! %@", user);
+
+    self.usernameLabel.text = [user objectForKey:@"username"];
+    
+    NSString *text = [[[user objectForKey:@"description"] objectForKey:@"text"] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+
+
     CGRect oldFrame = self.messageLabel.frame;
     self.messageLabel.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, oldFrame.size.width, [[self class] messageHeightForUser:user]);
-    
-    self.messageLabel.text = [[user objectForKey:@"description"] objectForKey:@"text"];
+    self.messageLabel.text = text;
         
     NSDictionary *avatarInfo = [user objectForKey:@"avatar_image"];
     
-    self.usernameLabel.text = [user objectForKey:@"username"];
     
     NSURL *avatarURL = [NSURL URLWithString:[avatarInfo objectForKey:@"url"]];    
-    [self.avatarImageView setImageWithURL:avatarURL];    
+    [self.avatarImageView setImageWithURL:avatarURL];
+    
+    
 }
 
 - (void)handleLinkTappedWithBlock:(void (^)(NSTextCheckingResult *linkInfo))block

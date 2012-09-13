@@ -46,7 +46,6 @@
 - (void)pulledToRefresh:(ODRefreshControl *)control
 {    
     [self loadNewerPosts];
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -74,6 +73,8 @@
         [self loadUserPosts];
     } else if (self.viewUserStarred) {
         [self loadUserStarredPosts];
+    } else if (self.hashTag) {
+        [self loadPostsWithHashtag];
     } else {
         [self loadPostsInFeed];
     }
@@ -91,6 +92,8 @@
         [self loadOlderUserPosts];
     } else if (self.viewUserStarred) {
         [self loadOlderUserStarredPosts];
+    } else if (self.hashTag) {
+        [self loadOlderPostsWithHashtag];
     } else {
         [self loadOlderPostsInFeed];
     }
@@ -109,6 +112,8 @@
         [self loadNewerUserPosts];
     } else if (self.viewUserStarred) {
         [self loadNewerUserStarredPosts];
+    } else if (self.hashTag) {
+        [self loadNewerPostsWithHashtag];
     } else {
         [self loadNewerPostsInFeed];
     }
@@ -131,7 +136,7 @@
 {
     [SWPostAPI getFeedWithMin:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
         if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
-        [self addpostsToBeginningOfTable:posts];
+        [self addPostsToBeginningOfTable:posts];
     }];
 }
 
@@ -163,7 +168,7 @@
     self.navigationItem.title = @"Conversation";
     [SWPostAPI getThreadWithID:self.threadID min:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
         if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
-        [self addpostsToBeginningOfTable:posts];
+        [self addPostsToBeginningOfTable:posts];
     }];
 }
 
@@ -196,7 +201,7 @@
     self.navigationItem.title = @"User Posts";
     [SWPostAPI getUserPostsWithID:self.userID min:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
         if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
-        [self addpostsToBeginningOfTable:posts];
+        [self addPostsToBeginningOfTable:posts];
     }];
 }
 
@@ -228,7 +233,7 @@
     self.navigationItem.title = @"Starred";
     [SWPostAPI getUserStarredWithID:self.userID min:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
         if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
-        [self addpostsToBeginningOfTable:posts];
+        [self addPostsToBeginningOfTable:posts];
     }];
 }
 
@@ -236,6 +241,40 @@
 {
     self.navigationItem.title = @"Starred";
     [SWPostAPI getUserStarredWithID:self.userID min:nil max:self.minID completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
+        self.minID = [metadata objectForKey:@"min_id"];
+        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
+        [self addPostsToEndOfTable:posts];
+    }];
+}
+
+
+// Hashtags
+
+- (void)loadPostsWithHashtag
+{
+    self.navigationItem.title = self.hashTag;
+    [SWPostAPI getPostsWithHashtag:self.hashTag min:nil max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
+        self.minID = [metadata objectForKey:@"min_id"];
+        self.maxID = [metadata objectForKey:@"max_id"];
+        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
+        [self replacePostsInTableWithPosts:posts];
+    }];
+}
+
+- (void)loadNewerPostsWithHashtag
+{
+    self.navigationItem.title = self.hashTag;
+    [SWPostAPI getPostsWithHashtag:self.hashTag min:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
+        if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
+        [self addPostsToBeginningOfTable:posts];
+    }];
+}
+
+
+- (void)loadOlderPostsWithHashtag
+{
+    self.navigationItem.title = self.hashTag;
+    [SWPostAPI getPostsWithHashtag:self.hashTag min:nil max:self.minID completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
         self.minID = [metadata objectForKey:@"min_id"];
         self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
         [self addPostsToEndOfTable:posts];
@@ -252,9 +291,6 @@
     @synchronized(self.posts) {
         self.posts = posts;
     }
-    
-    
-    
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [self.tv reloadData];
     });
@@ -272,7 +308,6 @@
     @synchronized(self.posts) {
         self.posts = [[self.posts arrayByAddingObjectsFromArray:posts] mutableCopy];
     }
-    
     NSMutableArray *indexPaths = [NSMutableArray new];
     for (int i = 0; i < posts.count; i++){
         [indexPaths addObject:[NSIndexPath indexPathForRow:oldPostCount + i inSection:0]];
@@ -281,19 +316,16 @@
         [self.tv reloadData];
         return;
     }
-    
     [self.tv beginUpdates];
-    
     if (!self.morePostsAvailable){
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:oldPostCount inSection:0];
-        [self.tv deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self.tv deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
     }
-    
     [self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
     [self.tv endUpdates];
 }
 
-- (void)addpostsToBeginningOfTable:(NSMutableArray *)posts
+- (void)addPostsToBeginningOfTable:(NSMutableArray *)posts
 {
     [SVProgressHUD dismiss];
     [self.refreshControl endRefreshing];
@@ -303,14 +335,13 @@
     @synchronized(self.posts) {
         self.posts = [[posts arrayByAddingObjectsFromArray:self.posts] mutableCopy];
     }
-    
     NSMutableArray *indexPaths = [NSMutableArray new];
     for (int i = 0; i < posts.count; i++){
         [indexPaths addObject:[NSIndexPath indexPathForRow:i  inSection:0]];
     }
     
     [self.tv beginUpdates];
-    [self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
+    [self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationLeft];
     [self.tv endUpdates];
 }
 
@@ -322,9 +353,7 @@
 }
 
 
-- (UITableView *)tableViewForTimeScroller:(TimeScroller *)timeScroller {
-    return self.tv;
-}
+
 
 - (NSDate *)dateForCell:(UITableViewCell *)cell {
     
@@ -370,15 +399,23 @@
     if (cell == nil) {
         cell = [[SWPostCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
+    
     NSDictionary *post = [self.posts objectAtIndex:indexPath.row];
+    cell.suppressConversationMarker = (!!self.threadID);
+    cell.marked = ([(NSString *)[post objectForKey:@"id"] isEqualToString:self.threadID]);
 
     [cell prepareUIWithPost:post];
     
     [cell handleLinkTappedWithBlock:^(NSTextCheckingResult *linkInfo) {
-        if ([[[linkInfo.URL absoluteString] substringToIndex:1] isEqualToString:@"@"]) {
+        NSString *firstCharacter = [[linkInfo.URL absoluteString] substringToIndex:1];
+        if ([firstCharacter isEqualToString:@"@"]) {
             NSString *userID = [linkInfo.URL absoluteString];
             [self performSegueWithIdentifier:@"SWFeedToUserDetail" sender:userID];
-
+        } else if ([firstCharacter isEqualToString:@"#"]) {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+            SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
+            feedViewController.hashTag = [linkInfo.URL absoluteString];
+            [self.navigationController pushViewController:feedViewController animated:TRUE];
         } else {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
             SWWebViewController *webController = [storyboard instantiateViewControllerWithIdentifier:@"SWWebViewController"];
@@ -392,7 +429,6 @@
     [cell.profileButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
     [cell.profileButton addTarget:self action:@selector(profilePressed:) forControlEvents:UIControlEventTouchUpInside];
     
-    if ([(NSString *)[post objectForKey:@"id"] isEqualToString:self.threadID]) cell.contentView.backgroundColor = [UIColor colorWithRed:0.957 green:0.957 blue:0.957 alpha:1];
     
     return cell;
 }
@@ -406,10 +442,8 @@
     }
     cell.contentView.backgroundColor = [UIColor whiteColor];
     
-
     return cell;
 }
-
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -434,22 +468,6 @@
     [self performSegueWithIdentifier:@"SWFeedToUserDetail" sender:[post objectForKey:@"user"]];
 }
 
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"SWFeedToPostDetail"]) {
-        SWPostDetailViewController *destinationView = segue.destinationViewController;
-        NSDictionary *post = [self.posts objectAtIndex:[self.tv indexPathForSelectedRow].row];
-        destinationView.post = post;
-    } else if ([[segue identifier] isEqualToString:@"SWFeedToUserDetail"]) {
-        SWUserDetailViewController *destinationView = segue.destinationViewController;
-        if ([sender isKindOfClass:[NSString class]]) destinationView.userID = (NSString *)sender;
-        if ([sender isKindOfClass:[NSDictionary class]]) destinationView.user = (NSDictionary *)sender;
-
-    }
-}
-
-
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [_timeScroller scrollViewDidScroll];
     
@@ -470,9 +488,7 @@
         } else {
             self.isScrollingQuickly = NO;
             [self setDateOverlayVisible:FALSE animated:TRUE];
-
         }
-        
         self.lastTableViewOffset = currentOffset;
         self.lastOffsetCapture = currentTime;
     }
@@ -533,8 +549,25 @@
 
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"SWFeedToPostDetail"]) {
+        SWPostDetailViewController *destinationView = segue.destinationViewController;
+        NSDictionary *post = [self.posts objectAtIndex:[self.tv indexPathForSelectedRow].row];
+        destinationView.post = post;
+    } else if ([[segue identifier] isEqualToString:@"SWFeedToUserDetail"]) {
+        SWUserDetailViewController *destinationView = segue.destinationViewController;
+        if ([sender isKindOfClass:[NSString class]]) destinationView.userID = (NSString *)sender;
+        if ([sender isKindOfClass:[NSDictionary class]]) destinationView.user = (NSDictionary *)sender;
+        
+    }
+}
 
 
+
+- (UITableView *)tableViewForTimeScroller:(TimeScroller *)timeScroller {
+    return self.tv;
+}
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     [_timeScroller scrollViewDidEndDecelerating];

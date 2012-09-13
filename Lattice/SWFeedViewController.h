@@ -15,7 +15,7 @@
 @property (nonatomic, strong) IBOutlet UITableView *tv;
 @property (nonatomic, strong) UIView *dateOverlay;
 @property (nonatomic, strong) NSMutableArray *posts;
-@property (nonatomic, strong) NSString *threadID, *userID, *minID, *maxID;
+@property (nonatomic, strong) NSString *threadID, *userID, *hashTag, *minID, *maxID;
 @property (nonatomic, strong) TimeScroller *timeScroller;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 @property BOOL morePostsAvailable, loadingPosts, isScrollingQuickly, viewUserPosts, viewUserStarred, viewUserMentions;
