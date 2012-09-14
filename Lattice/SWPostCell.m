@@ -19,7 +19,7 @@
 {
     NSString *text = [post objectForKey:@"text"];
     
-    NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:[text stringByReplacingOccurrencesOfString:@"\n" withString:@""]];
+    NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:[text stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"]];
     [messageString setFont:[UIFont systemFontOfSize:13]];
     CGSize constraint = CGSizeMake(225.0, 20000.0f);
     CGSize size = [messageString sizeConstrainedToSize:constraint];
@@ -71,9 +71,9 @@
         self.conversationMarkerImageView.hidden = TRUE;
     }
     
-    self.messageLabel.text = [[post objectForKey:@"text"] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    self.messageLabel.text = [[post objectForKey:@"text"] stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
     
-    NSLog(@"POST! %@", post);
+    //NSLog(@"POST! %@", post);
     
     
     [self.messageLabel setAutomaticallyAddLinksForType:0];

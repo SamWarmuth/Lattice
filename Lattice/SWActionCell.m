@@ -51,6 +51,8 @@
 - (void)prepareUIWithPost:(NSDictionary *)post
 {    
     self.starButton.highlighted = ([[post objectForKey:@"you_starred"] intValue] == 1);
+    self.repostButton.highlighted = ([[post objectForKey:@"you_reposted"] intValue] == 1);
+
 }
 
 

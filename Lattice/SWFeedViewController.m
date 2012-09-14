@@ -40,7 +40,7 @@
     self.refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tv];
     [self.refreshControl addTarget:self action:@selector(pulledToRefresh:) forControlEvents:UIControlEventValueChanged];
     
-    self.loadingCellHeight = 140.0; //88px per post, 20 posts per load.
+    self.loadingCellHeight = 140.0;
 
 }
 - (void)pulledToRefresh:(ODRefreshControl *)control
@@ -341,7 +341,7 @@
     }
     
     [self.tv beginUpdates];
-    [self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationLeft];
+    [self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
     [self.tv endUpdates];
 }
 

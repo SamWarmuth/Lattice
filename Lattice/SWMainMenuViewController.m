@@ -7,6 +7,8 @@
 //
 
 #import "SWMainMenuViewController.h"
+#import "SWComposeViewController.h"
+
 
 @interface SWMainMenuViewController ()
 
@@ -35,6 +37,7 @@
 
 }
 
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
@@ -42,9 +45,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0){
-        //feed
-        
+    if (indexPath.row == 0){ // compose
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        SWComposeViewController *composeViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWComposeViewController"];
+        [self.navigationController presentModalViewController:composeViewController animated:TRUE];        
     }
 }
 

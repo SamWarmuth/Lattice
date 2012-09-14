@@ -11,7 +11,8 @@
 #import "SWWebViewController.h"
 #import "SWPostCell.h"
 #import "SWActionCell.h"
-
+#import "SWPostAPI.h"
+#import "SVProgressHUD.h"
 
 @interface SWPostDetailViewController ()
 
@@ -62,6 +63,7 @@
 
 - (UITableViewCell *)postCellForIndexPath:(NSIndexPath *)indexPath
 {
+    //NSLog(@"POST! %@", self.post);
     static NSString *CellIdentifier = @"SWPostCell";
     SWPostCell *cell = [self.tv dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -119,13 +121,43 @@
 }
 
 - (void)repostPressed
-{
-    NSLog(@"Repost");
+{    
+    [SVProgressHUD show];
+    if ([[self.post objectForKey:@"you_reposted"] intValue] == 1) {
+        [SWPostAPI unrepostPostID:[self.post objectForKey:@"id"] completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
+            //returned post is the old one.
+            self.post = post;
+            [SVProgressHUD dismiss];
+            [self.tv reloadData];
+        }];
+    } else {
+        [SWPostAPI repostPostID:[self.post objectForKey:@"id"] completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
+            //returned post is the new one. We want to refresh the old.
+            self.post = [post objectForKey:@"repost_of"];
+
+            [SVProgressHUD dismiss];
+            [self.tv reloadData];
+        }];
+    }
 }
 
 - (void)starPressed
 {
-    NSLog(@"Star.");
+    [SVProgressHUD show];
+    if ([[self.post objectForKey:@"you_starred"] intValue] == 1) {
+        [SWPostAPI unstarPostID:[self.post objectForKey:@"id"] completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
+            self.post = post;
+            [SVProgressHUD dismiss];
+            [self.tv reloadData];
+        }];
+    } else {
+        [SWPostAPI starPostID:[self.post objectForKey:@"id"] completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
+            self.post = post;
+            [SVProgressHUD dismiss];
+            [self.tv reloadData];
+        }];
+    }
+
 }
 
 - (void)profilePressed:(UIButton *)sender

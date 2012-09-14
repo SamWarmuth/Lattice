@@ -95,4 +95,75 @@
     return filtered;
 }
 
++ (void)starPostID:(NSString *)postID completed:(void (^)(NSError *error, NSDictionary *post, NSDictionary *metadata))block
+{
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://alpha-api.app.net"]];
+    NSMutableDictionary *parameters = [NSMutableDictionary new];
+    [SWAuthAPI addAuthTokenToParameters:parameters];
+    
+    NSString *path = [NSString stringWithFormat:@"/stream/0/posts/%@/star", postID];
+    [httpClient postPath:path parameters:parameters success:^(AFHTTPRequestOperation *request, id rawResponseData) {
+        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:rawResponseData options:kNilOptions error:nil];
+        
+        block(nil, [response objectForKey:@"data"], [response objectForKey:@"meta"]);
+    } failure:^(AFHTTPRequestOperation *request, NSError *error) {
+        NSLog(@"Failure: %@", request.responseString);
+        block(nil,nil,nil);
+    }];
+}
+
++ (void)unstarPostID:(NSString *)postID completed:(void (^)(NSError *error, NSDictionary *post, NSDictionary *metadata))block
+{
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://alpha-api.app.net"]];
+    NSMutableDictionary *parameters = [NSMutableDictionary new];
+    [SWAuthAPI addAuthTokenToParameters:parameters];
+    
+    NSString *path = [NSString stringWithFormat:@"/stream/0/posts/%@/star", postID];
+    [httpClient deletePath:path parameters:parameters success:^(AFHTTPRequestOperation *request, id rawResponseData) {
+        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:rawResponseData options:kNilOptions error:nil];
+        
+        block(nil, [response objectForKey:@"data"], [response objectForKey:@"meta"]);
+    } failure:^(AFHTTPRequestOperation *request, NSError *error) {
+        NSLog(@"Failure: %@", request.responseString);
+        block(nil,nil,nil);
+    }];
+}
+
++ (void)repostPostID:(NSString *)postID completed:(void (^)(NSError *error, NSDictionary *post, NSDictionary *metadata))block
+{
+    NSLog(@"REPOST!");
+
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://alpha-api.app.net"]];
+    NSMutableDictionary *parameters = [NSMutableDictionary new];
+    [SWAuthAPI addAuthTokenToParameters:parameters];
+    
+    NSString *path = [NSString stringWithFormat:@"/stream/0/posts/%@/repost", postID];
+    [httpClient postPath:path parameters:parameters success:^(AFHTTPRequestOperation *request, id rawResponseData) {
+        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:rawResponseData options:kNilOptions error:nil];
+        NSLog(@"RESPO: %@", response);
+        block(nil, [response objectForKey:@"data"], [response objectForKey:@"meta"]);
+    } failure:^(AFHTTPRequestOperation *request, NSError *error) {
+        NSLog(@"Failure: %@", request.responseString);
+        block(nil,nil,nil);
+    }];
+}
+
++ (void)unrepostPostID:(NSString *)postID completed:(void (^)(NSError *error, NSDictionary *post, NSDictionary *metadata))block
+{
+    NSLog(@"UNREPOST!");
+    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://alpha-api.app.net"]];
+    NSMutableDictionary *parameters = [NSMutableDictionary new];
+    [SWAuthAPI addAuthTokenToParameters:parameters];
+    
+    NSString *path = [NSString stringWithFormat:@"/stream/0/posts/%@/repost", postID];
+    [httpClient deletePath:path parameters:parameters success:^(AFHTTPRequestOperation *request, id rawResponseData) {
+        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:rawResponseData options:kNilOptions error:nil];
+        NSLog(@"RESPO: %@", response);
+        block(nil, [response objectForKey:@"data"], [response objectForKey:@"meta"]);
+    } failure:^(AFHTTPRequestOperation *request, NSError *error) {
+        NSLog(@"Failure: %@", request.responseString);
+        block(nil,nil,nil);
+    }];
+}
+
 @end

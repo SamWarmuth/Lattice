@@ -14,12 +14,9 @@
 
 + (void)followUserID:(NSString *)userID completed:(void (^)(NSError *error, NSDictionary *user, NSDictionary *metadata))block
 {
-    NSLog(@"Follow.");
-
     AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://alpha-api.app.net"]];
     NSMutableDictionary *parameters = [NSMutableDictionary new];
     [SWAuthAPI addAuthTokenToParameters:parameters];
-    
     
     NSString *path = [NSString stringWithFormat:@"/stream/0/users/%@/follow", userID];
     [httpClient postPath:path parameters:parameters success:^(AFHTTPRequestOperation *request, id rawResponseData) {
@@ -33,7 +30,6 @@
 }
 + (void)unfollowUserID:(NSString *)userID completed:(void (^)(NSError *error, NSDictionary *user, NSDictionary *metadata))block
 {
-    NSLog(@"Unfollow.");
     AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://alpha-api.app.net"]];
     NSMutableDictionary *parameters = [NSMutableDictionary new];
     [SWAuthAPI addAuthTokenToParameters:parameters];

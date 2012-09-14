@@ -8,6 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SWComposeViewController : UIViewController
+@interface SWComposeViewController : UIViewController <UITextViewDelegate>
+
+@property (nonatomic, strong) IBOutlet UITextView *messageTextView;
+@property (nonatomic, strong) IBOutlet UIView *progressContainerView, *progressView;
+
+- (IBAction)cancelButtonPressed:(id)sender;
+- (IBAction)doneButtonPressed:(id)sender;
 
 @end

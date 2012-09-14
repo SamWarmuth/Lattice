@@ -15,7 +15,7 @@
 
 + (CGFloat)shortCellMessageHeightForUser:(NSDictionary *)user
 {
-    NSString *text = [[[user objectForKey:@"description"] objectForKey:@"text"] stringByReplacingOccurrencesOfString:@"\n" withString:@" "];
+    NSString *text = [[[user objectForKey:@"description"] objectForKey:@"text"] stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
     
     NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:text];
     [messageString setFont:[UIFont systemFontOfSize:13]];
@@ -28,7 +28,7 @@
 
 + (CGFloat)messageHeightForUser:(NSDictionary *)user
 {
-    NSString *text = [[[user objectForKey:@"description"] objectForKey:@"text"] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    NSString *text = [[[user objectForKey:@"description"] objectForKey:@"text"] stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
 
     NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:text];
     [messageString setFont:[UIFont systemFontOfSize:13]];
