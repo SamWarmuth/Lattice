@@ -16,10 +16,11 @@
 + (void)getFeedWithType:(SWFeedType)type keyID:(NSString *)keyID Min:(NSString *)minID max:(NSString *)maxID reversed:(BOOL)reversed completed:(void (^)(NSError *error, NSMutableArray *posts, NSDictionary *metadata))block
 {
     NSDictionary *matchingDict = @{@(SWFeedTypeMyFeed)       : @"/stream/0/posts/stream",
-                                   @(SWFeedTypeConversation) : [NSString stringWithFormat:@"/stream/0/posts/%@/replies", keyID],
-                                   @(SWFeedTypeUserPosts)    : [NSString stringWithFormat:@"/stream/0/users/%@/posts",   keyID],
-                                   @(SWFeedTypeUserStars)    : [NSString stringWithFormat:@"/stream/0/users/%@/stars",   keyID],
-                                   @(SWFeedTypeHashtag)      : [NSString stringWithFormat:@"stream/0/posts/tag/%@",      keyID]
+                                   @(SWFeedTypeConversation) : [NSString stringWithFormat:@"/stream/0/posts/%@/replies",  keyID],
+                                   @(SWFeedTypeUserPosts)    : [NSString stringWithFormat:@"/stream/0/users/%@/posts",    keyID],
+                                   @(SWFeedTypeUserStars)    : [NSString stringWithFormat:@"/stream/0/users/%@/stars",    keyID],
+                                   @(SWFeedTypeHashtag)      : [NSString stringWithFormat:@"stream/0/posts/tag/%@",       keyID],
+                                   @(SWFeedTypeUserMentions) : [NSString stringWithFormat:@"stream/0/users/%@/mentions",  keyID],
     };
     
     
@@ -34,6 +35,7 @@
                  reversed:(BOOL)reversed
                 completed:(void (^)(NSError *error, NSMutableArray *posts, NSDictionary *metadata))block
 {
+    NSLog(@"No?");
     AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://alpha-api.app.net"]];
     NSMutableDictionary *parameters = [NSMutableDictionary new];
     [SWAuthAPI addAuthTokenToParameters:parameters];

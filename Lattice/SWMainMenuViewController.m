@@ -58,6 +58,11 @@
         SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
         feedViewController.feed = [SWFeed feedWithType:SWFeedTypeMyFeed keyID:nil];
         [self.navigationController pushViewController:feedViewController animated:TRUE];
+    } else if (indexPath.row == 2){
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
+        feedViewController.feed = [SWFeed feedWithType:SWFeedTypeUserMentions keyID:@"me"];
+        [self.navigationController pushViewController:feedViewController animated:TRUE];
     }
 }
 

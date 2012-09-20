@@ -74,6 +74,9 @@
         case SWFeedTypeUserStars:
             self.title = @"User Starred";
             break;
+        case SWFeedTypeUserMentions:
+            self.title = @"Mentioning Me";
+            break;
         default:
             self.title = @"Give me a Title";
             break;
