@@ -155,8 +155,7 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
-    feedViewController.userID = [self.user objectForKey:@"id"];
-    feedViewController.viewUserPosts = TRUE;
+    feedViewController.feed = [SWFeed feedWithType:SWFeedTypeUserPosts keyID:[self.user objectForKey:@"id"]];
     [self.navigationController pushViewController:feedViewController animated:TRUE];
 }
 
@@ -164,8 +163,7 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
-    feedViewController.userID = [self.user objectForKey:@"id"];
-    feedViewController.viewUserStarred = TRUE;
+    feedViewController.feed = [SWFeed feedWithType:SWFeedTypeUserStars keyID:[self.user objectForKey:@"id"]];
     [self.navigationController pushViewController:feedViewController animated:TRUE];
 }
 
@@ -190,7 +188,7 @@
 - (IBAction)followButtonPressed:(id)sender
 {
     if ([[self.user objectForKey:@"you_follow"] intValue] == 1){
-        NSLog(@"un.");
+        DLog(@"un.");
         [SVProgressHUD show];
         self.loadingUser = TRUE;
         if (!self.userID) self.userID = [self.user objectForKey:@"id"];
@@ -204,7 +202,7 @@
             [self updateFollowButton];
         }];        
     } else {
-        NSLog(@"follow.");
+        DLog(@"follow.");
         
         [SVProgressHUD show];
         self.loadingUser = TRUE;

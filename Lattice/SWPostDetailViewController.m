@@ -13,6 +13,7 @@
 #import "SWActionCell.h"
 #import "SWPostAPI.h"
 #import "SVProgressHUD.h"
+#import "SWComposeViewController.h"
 
 @interface SWPostDetailViewController ()
 
@@ -63,7 +64,7 @@
 
 - (UITableViewCell *)postCellForIndexPath:(NSIndexPath *)indexPath
 {
-    //NSLog(@"POST! %@", self.post);
+    //DLog(@"POST! %@", self.post);
     static NSString *CellIdentifier = @"SWPostCell";
     SWPostCell *cell = [self.tv dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
@@ -79,7 +80,7 @@
             NSString *userID = [linkInfo.URL absoluteString];
             [self performSegueWithIdentifier:@"SWPostDetailToUserDetail" sender:userID];
         } else if ([firstCharacter isEqualToString:@"#"]) {
-            NSLog(@"Hash Tag!");
+            DLog(@"Hash Tag!");
         } else {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
             SWWebViewController *webController = [storyboard instantiateViewControllerWithIdentifier:@"SWWebViewController"];
@@ -117,7 +118,11 @@
 
 - (void)replyPressed
 {
-    NSLog(@"Reply");
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    SWComposeViewController *composeViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWComposeViewController"];
+    composeViewController.replyToID = [self.post objectForKey:@"id"];
+    composeViewController.prefillText = [NSString stringWithFormat:@"@%@ ", [[self.post objectForKey:@"user"] objectForKey:@"username"]];
+    [self.navigationController presentModalViewController:composeViewController animated:TRUE];
 }
 
 - (void)repostPressed

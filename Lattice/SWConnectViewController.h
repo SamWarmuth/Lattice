@@ -10,7 +10,6 @@
 
 @interface SWConnectViewController : UIViewController
 
-
 - (IBAction)connectPressed:(id)sender;
 
 @end

@@ -11,5 +11,7 @@
 @interface SWHelpers : NSObject
 
 + (NSDate *)dateFromRailsDateString:(NSString *)dateString;
++ (NSString *)fixNewlinesInString:(NSString *)string;
++ (NSString *)removeEmojiFromString:(NSString *)string;
 
 @end

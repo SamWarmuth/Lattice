@@ -6,16 +6,17 @@
 //  Copyright (c) 2012 Sam Warmuth. All rights reserved.
 //
 
-#import "SWUserCell.h"
+#import "NSAttributedString+Attributes.h"
 #import <QuartzCore/QuartzCore.h>
 #import "AFNetworking.h"
-#import "NSAttributedString+Attributes.h"
+#import "SWUserCell.h"
+#import "SWHelpers.h"
 
 @implementation SWUserCell
 
 + (CGFloat)shortCellMessageHeightForUser:(NSDictionary *)user
 {
-    NSString *text = [[[user objectForKey:@"description"] objectForKey:@"text"] stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
+    NSString *text = [SWHelpers fixNewlinesInString:[[user objectForKey:@"description"] objectForKey:@"text"]];
     
     NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:text];
     [messageString setFont:[UIFont systemFontOfSize:13]];
@@ -28,7 +29,7 @@
 
 + (CGFloat)messageHeightForUser:(NSDictionary *)user
 {
-    NSString *text = [[[user objectForKey:@"description"] objectForKey:@"text"] stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
+    NSString *text = [SWHelpers fixNewlinesInString:[[user objectForKey:@"description"] objectForKey:@"text"]];
 
     NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:text];
     [messageString setFont:[UIFont systemFontOfSize:13]];
@@ -75,11 +76,11 @@
 
     if (!user) return;
     
-    //NSLog(@"User! %@", user);
+    //DLog(@"User! %@", user);
 
     self.usernameLabel.text = [user objectForKey:@"username"];
     
-    NSString *text = [[[user objectForKey:@"description"] objectForKey:@"text"] stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+    NSString *text = [SWHelpers fixNewlinesInString:[[user objectForKey:@"description"] objectForKey:@"text"]];
 
 
     CGRect oldFrame = self.messageLabel.frame;

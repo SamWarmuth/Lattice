@@ -16,7 +16,7 @@ typedef void ((^SWURLCallbackBlock)(NSTextCheckingResult *linkInfo));
 
 @property (nonatomic, strong) IBOutlet UIImageView *avatarImageView, *conversationMarkerImageView;
 @property (nonatomic, strong) IBOutlet OHAttributedLabel *messageLabel;
-@property (nonatomic, strong) IBOutlet UILabel *usernameLabel, *dateLabel;
+@property (nonatomic, strong) IBOutlet UILabel *usernameLabel, *dateLabel, *repostLabel;
 
 @property (nonatomic, strong) IBOutlet UIButton *profileButton;
 @property (nonatomic, strong) SWURLCallbackBlock URLCallbackBlock;

@@ -41,10 +41,21 @@
 
 @property (nonatomic, unsafe_unretained) id <TimeScrollerDelegate> delegate;
 @property (nonatomic, copy) NSCalendar *calendar;
+@property (nonatomic, strong) UIView *scrollContainer;
+@property (nonatomic, strong) UILabel *largeDisplay;
+@property BOOL draggingScrollBar;
+@property CGFloat tableViewHeightWhenScrollingBegan;
 
 - (id)initWithDelegate:(id <TimeScrollerDelegate>)delegate;
 - (void)scrollViewDidScroll;
 - (void)scrollViewDidEndDecelerating;
 - (void)scrollViewWillBeginDragging;
+
+- (BOOL)scrollbarTouchesBegan:(UITouch *)touch;
+- (BOOL)scrollBarTouchesMoved:(UITouch *)touch;
+- (BOOL)scrollbarTouchesEnded:(UITouch *)touch;
+
+
+
 
 @end

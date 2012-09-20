@@ -10,13 +10,21 @@
 
 @implementation SWAuthAPI
 
+
++ (BOOL)authenticated
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *token = [defaults objectForKey:@"SWAPToken"];
+    return (token && token.length != 0);
+}
+
 + (void)addAuthTokenToParameters:(NSMutableDictionary *)parameters
 {
     if (!parameters) return;
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *token = [defaults objectForKey:@"SWAPToken"];
-    
+    if (!token || token.length == 0) return;
     [parameters setObject:token forKey:@"access_token"];
     
 }

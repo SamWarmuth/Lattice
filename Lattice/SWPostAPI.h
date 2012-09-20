@@ -7,17 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SWFeed.h"
 
 @interface SWPostAPI : NSObject
 
-+ (void)getFeedWithMin:(NSString *)minID max:(NSString *)maxID completed:(void (^)(NSError *error, NSMutableArray *posts, NSDictionary *metadata))block;
 
-+ (void)getThreadWithID:     (NSString *)threadID min:(NSString *)minID max:(NSString *)maxID completed:(void (^)(NSError *error, NSMutableArray *posts, NSDictionary *metadata))block;
-+ (void)getUserPostsWithID:  (NSString *)userID   min:(NSString *)minID max:(NSString *)maxID completed:(void (^)(NSError *error, NSMutableArray *posts, NSDictionary *metadata))block;
-+ (void)getUserStarredWithID:(NSString *)userID   min:(NSString *)minID max:(NSString *)maxID completed:(void (^)(NSError *error, NSMutableArray *posts, NSDictionary *metadata))block;
-+ (void)getPostsWithHashtag: (NSString *)hashtag  min:(NSString *)minID max:(NSString *)maxID completed:(void (^)(NSError *error, NSMutableArray *posts, NSDictionary *metadata))block;
-
-+ (NSMutableArray *)mutableArrayWithoutDeletedItems:(NSArray *)posts;
++ (void)getFeedWithType:(SWFeedType)type keyID:(NSString *)keyID Min:(NSString *)minID max:(NSString *)maxID reversed:(BOOL)reversed completed:(void (^)(NSError *error, NSMutableArray *posts, NSDictionary *metadata))block;
 
 + (void)loadPostsWithPath:(NSString *)path
                       min:(NSString *)minID
@@ -30,5 +25,6 @@
 + (void)repostPostID:(NSString *)postID completed:(void (^)(NSError *error, NSDictionary *post, NSDictionary *metadata))block;
 + (void)unrepostPostID:(NSString *)postID completed:(void (^)(NSError *error, NSDictionary *post, NSDictionary *metadata))block;
 
++ (void)createPostWithText:(NSString *)text replyTo:(NSString *)userID completed:(void (^)(NSError *error, NSDictionary *post, NSDictionary *metadata))block;
 
 @end

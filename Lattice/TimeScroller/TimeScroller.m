@@ -129,6 +129,11 @@
 - (void)captureTableViewAndScrollBar {
     
     _tableView = [self.delegate tableViewForTimeScroller:self];
+    UIView *containerView = _tableView.superview;
+    
+    self.scrollContainer = [[UIView alloc] initWithFrame:CGRectMake(_tableView.frame.size.width - 80, _tableView.frame.origin.y, 80.0, _tableView.frame.size.height)];
+    self.scrollContainer.backgroundColor = [UIColor colorWithWhite:0.3 alpha:0.0];
+    [containerView addSubview:self.scrollContainer];
     
     self.frame = CGRectMake(CGRectGetWidth(self.frame) - 10.0f, 0.0f, CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
     
@@ -166,16 +171,11 @@
     
     _timeLabel.text = [self.timeDateFormatter stringFromDate:date];
     
-
-    
-    
     if (_lastDate) {
-        
         _lastDate = nil;
     }
     
     _lastDate = date;
-    
     
     CGRect backgroundFrame;
     CGRect timeLabelFrame;
@@ -194,9 +194,9 @@
         
     } else if ((dateComponents.year == todayComponents.year) && (dateComponents.month == todayComponents.month) && (dateComponents.day == todayComponents.day - 1)) {
         
-        timeLabelFrame = CGRectMake(30.0f, 4.0f, 100.0f, 10.0f);
-        
         dateLabelString = @"Yesterday";
+
+        timeLabelFrame = CGRectMake(30.0f, 4.0f, 100.0f, 10.0f);
         dateLabelAlpha = 1.0f;
         backgroundFrame = CGRectMake(CGRectGetWidth(self.frame) - 85.0f, 0.0f, 85.0f, CGRectGetHeight(self.frame));
         
@@ -256,33 +256,33 @@
 - (void)scrollViewDidScroll {
     
     if (!_tableView || !_scrollBar) {
-        
         [self captureTableViewAndScrollBar];
-        
     }
 
     [self checkChanges];
-    if (!_scrollBar)
+    if (!_scrollBar) {
+        DLog(@"no scroll bar");
         return;
+    }
+        
+    if (self.draggingScrollBar) return;
+    
+    CGPoint point = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
+    point = [_scrollBar convertPoint:point toView:_tableView];
+    UIView *view = [_tableView hitTest:point withEvent:nil];
+    if ([view.superview isKindOfClass:[UITableViewCell class]]) {
+        [self updateDisplayWithCell:(UITableViewCell *)view.superview];
+    }
     
     CGRect selfFrame = self.frame;
     CGRect scrollBarFrame = _scrollBar.frame;
+
     
     self.frame = CGRectMake(CGRectGetWidth(selfFrame) * -1.0f,
                             (CGRectGetHeight(scrollBarFrame) / 2.0f) - (CGRectGetHeight(selfFrame) / 2.0f),
                             CGRectGetWidth(selfFrame),
                             CGRectGetHeight(selfFrame));
     
-    CGPoint point = CGPointMake(CGRectGetMidX(self.frame), CGRectGetMidY(self.frame));
-    point = [_scrollBar convertPoint:point toView:_tableView];
-    
-    UIView *view = [_tableView hitTest:point withEvent:nil];
-    
-    if ([view.superview isKindOfClass:[UITableViewCell class]]) {
-        
-        [self updateDisplayWithCell:(UITableViewCell *)view.superview];
-        
-    }
     
 }
 
@@ -338,6 +338,83 @@
         
     }];
     
+}
+
+- (BOOL)scrollbarTouchesBegan:(UITouch *)touch
+{
+    CGPoint touchLocation = [touch locationInView:self.scrollContainer];
+    self.tableViewHeightWhenScrollingBegan = _tableView.contentSize.height;
+    
+    CGFloat newHeightOffset = ABS(_tableView.contentOffset.y - ((touchLocation.y / self.scrollContainer.frame.size.height) * self.tableViewHeightWhenScrollingBegan));
+    if (newHeightOffset > self.tableViewHeightWhenScrollingBegan * 0.1) return FALSE;
+
+    
+    
+    self.draggingScrollBar = TRUE;
+    CGRect selfFrame = self.frame;
+    
+    [_tableView setContentOffset:CGPointMake(0.0, (touchLocation.y / self.scrollContainer.frame.size.height) * self.tableViewHeightWhenScrollingBegan) animated:FALSE];
+    
+    
+    
+    self.frame = CGRectMake(self.scrollContainer.frame.origin.x - 11230.0,
+                            touchLocation.y - (CGRectGetHeight(selfFrame) / 2.0f),
+                            CGRectGetWidth(selfFrame),
+                            CGRectGetHeight(selfFrame));
+    self.alpha = 1.0;
+    [_tableView.superview addSubview:self];
+    return TRUE;
+
+}
+
+- (BOOL)scrollBarTouchesMoved:(UITouch *)touch
+{
+    if (!self.draggingScrollBar) return FALSE;
+    
+    CGPoint touchLocation = [touch locationInView:self.scrollContainer];
+    CGRect selfFrame = self.frame;
+    
+    CGFloat newHeightOffset = ((touchLocation.y / self.scrollContainer.frame.size.height) * self.tableViewHeightWhenScrollingBegan);
+    newHeightOffset = MAX(0.0, MIN(newHeightOffset, self.tableViewHeightWhenScrollingBegan));
+    
+    [_tableView setContentOffset:CGPointMake(0.0, newHeightOffset) animated:FALSE];
+    
+    
+    self.frame = CGRectMake(0,
+                            touchLocation.y - (CGRectGetHeight(selfFrame) / 2.0f),
+                            CGRectGetWidth(selfFrame),
+                            CGRectGetHeight(selfFrame));
+    self.alpha = 1.0;
+    
+    CGPoint point = [self.scrollContainer convertPoint:CGPointMake(5, touchLocation.y) toView:_tableView];
+    UIView *view = [_tableView hitTest:point withEvent:nil];
+    if ([view.superview isKindOfClass:[UITableViewCell class]]) {
+        [self updateDisplayWithCell:(UITableViewCell *)view.superview];
+        /*
+        _timeLabel.frame = timeLabelFrame;
+        _dateLabel.frame = dateLabelFrame;
+        _dateLabel.alpha = dateLabelAlpha;
+        _timeLabel.text = timeLabelString;
+        _dateLabel.text = dateLabelString;
+        _backgroundView.frame = backgroundFrame;*/
+        
+    }
+    
+    return TRUE;
+    
+}
+
+- (BOOL)scrollbarTouchesEnded:(UITouch *)touch
+{
+    if (!self.draggingScrollBar) return FALSE;
+
+    self.draggingScrollBar = FALSE;
+    [UIView animateWithDuration:0.3f delay:0.7f options:UIViewAnimationOptionBeginFromCurrentState  animations:^{
+        self.alpha = 0.0f;        
+    } completion:^(BOOL finished) {
+        
+    }];
+    return TRUE;
 }
 
 

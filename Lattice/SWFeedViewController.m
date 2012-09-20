@@ -40,18 +40,44 @@
     self.refreshControl = [[ODRefreshControl alloc] initInScrollView:self.tv];
     [self.refreshControl addTarget:self action:@selector(pulledToRefresh:) forControlEvents:UIControlEventValueChanged];
     
-    self.loadingCellHeight = 140.0;
+    self.loadingCellHeight = 60.0;
 
 }
 - (void)pulledToRefresh:(ODRefreshControl *)control
-{    
-    [self loadNewerPosts];
+{
+    if (self.reversedFeed) {
+        [self loadOlderPosts];
+    } else {
+        [self loadNewerPosts];
+    }
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     if (!self.posts || self.posts.count == 0) [self loadPosts];
+    
+    switch (self.feed.type) {
+        case SWFeedTypeMyFeed:
+            self.title = @"My Feed";
+            break;
+        case SWFeedTypeConversation:
+            self.title = @"Conversation";
+            break;
+        case SWFeedTypeGlobal:
+            self.title = @"Global Feed";
+            break;
+        case SWFeedTypeUserPosts:
+            self.title = @"User Posts";
+            break;
+        case SWFeedTypeUserStars:
+            self.title = @"User Starred";
+            break;
+        default:
+            self.title = @"Give me a Title";
+            break;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -67,36 +93,23 @@
     if (self.posts.count == 0) [SVProgressHUD show];
     [self.refreshControl beginRefreshing];
     
-    if (self.threadID) {
-        [self loadPostsInThread];
-    } else if (self.viewUserPosts) {
-        [self loadUserPosts];
-    } else if (self.viewUserStarred) {
-        [self loadUserStarredPosts];
-    } else if (self.hashTag) {
-        [self loadPostsWithHashtag];
-    } else {
-        [self loadPostsInFeed];
-    }
+    
+    [self.feed loadItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
+        [self replacePostsInTableWithPosts:posts];
+    }];
+    
 }
 
 - (void)loadOlderPosts
 {
-    if (!self.morePostsAvailable || self.loadingPosts) return;
+    if (self.loadingPosts) return;
     self.loadingPosts = TRUE;
     if (self.posts.count == 0) [SVProgressHUD show];
     
-    if (self.threadID) {
-        [self loadOlderPostsInThread];
-    } else if (self.viewUserPosts) {
-        [self loadOlderUserPosts];
-    } else if (self.viewUserStarred) {
-        [self loadOlderUserStarredPosts];
-    } else if (self.hashTag) {
-        [self loadOlderPostsWithHashtag];
-    } else {
-        [self loadOlderPostsInFeed];
-    }
+    [self.feed loadOlderItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
+        [self addPostsToEndOfTable:posts];
+    }];
+    
 }
 
 - (void)loadNewerPosts
@@ -105,182 +118,11 @@
     self.loadingPosts = TRUE;
     if (self.posts.count == 0) [SVProgressHUD show];
     
-    
-    if (self.threadID) {
-        [self loadNewerPostsInThread];
-    } else if (self.viewUserPosts) {
-        [self loadNewerUserPosts];
-    } else if (self.viewUserStarred) {
-        [self loadNewerUserStarredPosts];
-    } else if (self.hashTag) {
-        [self loadNewerPostsWithHashtag];
-    } else {
-        [self loadNewerPostsInFeed];
-    }
-}
-
-
-// Feed
-
-- (void)loadPostsInFeed
-{
-    [SWPostAPI getFeedWithMin:nil max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.maxID = [metadata objectForKey:@"max_id"];
-        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        [self replacePostsInTableWithPosts:posts];
-    }];
-}
-
-- (void)loadNewerPostsInFeed
-{
-    [SWPostAPI getFeedWithMin:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
+    [self.feed loadNewerItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
         [self addPostsToBeginningOfTable:posts];
     }];
+        
 }
-
-- (void)loadOlderPostsInFeed
-{
-    [SWPostAPI getFeedWithMin:nil max:self.minID completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        [self addPostsToEndOfTable:posts];
-    }];
-}
-
-
-// Thread
-
-- (void)loadPostsInThread
-{
-    self.navigationItem.title = @"Conversation";
-    [SWPostAPI getThreadWithID:self.threadID min:nil max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.maxID = [metadata objectForKey:@"max_id"];
-        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        [self replacePostsInTableWithPosts:posts];
-    }];
-}
-
-- (void)loadNewerPostsInThread
-{
-    self.navigationItem.title = @"Conversation";
-    [SWPostAPI getThreadWithID:self.threadID min:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
-        [self addPostsToBeginningOfTable:posts];
-    }];
-}
-
-
-- (void)loadOlderPostsInThread
-{
-    self.navigationItem.title = @"Conversation";
-    [SWPostAPI getThreadWithID:self.threadID min:nil max:self.minID completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        [self addPostsToEndOfTable:posts];
-    }];
-}
-
-// User Posts
-
-- (void)loadUserPosts
-{
-    self.navigationItem.title = @"User Posts";
-    [SWPostAPI getUserPostsWithID:self.userID min:nil max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.maxID = [metadata objectForKey:@"max_id"];
-        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        [self replacePostsInTableWithPosts:posts];
-    }];
-}
-
-- (void)loadNewerUserPosts
-{
-    self.navigationItem.title = @"User Posts";
-    [SWPostAPI getUserPostsWithID:self.userID min:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
-        [self addPostsToBeginningOfTable:posts];
-    }];
-}
-
-- (void)loadOlderUserPosts
-{
-    self.navigationItem.title = @"User Posts";
-    [SWPostAPI getUserPostsWithID:self.userID min:nil max:self.minID completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        [self addPostsToEndOfTable:posts];
-    }];
-}
-
-// User Starred
-
-- (void)loadUserStarredPosts
-{
-    self.navigationItem.title = @"Starred";
-    [SWPostAPI getUserStarredWithID:self.userID min:nil max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.maxID = [metadata objectForKey:@"max_id"];
-        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        [self replacePostsInTableWithPosts:posts];
-    }];
-}
-
-- (void)loadNewerUserStarredPosts
-{
-    self.navigationItem.title = @"Starred";
-    [SWPostAPI getUserStarredWithID:self.userID min:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
-        [self addPostsToBeginningOfTable:posts];
-    }];
-}
-
-- (void)loadOlderUserStarredPosts
-{
-    self.navigationItem.title = @"Starred";
-    [SWPostAPI getUserStarredWithID:self.userID min:nil max:self.minID completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        [self addPostsToEndOfTable:posts];
-    }];
-}
-
-
-// Hashtags
-
-- (void)loadPostsWithHashtag
-{
-    self.navigationItem.title = self.hashTag;
-    [SWPostAPI getPostsWithHashtag:self.hashTag min:nil max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.maxID = [metadata objectForKey:@"max_id"];
-        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        [self replacePostsInTableWithPosts:posts];
-    }];
-}
-
-- (void)loadNewerPostsWithHashtag
-{
-    self.navigationItem.title = self.hashTag;
-    [SWPostAPI getPostsWithHashtag:self.hashTag min:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
-        [self addPostsToBeginningOfTable:posts];
-    }];
-}
-
-
-- (void)loadOlderPostsWithHashtag
-{
-    self.navigationItem.title = self.hashTag;
-    [SWPostAPI getPostsWithHashtag:self.hashTag min:nil max:self.minID completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.morePostsAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        [self addPostsToEndOfTable:posts];
-    }];
-}
-
 
 - (void)replacePostsInTableWithPosts:(NSMutableArray *)posts
 {
@@ -308,21 +150,21 @@
     @synchronized(self.posts) {
         self.posts = [[self.posts arrayByAddingObjectsFromArray:posts] mutableCopy];
     }
+
     NSMutableArray *indexPaths = [NSMutableArray new];
     for (int i = 0; i < posts.count; i++){
         [indexPaths addObject:[NSIndexPath indexPathForRow:oldPostCount + i inSection:0]];
     }
-    if (indexPaths.count != posts.count){
-        [self.tv reloadData];
-        return;
-    }
-    [self.tv beginUpdates];
-    if (!self.morePostsAvailable){
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:oldPostCount inSection:0];
-        [self.tv deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationBottom];
-    }
-    [self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
-    [self.tv endUpdates];
+
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [self.tv beginUpdates];
+        if (!self.feed.moreItemsAvailable){
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:oldPostCount inSection:0];
+            [self.tv deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+        }
+        [self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+        [self.tv endUpdates];
+    });
 }
 
 - (void)addPostsToBeginningOfTable:(NSMutableArray *)posts
@@ -335,14 +177,17 @@
     @synchronized(self.posts) {
         self.posts = [[posts arrayByAddingObjectsFromArray:self.posts] mutableCopy];
     }
+    
     NSMutableArray *indexPaths = [NSMutableArray new];
     for (int i = 0; i < posts.count; i++){
         [indexPaths addObject:[NSIndexPath indexPathForRow:i  inSection:0]];
     }
     
-    [self.tv beginUpdates];
-    [self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
-    [self.tv endUpdates];
+    dispatch_async(dispatch_get_main_queue(), ^(void) {
+        [self.tv beginUpdates];
+        [self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
+        [self.tv endUpdates];
+    });
 }
 
 
@@ -353,23 +198,11 @@
 }
 
 
-
-
-- (NSDate *)dateForCell:(UITableViewCell *)cell {
-    
-    if (self.posts.count == 0) return nil;
-    
-    NSIndexPath *indexPath = [self.tv indexPathForCell:cell];
-    NSDictionary *post = [self.posts objectAtIndex:MIN(indexPath.row, self.posts.count - 1)];
-    NSDate *date = [SWHelpers dateFromRailsDateString:[post objectForKey:@"created_at"]];
-    return date;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (!self.posts) return 0;
     
-    if (self.morePostsAvailable) return self.posts.count + 1;
+    if (self.feed.moreItemsAvailable) return self.posts.count + 1;
     return self.posts.count;
 }
 
@@ -382,13 +215,17 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.morePostsAvailable && indexPath.row + 15 > self.posts.count) [self loadOlderPosts];
-    
+    if (self.feed.moreItemsAvailable && indexPath.row + 5 > self.posts.count) {
+        if (self.reversedFeed) {
+            [self loadNewerPosts];
+        } else {
+            [self loadOlderPosts];
+        }
+    }
     
     if (indexPath.row >= self.posts.count) return [self loadingCellForIndexPath:indexPath];
     return [self postCellForIndexPath:indexPath];
 }
-
 
 - (UITableViewCell *)postCellForIndexPath:(NSIndexPath *)indexPath
 {
@@ -409,12 +246,15 @@
     [cell handleLinkTappedWithBlock:^(NSTextCheckingResult *linkInfo) {
         NSString *firstCharacter = [[linkInfo.URL absoluteString] substringToIndex:1];
         if ([firstCharacter isEqualToString:@"@"]) {
-            NSString *userID = [linkInfo.URL absoluteString];
-            [self performSegueWithIdentifier:@"SWFeedToUserDetail" sender:userID];
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+            SWUserDetailViewController *userViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWUserDetailViewController"];
+            userViewController.userID = [linkInfo.URL absoluteString];
+            [self.navigationController pushViewController:userViewController animated:TRUE];
+            
         } else if ([firstCharacter isEqualToString:@"#"]) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
             SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
-            feedViewController.hashTag = [linkInfo.URL absoluteString];
+            feedViewController.feed = [SWFeed feedWithType:SWFeedTypeHashtag keyID:[linkInfo.URL absoluteString]];
             [self.navigationController pushViewController:feedViewController animated:TRUE];
         } else {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
@@ -440,7 +280,7 @@
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
-    cell.contentView.backgroundColor = [UIColor whiteColor];
+    cell.contentView.backgroundColor = self.tv.backgroundColor;
     
     return cell;
 }
@@ -455,17 +295,21 @@
     if (self.threadID || !threadExists){
         [self performSegueWithIdentifier:@"SWFeedToPostDetail" sender:self];
     } else {
+        NSLog(@"h.");
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         SWFeedViewController *threadViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
-        threadViewController.threadID = [post objectForKey:@"id"];
+        threadViewController.feed = [SWFeed feedWithType:SWFeedTypeConversation keyID:[post objectForKey:@"id"]];
         [self.navigationController pushViewController:threadViewController animated:TRUE];
     }
 }
 
 - (void)profilePressed:(UIButton *)sender
 {
-    NSDictionary *post = [self.posts objectAtIndex:sender.tag];
-    [self performSegueWithIdentifier:@"SWFeedToUserDetail" sender:[post objectForKey:@"user"]];
+    NSDictionary *post = [self.posts objectAtIndex:sender.tag];    
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    SWUserDetailViewController *userViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWUserDetailViewController"];
+    userViewController.user = [post objectForKey:@"user"];
+    [self.navigationController pushViewController:userViewController animated:TRUE];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
@@ -555,14 +399,19 @@
         SWPostDetailViewController *destinationView = segue.destinationViewController;
         NSDictionary *post = [self.posts objectAtIndex:[self.tv indexPathForSelectedRow].row];
         destinationView.post = post;
-    } else if ([[segue identifier] isEqualToString:@"SWFeedToUserDetail"]) {
-        SWUserDetailViewController *destinationView = segue.destinationViewController;
-        if ([sender isKindOfClass:[NSString class]]) destinationView.userID = (NSString *)sender;
-        if ([sender isKindOfClass:[NSDictionary class]]) destinationView.user = (NSDictionary *)sender;
-        
     }
 }
 
+
+- (NSDate *)dateForCell:(UITableViewCell *)cell {
+    
+    if (self.posts.count == 0) return nil;
+    
+    NSIndexPath *indexPath = [self.tv indexPathForCell:cell];
+    NSDictionary *post = [self.posts objectAtIndex:MIN(indexPath.row, self.posts.count - 1)];
+    NSDate *date = [SWHelpers dateFromRailsDateString:[post objectForKey:@"created_at"]];
+    return date;
+}
 
 
 - (UITableView *)tableViewForTimeScroller:(TimeScroller *)timeScroller {
@@ -580,6 +429,34 @@
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     if (!decelerate) [_timeScroller scrollViewDidEndDecelerating];
 }
+
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    if (touch.view == _timeScroller.scrollContainer){
+        BOOL success = [_timeScroller scrollbarTouchesBegan:touch];
+        if (success) return;
+        DLog(@"NOOOOOO");
+    }
+}
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    if (touch.view == _timeScroller.scrollContainer){
+        BOOL success = [_timeScroller scrollBarTouchesMoved:touch];
+        if (success) return;
+    }
+}
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
+    UITouch *touch = [touches anyObject];
+    if (touch.view == _timeScroller.scrollContainer){
+        BOOL success = [_timeScroller scrollbarTouchesEnded:touch];
+        if (success) return;
+    }
+}
+
 
 
 - (void)viewDidUnload

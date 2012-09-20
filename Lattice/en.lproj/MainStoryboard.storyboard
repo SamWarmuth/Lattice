@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2549" systemVersion="12A269" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="1cw-ET-mys">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2840" systemVersion="12C54" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="1cw-ET-mys">
     <dependencies>
-        <deployment defaultVersion="1296" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1498"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1926"/>
     </dependencies>
     <scenes>
         <!--Feed View Controller - Your Feed-->
         <scene sceneID="11">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="SWFeedViewController" id="2" customClass="SWFeedViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="16">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
@@ -39,6 +37,16 @@
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="9dP-QS-AdG" id="Zw1-WQ-7Gd"/>
+                                                    </connections>
+                                                </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Reposted by a monkey" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="5V0-WQ-3Nc" customClass="OHAttributedLabel">
+                                                    <rect key="frame" x="75" y="75" width="225" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" red="0.40000000596046448" green="0.40000000596046448" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="9dP-QS-AdG" id="Imx-GN-55V"/>
                                                     </connections>
                                                 </label>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="manton" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="Amn-dF-yIG">
@@ -81,6 +89,7 @@
                                             <outlet property="dateLabel" destination="cS7-wK-KDT" id="TGe-3k-LJA"/>
                                             <outlet property="messageLabel" destination="CRC-FT-tf1" id="k7e-mx-Nxi"/>
                                             <outlet property="profileButton" destination="RfA-Ey-ulR" id="8H0-uq-yxI"/>
+                                            <outlet property="repostLabel" destination="5V0-WQ-3Nc" id="XeG-Og-d0a"/>
                                             <outlet property="usernameLabel" destination="Amn-dF-yIG" id="FNC-cu-g4k"/>
                                         </connections>
                                     </tableViewCell>
@@ -91,11 +100,11 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="139"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Loading more posts..." lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="1NI-Me-zIJ">
-                                                    <rect key="frame" x="20" y="59" width="280" height="21"/>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Loading more posts..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="10" id="1NI-Me-zIJ">
+                                                    <rect key="frame" x="20" y="20" width="280" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                                    <color key="textColor" red="0.40000000596046448" green="0.40000000596046448" blue="0.40000000596046448" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
                                             </subviews>
@@ -118,19 +127,19 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="tv" destination="Onw-zX-Q9w" id="g7F-L0-nGZ"/>
                         <segue destination="c2v-ny-6jg" kind="push" identifier="SWFeedToPostDetail" id="XY9-Oz-8De"/>
-                        <segue destination="Hac-Rf-bhP" kind="push" identifier="SWFeedToUserDetail" id="mpJ-0F-TWA"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="10" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="959" y="-554"/>
         </scene>
         <!--User Detail View Controller - User-->
         <scene sceneID="nJa-SP-HtL">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Nji-eg-08O" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="SWUserDetailViewController" id="Hac-Rf-bhP" customClass="SWUserDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gqi-XN-eWj">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
@@ -266,13 +275,13 @@
                         <outlet property="tv" destination="yDj-nH-jeC" id="sF7-Ea-GpH"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nji-eg-08O" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1955" y="-1240"/>
         </scene>
         <!--User List View Controller - User List-->
         <scene sceneID="ieM-S3-0kf">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bcE-mB-fhc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="SWUserListViewController" id="GAx-Mu-XYz" customClass="SWUserListViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gTX-2S-lBZ">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
@@ -354,13 +363,13 @@
                         <outlet property="tv" destination="bRk-t6-QVF" id="M6j-mZ-t4s"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bcE-mB-fhc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2529" y="-1240"/>
         </scene>
         <!--Post Detail View Controller - Post-->
         <scene sceneID="lKu-OF-dxs">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Kt9-As-anc" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="c2v-ny-6jg" customClass="SWPostDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Pu8-v0-yRu">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
@@ -419,6 +428,13 @@
                                                     <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 </label>
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Reposted by a monkey" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsFontSizeToFit="NO" id="23S-Xk-cee" customClass="OHAttributedLabel">
+                                                    <rect key="frame" x="75" y="71" width="225" height="18"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                                    <color key="textColor" red="0.40000000600000002" green="0.40000000600000002" blue="0.40000000600000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </label>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
@@ -428,6 +444,7 @@
                                             <outlet property="dateLabel" destination="LK5-Ip-HXv" id="UjB-7q-0UF"/>
                                             <outlet property="messageLabel" destination="jcP-OD-zRw" id="iqo-GC-ta9"/>
                                             <outlet property="profileButton" destination="7V3-kO-ayc" id="vkb-u8-zut"/>
+                                            <outlet property="repostLabel" destination="23S-Xk-cee" id="OIK-9q-dmy"/>
                                             <outlet property="usernameLabel" destination="gBz-ZI-4GI" id="kEm-Jw-dGJ"/>
                                         </connections>
                                     </tableViewCell>
@@ -498,13 +515,13 @@
                         <segue destination="Hac-Rf-bhP" kind="push" identifier="SWPostDetailToUserDetail" id="rAO-Vs-hHc"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kt9-As-anc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1955" y="-554"/>
         </scene>
         <!--Web View Controller - Loading...-->
         <scene sceneID="UBH-Oq-mOh">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Ezy-PM-ggG" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="SWWebViewController" id="woh-lh-Ywj" customClass="SWWebViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2tv-PT-gdK">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
@@ -522,21 +539,19 @@
                                 <rect key="frame" x="0.0" y="372" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="FvZ-zK-pCs"/>
                                     <barButtonItem image="back.png" id="lON-ZC-zdc">
                                         <connections>
                                             <action selector="goBack" destination="eUR-CR-HhL" id="zY1-C0-fgT"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="IR4-5q-Nuv"/>
+                                    <barButtonItem width="20" style="plain" systemItem="fixedSpace" id="Sl6-Fv-Tpn"/>
                                     <barButtonItem image="forward.png" id="gNN-RR-ILa">
                                         <connections>
                                             <action selector="goForward" destination="eUR-CR-HhL" id="Wgq-mT-y5A"/>
                                         </connections>
                                     </barButtonItem>
-                                    <barButtonItem width="100" style="plain" systemItem="fixedSpace" id="Sl6-Fv-Tpn"/>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="IR4-5q-Nuv"/>
                                     <barButtonItem systemItem="action" id="Saj-ua-R15"/>
-                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="xrF-eo-vA1"/>
                                 </items>
                             </toolbar>
                         </subviews>
@@ -551,21 +566,21 @@
                         <outlet property="webview" destination="eUR-CR-HhL" id="8UV-HA-5lC"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ezy-PM-ggG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1955" y="204"/>
         </scene>
         <!--Compose View Controller-->
         <scene sceneID="Vfl-qq-bZq">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Rfe-fQ-3rg" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="SWComposeViewController" id="yGa-F6-gR0" customClass="SWComposeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JlD-H8-7bJ">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="POb-Qn-RHD">
-                                <rect key="frame" x="5" y="49" width="310" height="120"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <rect key="frame" x="5" y="49" width="310" height="105"/>
+                                <autoresizingMask key="autoresizingMask"/>
                                 <color key="backgroundColor" red="0.95294123888015747" green="0.95294123888015747" blue="0.95294123888015747" alpha="1" colorSpace="deviceRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -593,7 +608,7 @@
                                 </items>
                             </navigationBar>
                             <view contentMode="scaleToFill" id="8MW-UN-aex">
-                                <rect key="frame" x="5" y="171" width="310" height="5"/>
+                                <rect key="frame" x="5" y="156" width="310" height="5"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="tdT-7q-chg">
@@ -604,24 +619,49 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.94117653369903564" green="0.94117653369903564" blue="0.94117653369903564" alpha="1" colorSpace="deviceRGB"/>
                             </view>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="8t5-jQ-mIA">
+                                <rect key="frame" x="0.0" y="312" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                <items>
+                                    <barButtonItem image="atIcon.png" width="44" id="RHP-AZ-T80">
+                                        <connections>
+                                            <action selector="mentionButtonTapped:" destination="yGa-F6-gR0" id="x7o-Ey-Wx7"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem image="hashtagIcon.png" width="44" id="Zfu-Uc-rOe">
+                                        <connections>
+                                            <action selector="hashtagButtonTapped:" destination="yGa-F6-gR0" id="yVD-Br-Utr"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="6hB-Zl-ULH"/>
+                                    <barButtonItem image="cameraIconSmall.png" id="jA4-gk-HvG"/>
+                                </items>
+                            </toolbar>
+                            <view contentMode="scaleToFill" id="Rpk-OD-TuX">
+                                <rect key="frame" x="5" y="163" width="310" height="32"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.79455295138888893" green="0.79075126262626261" blue="0.79835464015151514" alpha="1" colorSpace="calibratedRGB"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="jBQ-6w-ltC"/>
                     <nil key="simulatedTopBarMetrics"/>
                     <connections>
+                        <outlet property="autocompletePlaceholderView" destination="Rpk-OD-TuX" id="5lI-zb-AAa"/>
+                        <outlet property="keyboardAccessoryView" destination="8t5-jQ-mIA" id="WWD-xS-uOC"/>
                         <outlet property="messageTextView" destination="POb-Qn-RHD" id="kLZ-my-d9i"/>
                         <outlet property="progressContainerView" destination="8MW-UN-aex" id="aml-iU-QdY"/>
                         <outlet property="progressView" destination="tdT-7q-chg" id="yWS-uX-EGm"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Rfe-fQ-3rg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1475" y="204"/>
         </scene>
         <!--Main Menu View Controller - Lattice-->
         <scene sceneID="41Y-PP-fTr">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="21W-5P-6qg" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <tableViewController storyboardIdentifier="SWMainMenu" id="p43-EC-H7U" customClass="SWMainMenuViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="si3-Sh-Jtb">
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
@@ -665,9 +705,6 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <connections>
-                                            <segue destination="2" kind="push" id="R4P-KK-3lG"/>
-                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Uxw-FZ-EaE">
                                         <rect key="frame" x="0.0" y="124" width="320" height="62"/>
@@ -751,13 +788,13 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Lattice" id="8pn-BI-vn7"/>
                 </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="21W-5P-6qg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="337" y="204"/>
         </scene>
         <!--Connect View Controller-->
         <scene sceneID="my6-b0-8o1">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2yS-Nf-KHx" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController id="1cw-ET-mys" customClass="SWConnectViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="53v-JD-ZCv">
                         <rect key="frame" x="0.0" y="20" width="320" height="460"/>
@@ -785,13 +822,13 @@
                         <segue destination="CVi-oA-4gZ" kind="modal" identifier="SWConnectToMenu" modalTransitionStyle="crossDissolve" id="pY3-Wo-etR"/>
                     </connections>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="2yS-Nf-KHx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-767" y="204"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="WdO-NX-zB8">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="e4R-FT-GaL" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <navigationController storyboardIdentifier="SWMainMenuNavController" id="CVi-oA-4gZ" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="6hi-9i-iwp">
@@ -803,16 +840,20 @@
                         <segue destination="p43-EC-H7U" kind="relationship" relationship="rootViewController" id="HER-YV-ov6"/>
                     </connections>
                 </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="e4R-FT-GaL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-189" y="204"/>
         </scene>
     </scenes>
     <resources>
+        <image name="atIcon.png" width="20" height="20"/>
         <image name="avatarExample.png" width="100" height="100"/>
         <image name="back.png" width="15" height="18"/>
+        <image name="cameraIconSmall.png" width="20" height="20"/>
         <image name="chatIcon.png" width="128" height="128"/>
         <image name="forward.png" width="15" height="18"/>
         <image name="goToTopIconSmall.png" width="20" height="20"/>
+        <image name="hashtagIcon.png" width="20" height="20"/>
         <image name="replyIconSmall.png" width="32" height="32"/>
         <image name="replyIconSmallWhite.png" width="32" height="32"/>
         <image name="repostIconSmall.png" width="32" height="32"/>
@@ -844,6 +885,10 @@
             <relationships>
                 <relationship kind="action" name="cancelButtonPressed:"/>
                 <relationship kind="action" name="doneButtonPressed:"/>
+                <relationship kind="action" name="hashtagButtonTapped:"/>
+                <relationship kind="action" name="mentionButtonTapped:"/>
+                <relationship kind="outlet" name="autocompletePlaceholderView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="keyboardAccessoryView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="messageTextView" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="progressContainerView" candidateClass="UIView"/>
                 <relationship kind="outlet" name="progressView" candidateClass="UIView"/>
@@ -873,6 +918,7 @@
                 <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="messageLabel" candidateClass="OHAttributedLabel"/>
                 <relationship kind="outlet" name="profileButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="repostLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="usernameLabel" candidateClass="UILabel"/>
             </relationships>
         </class>
@@ -919,7 +965,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="mpJ-0F-TWA"/>
-    </inferredMetricsTieBreakers>
 </document>

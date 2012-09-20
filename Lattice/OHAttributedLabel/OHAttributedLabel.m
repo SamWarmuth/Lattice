@@ -748,8 +748,7 @@ const int UITextAlignmentJustify = ((UITextAlignment)kCTJustifiedTextAlignment);
 
 -(void)setText:(NSString *)text
 {
-	NSString* cleanedText = [[text stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"]
-							 stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+	NSString* cleanedText = [text stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
 	[super setText:cleanedText]; // will call setNeedsDisplay too
 	[self resetAttributedText];
 }

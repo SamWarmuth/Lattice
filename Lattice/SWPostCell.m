@@ -17,12 +17,20 @@
 
 + (CGFloat)messageHeightForPost:(NSDictionary *)post
 {
-    NSString *text = [post objectForKey:@"text"];
+    BOOL isRepost = !![post objectForKey:@"repost_of"];
     
-    NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:[text stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"]];
+    NSString *text;
+    
+    if (isRepost) text = [[post objectForKey:@"repost_of"] objectForKey:@"text"];
+    else text = [post objectForKey:@"text"];
+
+
+    NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:[SWHelpers removeEmojiFromString:[SWHelpers fixNewlinesInString:text]]];
     [messageString setFont:[UIFont systemFontOfSize:13]];
     CGSize constraint = CGSizeMake(225.0, 20000.0f);
     CGSize size = [messageString sizeConstrainedToSize:constraint];
+    
+    if (isRepost) return size.height + 19;
     return size.height;
 }
 
@@ -50,15 +58,28 @@
 
 - (void)prepareUIWithPost:(NSDictionary *)post
 {
+    NSDictionary *originalPost;
+    BOOL isRepost = !![post objectForKey:@"repost_of"];
+    
+    self.repostLabel.hidden = !isRepost;
+    
+    if (isRepost) {
+        originalPost = post;
+        post = [post objectForKey:@"repost_of"];
+    }
+
+    CGFloat messageHeight = [SWPostCell messageHeightForPost:post];
+
+    
     self.avatarImageView.layer.cornerRadius = 4.0;
     
     if (self.marked) self.contentView.backgroundColor = [UIColor colorWithRed:0.957 green:0.957 blue:0.957 alpha:1];
     else self.contentView.backgroundColor = [UIColor whiteColor];
     
     if (!post) return;
-        
+    
     CGRect oldFrame = self.messageLabel.frame;
-    self.messageLabel.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, oldFrame.size.width, [SWPostCell messageHeightForPost:post]);
+    self.messageLabel.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, oldFrame.size.width, messageHeight);
         
     oldFrame = self.conversationMarkerImageView.frame;
     
@@ -71,9 +92,14 @@
         self.conversationMarkerImageView.hidden = TRUE;
     }
     
-    self.messageLabel.text = [[post objectForKey:@"text"] stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"];
+    self.repostLabel.text = [NSString stringWithFormat:@"Reposted by @%@",[[originalPost objectForKey:@"user"] objectForKey:@"username"]];
+    oldFrame = self.repostLabel.frame;
+    self.repostLabel.frame =  CGRectMake(oldFrame.origin.x, messageHeight + 42, oldFrame.size.width, oldFrame.size.height);
     
-    //NSLog(@"POST! %@", post);
+    
+    self.messageLabel.text = [SWHelpers fixNewlinesInString:[post objectForKey:@"text"]];
+    
+    //DLog(@"POST! %@", post);
     
     
     [self.messageLabel setAutomaticallyAddLinksForType:0];

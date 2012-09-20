@@ -64,7 +64,7 @@
     } else if (self.viewUserFollowers) {
         [self loadUserFollowers];
     } else {
-        NSLog(@"Hmm... What type of user list is this?");
+        DLog(@"Hmm... What type of user list is this?");
     }
 }
 
@@ -79,7 +79,7 @@
     } else if (self.viewUserFollowers) {
         [self loadOlderUserFollowers];
     } else {
-        NSLog(@"Hmm... What type of user list is this?");
+        DLog(@"Hmm... What type of user list is this?");
     }
 }
 
@@ -95,7 +95,7 @@
     } else if (self.viewUserFollowers) {
         [self loadNewerUserFollowers];
     } else {
-        NSLog(@"Hmm... What type of user list is this?");
+        DLog(@"Hmm... What type of user list is this?");
     }
 }
 

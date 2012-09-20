@@ -10,6 +10,7 @@
 
 @interface SWAuthAPI : NSObject
 
++ (BOOL)authenticated;
 + (void)addAuthTokenToParameters:(NSMutableDictionary *)parameters;
 
 @end

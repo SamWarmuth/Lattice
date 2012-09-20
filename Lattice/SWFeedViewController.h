@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TimeScroller.h"
+#import "SWFeed.h"
 #import "ODRefreshControl.h"
 
 @interface SWFeedViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, TimeScrollerDelegate>
@@ -18,7 +19,9 @@
 @property (nonatomic, strong) NSString *threadID, *userID, *hashTag, *minID, *maxID;
 @property (nonatomic, strong) TimeScroller *timeScroller;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
-@property BOOL morePostsAvailable, loadingPosts, isScrollingQuickly, viewUserPosts, viewUserStarred, viewUserMentions;
+@property (nonatomic, strong) SWFeed *feed;
+
+@property BOOL loadingPosts, isScrollingQuickly, viewUserPosts, viewUserStarred, viewUserMentions, reversedFeed;
 @property CGPoint lastTableViewOffset;
 @property NSTimeInterval lastOffsetCapture;
 

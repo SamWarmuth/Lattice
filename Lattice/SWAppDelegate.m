@@ -8,15 +8,17 @@
 
 #import "SWAppDelegate.h"
 #import "OHAttributedLabel.h"
+#import "SWUserAPI.h"
 #import "SWPostAPI.h"
+#import "SWAuthAPI.h"
 
 @implementation SWAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.42 green:0.42 blue:0.42 alpha:1]];
+    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0.000 green:0.000 blue:0.000 alpha:1]];
     [[UIToolbar appearance] setTintColor:[UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:1]];
-    
+    [[UIBarButtonItem appearance] setTintColor:[UIColor colorWithRed:0.239 green:0.239 blue:0.239 alpha:1]];
     [[OHAttributedLabel appearance] setLinkColor:[UIColor colorWithRed:0.011 green:0.562 blue:0.817 alpha:1]];
     [[OHAttributedLabel appearance] setLinkUnderlineStyle:kCTUnderlineStyleNone];
     
@@ -28,25 +30,34 @@
         self.window.rootViewController = menuNavController;        
     }
     
-    return YES;
+    [self downloadUserMetadata];
+    
+    return TRUE;
 }
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-
     NSString *route = [[url host] stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     if ([route isEqualToString:@"authenticate"]){
         NSString *token = [url.fragment substringFromIndex:[url.fragment rangeOfString:@"="].location + 1];
         if (!token) return TRUE;
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
         [defaults setObject:token forKey:@"SWAPToken"];
         [defaults synchronize];
+        [self downloadUserMetadata];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"SWUserConnected" object:nil];
     }
-    
-    return YES;
+    return TRUE;
+}
+
+- (void)downloadUserMetadata
+{
+    if (![SWAuthAPI authenticated]) return;
+    [SWUserAPI loadMyFollowersAndSave];
+    [SWUserAPI loadMyFollowingAndSave];
 }
 						
 - (void)applicationWillResignActive:(UIApplication *)application

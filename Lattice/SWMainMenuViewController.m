@@ -8,6 +8,8 @@
 
 #import "SWMainMenuViewController.h"
 #import "SWComposeViewController.h"
+#import "SWFeedViewController.h"
+#import "SWFeed.h"
 
 
 @interface SWMainMenuViewController ()
@@ -45,10 +47,17 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    //        composeViewController.feed = [SWFeed feedWithType:SWFeedTypeMyFeed keyID:nil];
+
     if (indexPath.row == 0){ // compose
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         SWComposeViewController *composeViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWComposeViewController"];
         [self.navigationController presentModalViewController:composeViewController animated:TRUE];        
+    } else if (indexPath.row == 1){
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
+        feedViewController.feed = [SWFeed feedWithType:SWFeedTypeMyFeed keyID:nil];
+        [self.navigationController pushViewController:feedViewController animated:TRUE];
     }
 }
 

@@ -27,7 +27,6 @@
 {
     [super viewDidLoad];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userConnected) name:@"SWUserConnected" object:nil];
-
 }
 
 - (IBAction)connectPressed:(id)sender
