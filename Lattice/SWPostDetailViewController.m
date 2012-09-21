@@ -37,6 +37,17 @@
     self.tv.backgroundColor = [UIColor colorWithRed:0.957 green:0.957 blue:0.957 alpha:1];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    if (self.post) [self identifyAnnotations];
+}
+
+- (void)identifyAnnotations
+{
+    NSLog(@"POST: %@", self.post);
+}
+     
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return 2;

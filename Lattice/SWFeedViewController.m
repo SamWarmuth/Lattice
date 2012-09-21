@@ -241,8 +241,11 @@
     }
     
     NSDictionary *post = [self.posts objectAtIndex:indexPath.row];
-    cell.suppressConversationMarker = (!!self.threadID);
-    cell.marked = ([(NSString *)[post objectForKey:@"id"] isEqualToString:self.threadID]);
+    if (self.feed.type == SWFeedTypeConversation) {
+        cell.suppressConversationMarker = TRUE;
+        cell.marked = ([(NSString *)[post objectForKey:@"id"] isEqualToString:self.feed.keyID]);
+    }
+
 
     [cell prepareUIWithPost:post];
     
@@ -292,10 +295,9 @@
     NSDictionary *post = [self.posts objectAtIndex:indexPath.row];
     BOOL threadExists = ([post objectForKey:@"num_replies"] != @0 || [post objectForKey:@"reply_to"]);
     //If we're in a thread, go to item detail
-    if (self.threadID || !threadExists){
+    if (self.feed.type == SWFeedTypeConversation || !threadExists){
         [self performSegueWithIdentifier:@"SWFeedToPostDetail" sender:self];
     } else {
-        NSLog(@"h.");
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         SWFeedViewController *threadViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
         threadViewController.feed = [SWFeed feedWithType:SWFeedTypeConversation keyID:[post objectForKey:@"id"]];

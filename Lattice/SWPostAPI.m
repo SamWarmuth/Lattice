@@ -24,9 +24,6 @@
                                    @(SWFeedTypeGlobal)       : @"/stream/0/posts/stream/global"
     };
     
-    
-    
-    
     [self loadPostsWithPath:[matchingDict objectForKey:@(type)] min:minID max:maxID reversed:reversed completed:block];
 }
 
