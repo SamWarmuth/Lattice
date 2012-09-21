@@ -249,6 +249,12 @@
 
     [cell prepareUIWithPost:post];
     
+    if (self.feed.type == SWFeedTypeUserStars)
+    {
+        if (cell.marked) cell.contentView.backgroundColor = [UIColor colorWithRed:0.957 green:0.957 blue:0.957 alpha:1];
+        else cell.contentView.backgroundColor = [UIColor whiteColor];
+    } //Sam does this work for you?
+    
     [cell handleLinkTappedWithBlock:^(NSTextCheckingResult *linkInfo) {
         NSString *firstCharacter = [[linkInfo.URL absoluteString] substringToIndex:1];
         if ([firstCharacter isEqualToString:@"@"]) {

@@ -44,6 +44,18 @@
 {
     [super viewWillAppear:animated];
     if (!self.users || self.users.count == 0) [self loadUsers];
+    
+    switch (self.feed.type) {
+        case SWFeedTypeUserFollowers:
+            self.title = @"Followers";
+            break;
+        case SWFeedTypeUserFollowing:
+            self.title = @"Following";
+            break;
+        default:
+            self.title = @"Give me a Title";
+            break;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -52,6 +64,7 @@
     [SVProgressHUD dismiss];
 }
 
+
 - (void)loadUsers
 {
     if (self.loadingUsers) return;
@@ -59,28 +72,20 @@
     if (self.users.count == 0) [SVProgressHUD show];
     [self.refreshControl beginRefreshing];
     
-    if (self.viewUserFollowing) {
-        [self loadUserFollowing];
-    } else if (self.viewUserFollowers) {
-        [self loadUserFollowers];
-    } else {
-        DLog(@"Hmm... What type of user list is this?");
-    }
+    [self.feed loadItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
+        [self replaceUsersInTableWithUsers:posts];
+    }];
 }
 
 - (void)loadOlderUsers
 {
-    if (!self.moreUsersAvailable || self.loadingUsers) return;
+    if (!self.feed.moreItemsAvailable || self.loadingUsers) return;
     self.loadingUsers = TRUE;
     if (self.users.count == 0) [SVProgressHUD show];
     
-    if (self.viewUserFollowing) {
-        [self loadOlderUserFollowing];
-    } else if (self.viewUserFollowers) {
-        [self loadOlderUserFollowers];
-    } else {
-        DLog(@"Hmm... What type of user list is this?");
-    }
+   [self.feed loadOlderItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
+       [self addUsersToEndOfTable:posts];
+   }];
 }
 
 - (void)loadNewerUsers
@@ -89,79 +94,8 @@
     self.loadingUsers = TRUE;
     if (self.users.count == 0) [SVProgressHUD show];
     
-    
-    if (self.viewUserFollowing) {
-        [self loadNewerUserFollowing];
-    } else if (self.viewUserFollowers) {
-        [self loadNewerUserFollowers];
-    } else {
-        DLog(@"Hmm... What type of user list is this?");
-    }
-}
-
-// Followers
-
-- (void)loadUserFollowers
-{
-    self.navigationItem.title = @"Followers";
-    [SWUserAPI getFollowersForUserID:self.userID min:nil max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.maxID = [metadata objectForKey:@"max_id"];
-        self.moreUsersAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        [self replaceUsersInTableWithUsers:posts];
-    }];
-}
-
-- (void)loadNewerUserFollowers
-{
-    self.navigationItem.title = @"Followers";
-    [SWUserAPI getFollowersForUserID:self.userID  min:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
+    [self.feed loadNewerItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
         [self addUsersToBeginningOfTable:posts];
-    }];
-}
-
-
-- (void)loadOlderUserFollowers
-{
-    self.navigationItem.title = @"Followers";
-    [SWUserAPI getFollowersForUserID:self.userID min:nil max:self.minID completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.moreUsersAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        [self addUsersToEndOfTable:posts];
-    }];
-}
-
-// Following
-
-- (void)loadUserFollowing
-{
-    self.navigationItem.title = @"Following";
-    [SWUserAPI getFollowingForUserID:self.userID min:nil max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.maxID = [metadata objectForKey:@"max_id"];
-        self.moreUsersAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        [self replaceUsersInTableWithUsers:posts];
-    }];
-}
-
-- (void)loadNewerUserFollowing
-{
-    self.navigationItem.title = @"Following";
-    [SWUserAPI getFollowingForUserID:self.userID  min:self.maxID max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        if (posts.count != 0) self.maxID = [metadata objectForKey:@"max_id"];
-        [self addUsersToBeginningOfTable:posts];
-    }];
-}
-
-
-- (void)loadOlderUserFollowing
-{
-    self.navigationItem.title = @"Following";
-    [SWUserAPI getFollowingForUserID:self.userID min:nil max:self.minID completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.moreUsersAvailable = [[[metadata objectForKey:@"more"] stringValue] isEqualToString:@"1"];
-        [self addUsersToEndOfTable:posts];
     }];
 }
 
@@ -200,7 +134,7 @@
         return;
     }
     [self.tv beginUpdates];
-    if (!self.moreUsersAvailable){
+    if (!self.feed.moreItemsAvailable){
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:oldUserCount inSection:0];
         [self.tv deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
@@ -231,8 +165,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (!self.users) return 0;
-    
-    if (self.moreUsersAvailable) return self.users.count + 1;
+    if (self.feed.moreItemsAvailable) return self.users.count + 1;
     return self.users.count;
 }
 
@@ -245,9 +178,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.moreUsersAvailable && indexPath.row + 15 > self.users.count) [self loadOlderUsers];
+    if (self.feed.moreItemsAvailable && indexPath.row + 15 > self.users.count) [self loadOlderUsers];
     
-    
+    DLog(@"%i",indexPath.row);
     if (indexPath.row >= self.users.count) return [self loadingCellForIndexPath:indexPath];
     return [self userCellForIndexPath:indexPath];
 }

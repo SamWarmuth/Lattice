@@ -150,8 +150,10 @@
     NSURL *avatarURL = [NSURL URLWithString:[avatarInfo objectForKey:@"url"]];
     
     [self.avatarImageView setImageWithURL:avatarURL];
+    
     if ([post objectForKey:@"you_starred"] && [[post objectForKey:@"you_starred"] intValue] == 1){
-        self.contentView.backgroundColor = [UIColor colorWithRed:1.000 green:0.957 blue:0.580 alpha:1];
+        DLog("Yup");
+        self.contentView.backgroundColor = [UIColor colorWithRed:1.000 green:0.957 blue:0.580 alpha:1]; //Color Starred posts.
     }
 }
 

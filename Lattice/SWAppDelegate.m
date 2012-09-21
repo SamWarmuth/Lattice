@@ -11,6 +11,7 @@
 #import "SWUserAPI.h"
 #import "SWPostAPI.h"
 #import "SWAuthAPI.h"
+#import "SWFeedAPI.h"
 
 @implementation SWAppDelegate
 

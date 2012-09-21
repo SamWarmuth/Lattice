@@ -171,8 +171,7 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWUserListViewController *userListViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWUserListViewController"];
-    userListViewController.userID = [self.user objectForKey:@"id"];
-    userListViewController.viewUserFollowing = TRUE;
+    userListViewController.feed = [SWFeed feedWithType:SWFeedTypeUserFollowing keyID:[self.user objectForKey:@"id"]];
     [self.navigationController pushViewController:userListViewController animated:TRUE];
 }
 
@@ -180,8 +179,7 @@
 {    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWUserListViewController *userListViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWUserListViewController"];
-    userListViewController.userID = [self.user objectForKey:@"id"];
-    userListViewController.viewUserFollowers = TRUE;
+    userListViewController.feed = [SWFeed feedWithType:SWFeedTypeUserFollowers keyID:[self.user objectForKey:@"id"]];
     [self.navigationController pushViewController:userListViewController animated:TRUE];
 }
 

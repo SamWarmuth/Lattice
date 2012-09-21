@@ -20,8 +20,6 @@ typedef enum {
     SWFeedTypeGlobal
 } SWFeedType;
 
-
-
 @interface SWFeed : NSObject
 
 @property SWFeedType type;
