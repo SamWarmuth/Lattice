@@ -79,12 +79,12 @@
 
 - (void)loadOlderUsers
 {
-    if (!self.moreUsersAvailable || self.loadingUsers) return;
+    if (!self.feed.moreItemsAvailable || self.loadingUsers) return;
     self.loadingUsers = TRUE;
     if (self.users.count == 0) [SVProgressHUD show];
     
    [self.feed loadOlderItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
-       [self replaceUsersInTableWithUsers:posts];
+       [self addUsersToEndOfTable:posts];
    }];
 }
 
@@ -95,7 +95,7 @@
     if (self.users.count == 0) [SVProgressHUD show];
     
     [self.feed loadNewerItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
-        [self replaceUsersInTableWithUsers:posts];
+        [self addUsersToBeginningOfTable:posts];
     }];
 }
 
@@ -134,7 +134,7 @@
         return;
     }
     [self.tv beginUpdates];
-    if (!self.moreUsersAvailable){
+    if (!self.feed.moreItemsAvailable){
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:oldUserCount inSection:0];
         [self.tv deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
     }
@@ -165,8 +165,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (!self.users) return 0;
-    
-    if (self.moreUsersAvailable) return self.users.count + 1;
+    if (self.feed.moreItemsAvailable) return self.users.count + 1;
     return self.users.count;
 }
 
@@ -179,9 +178,9 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.moreUsersAvailable && indexPath.row + 15 > self.users.count) [self loadOlderUsers];
+    if (self.feed.moreItemsAvailable && indexPath.row + 15 > self.users.count) [self loadOlderUsers];
     
-    
+    DLog(@"%i",indexPath.row);
     if (indexPath.row >= self.users.count) return [self loadingCellForIndexPath:indexPath];
     return [self userCellForIndexPath:indexPath];
 }

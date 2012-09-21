@@ -164,7 +164,7 @@
 		8878B06016014ED100691C54 /* SWWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWWebViewController.m; sourceTree = "<group>"; };
 		8878B0711601704200691C54 /* SWComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWComposeViewController.h; sourceTree = "<group>"; };
 		8878B0721601704200691C54 /* SWComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWComposeViewController.m; sourceTree = "<group>"; };
-		8878B07B160250F700691C54 /* SWUserListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUserListViewController.h; sourceTree = "<group>"; };
+		8878B07B160250F700691C54 /* SWUserListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SWUserListViewController.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		8878B07C160250F700691C54 /* SWUserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SWUserListViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		8878B07E1602584F00691C54 /* chatIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chatIcon.png; sourceTree = "<group>"; };
 		8878B07F1602584F00691C54 /* chatIconSmall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chatIconSmall.png; sourceTree = "<group>"; };
