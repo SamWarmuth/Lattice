@@ -112,14 +112,14 @@
     annotationView.backgroundColor = [UIColor clearColor];
     annotationView.clipsToBounds = TRUE;
     annotationView.type = SWAnnotationTypePhoto;
-    annotationView.frame = CGRectMake(0, 0, 320, 320);
+    annotationView.frame = CGRectMake(0, 0, 320, 220);
 
     NSLog(@"YOUTUEB WITH URL: %@",videoURL);
     
     LBYouTubePlayerViewController *youtubeController = [[LBYouTubePlayerViewController alloc] initWithYouTubeURL:videoURL];
     //self.controller.delegate = self;
     youtubeController.quality = LBYouTubePlayerQualityLarge;
-    youtubeController.view.frame = CGRectMake(20.0, 20.0, 280.0, 200.0);
+    youtubeController.view.frame = CGRectMake(20.0, 0, 280.0, 200.0);
     youtubeController.delegate = annotationView;
     youtubeController.view.center = annotationView.center;
 
