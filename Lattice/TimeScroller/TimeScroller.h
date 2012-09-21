@@ -26,7 +26,6 @@
 @end
 
 @interface TimeScroller : UIImageView {
-    
     @protected
     id <TimeScrollerDelegate> __unsafe_unretained _delegate;
     UITableView *_tableView;

@@ -13,6 +13,7 @@ typedef enum {
     SWAnnotationTypePhoto,
     SWAnnotationTypeVideo,
     SWAnnotationTypeYoutube,
+    SWAnnotationTypeGeolocation,
     SWAnnotationTypeUnknown
 } SWAnnotationType;
 

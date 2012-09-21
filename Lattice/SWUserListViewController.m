@@ -230,9 +230,6 @@
 }
 
 
-//SWUserDetailViewController
-
-
 - (void)viewDidUnload
 {
     [super viewDidUnload];
