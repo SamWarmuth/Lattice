@@ -48,10 +48,14 @@
 
 - (void)identifyAnnotations
 {
+    NSLog(@"Youtube? %@", [SWAnnotationView youtubeURLWithinString:@"How Pair Programming works - http://www.youtube.com/watch?v=dYBjVTMUQY0&noredirect=1 hello"]);
+    
     NSArray *annotations = [self.post objectForKey:@"annotations"];
     if (!annotations) return;
     
     NSMutableArray *annotationViews = [NSMutableArray new];
+    
+    [annotationViews addObjectsFromArray:[SWAnnotationView autoAnnotationViewsFromPostDictionary:self.post]];
     
     for (NSDictionary *annotationDict in annotations){
         SWAnnotationView *newAnnotationView = [SWAnnotationView annotationViewFromDictionary:annotationDict];

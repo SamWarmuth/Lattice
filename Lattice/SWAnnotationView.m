@@ -21,6 +21,18 @@
     return self;
 }
 
++ (NSMutableArray *)autoAnnotationViewsFromPostDictionary:(NSDictionary *)postDict
+{
+    NSMutableArray *annotationViews = [NSMutableArray new];
+    NSLog(@"Post? %@", postDict);
+    NSURL *youtubeURL = [self youtubeURLWithinString:[postDict objectForKey:@"text"]];
+    if (youtubeURL) {
+        [annotationViews addObject:[self annotationViewWithYoutubeURL:youtubeURL]];
+    }
+    
+    return annotationViews;
+}
+
 + (SWAnnotationView *)annotationViewFromDictionary:(NSDictionary *)annotationData
 {
     NSLog(@"Anndata: %@", annotationData);
@@ -65,8 +77,8 @@
         scale = 280.0f / width;
     }
     
-    CGFloat scaledWidth = width*scale;
-    CGFloat scaledHeight = height*scale;
+    CGFloat scaledWidth = width * scale;
+    CGFloat scaledHeight = height * scale;
     
     NSLog(@"Scale: %f w:%f h:%f", scale, scaledWidth, scaledHeight);
     
@@ -84,6 +96,46 @@
     return annotationView;
 }
 
++ (NSURL *)youtubeURLWithinString:(NSString *)string
+{
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"(www.youtube.com\\/watch\\?v=\\w+)" options:0 error:NULL];
+    NSTextCheckingResult *match = [regex firstMatchInString:string options:0 range:NSMakeRange(0, string.length)];
+    if (!match || match == (id)[NSNull null]) return nil;
+    
+    NSRange matchRange = [match rangeAtIndex:0];
+    return [NSURL URLWithString:[@"http://" stringByAppendingString:[string substringWithRange:matchRange]]];
+}
+
++ (SWAnnotationView *)annotationViewWithYoutubeURL:(NSURL *)videoURL
+{
+    SWAnnotationView *annotationView = [SWAnnotationView new];
+    annotationView.backgroundColor = [UIColor clearColor];
+    annotationView.clipsToBounds = TRUE;
+    annotationView.type = SWAnnotationTypePhoto;
+    annotationView.frame = CGRectMake(0, 0, 320, 320);
+
+    NSLog(@"YOUTUEB WITH URL: %@",videoURL);
+    
+    LBYouTubePlayerViewController *youtubeController = [[LBYouTubePlayerViewController alloc] initWithYouTubeURL:videoURL];
+    //self.controller.delegate = self;
+    youtubeController.quality = LBYouTubePlayerQualityLarge;
+    youtubeController.view.frame = CGRectMake(20.0, 20.0, 280.0, 200.0);
+    youtubeController.delegate = annotationView;
+    youtubeController.view.center = annotationView.center;
+
+
+    [annotationView addSubview:youtubeController.view];
+    return annotationView;
+}
+
+
+- (void)youTubePlayerViewController:(LBYouTubePlayerViewController *)controller didSuccessfullyExtractYouTubeURL:(NSURL *)videoURL {
+    NSLog(@"Did extract video source:%@", videoURL);
+}
+
+- (void)youTubePlayerViewController:(LBYouTubePlayerViewController *)controller failedExtractingYouTubeURLWithError:(NSError *)error {
+    NSLog(@"Failed to load video due to error:%@", error);
+}
 
 
 

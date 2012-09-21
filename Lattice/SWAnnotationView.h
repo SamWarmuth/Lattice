@@ -7,14 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LBYouTubePlayerViewController.h"
 
 typedef enum {
     SWAnnotationTypePhoto,
     SWAnnotationTypeVideo,
+    SWAnnotationTypeYoutube,
     SWAnnotationTypeUnknown
 } SWAnnotationType;
 
-@interface SWAnnotationView : UIView
+@interface SWAnnotationView : UIView <LBYouTubePlayerControllerDelegate>
 
 @property SWAnnotationType type;
 
@@ -23,6 +25,8 @@ typedef enum {
 + (SWAnnotationView *)annotationViewFromDictionary:(NSDictionary *)annotationData;
 + (SWAnnotationType)typeForAnnotationData:(NSDictionary *)annotationData;
 + (SWAnnotationView *)annotationViewWithPhotoData:(NSDictionary *)annotationData;
++ (SWAnnotationView *)annotationViewWithYoutubeURL:(NSURL *)videoURL;
+
 
 + (NSURL *)youtubeURLWithinString:(NSString *)string;
 

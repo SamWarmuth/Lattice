@@ -259,6 +259,8 @@
 		88F06215160C1F3D003F21AC /* LBYouTubePlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBYouTubePlayerViewController.h; sourceTree = "<group>"; };
 		88F06216160C1F3D003F21AC /* LBYouTubePlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBYouTubePlayerViewController.m; sourceTree = "<group>"; };
 		88F0621A160C1F52003F21AC /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		88F06221160C2566003F21AC /* JSONKit.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
+		88F06222160C2566003F21AC /* JSONKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -610,6 +612,8 @@
 		88F06219160C1F43003F21AC /* JSONKit */ = {
 			isa = PBXGroup;
 			children = (
+				88F06221160C2566003F21AC /* JSONKit.m */,
+				88F06222160C2566003F21AC /* JSONKit.h */,
 			);
 			path = JSONKit;
 			sourceTree = "<group>";

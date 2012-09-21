@@ -500,7 +500,7 @@
                                             <outlet property="starButton" destination="hkE-Wa-gFO" id="QkJ-im-gXO"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="SWAnnotationCell" rowHeight="100" id="5F8-FQ-PRy" customClass="SWAnnotationCell">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="SWAnnotationCell" rowHeight="100" id="5F8-FQ-PRy" customClass="SWAnnotationCell">
                                         <rect key="frame" x="0.0" y="200" width="320" height="100"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
