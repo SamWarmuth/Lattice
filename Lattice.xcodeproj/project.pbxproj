@@ -777,15 +777,12 @@
 				8878B07D160250F700691C54 /* SWUserListViewController.m in Sources */,
 				8887C1571603B9090035E804 /* V8HorizontalPickerView.m in Sources */,
 				88183289160AD95400B3F6D2 /* SWFeed.m in Sources */,
-<<<<<<< HEAD
 				37A6059A160BFB700010180A /* SWFeedAPI.m in Sources */,
-=======
 				88F06203160C0213003F21AC /* SWAnnotationView.m in Sources */,
 				88F06207160C0442003F21AC /* SWAnnotationCell.m in Sources */,
 				88F06211160C16D5003F21AC /* SWPhotoImageView.m in Sources */,
 				88F06217160C1F3D003F21AC /* LBYouTubePlayerController.m in Sources */,
 				88F06218160C1F3D003F21AC /* LBYouTubePlayerViewController.m in Sources */,
->>>>>>> 7bd992abb4505422a2090aff5f74f59d5947bb60
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
