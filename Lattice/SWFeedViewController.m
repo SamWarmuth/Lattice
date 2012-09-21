@@ -250,7 +250,6 @@
             SWUserDetailViewController *userViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWUserDetailViewController"];
             userViewController.userID = [linkInfo.URL absoluteString];
             [self.navigationController pushViewController:userViewController animated:TRUE];
-            
         } else if ([firstCharacter isEqualToString:@"#"]) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
             SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
@@ -262,13 +261,11 @@
             webController.initialURL = linkInfo.URL;
             [self.navigationController pushViewController:webController animated:TRUE];
         }
-
     }];
     
     cell.profileButton.tag = indexPath.row;
     [cell.profileButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
     [cell.profileButton addTarget:self action:@selector(profilePressed:) forControlEvents:UIControlEventTouchUpInside];
-    
     
     return cell;
 }
