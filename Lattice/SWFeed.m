@@ -8,6 +8,7 @@
 
 #import "SWFeed.h"
 #import "SWPostAPI.h"
+#import "SWFeedAPI.h"
 
 @implementation SWFeed
 
@@ -21,7 +22,7 @@
 
 - (void)loadItemsWithBlock:(void (^)(NSError *error, NSMutableArray *posts))block
 {
-    [SWPostAPI getFeedWithType:self.type keyID:self.keyID Min:nil max:nil reversed:FALSE completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
+    [SWFeedAPI getFeedWithType:self.type keyID:self.keyID Min:nil max:nil reversed:FALSE completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
         self.minID = [metadata objectForKey:@"min_id"];
         self.maxID = [metadata objectForKey:@"max_id"];
         self.moreItemsAvailable = [[metadata objectForKey:@"more"] boolValue];
@@ -36,7 +37,7 @@
         return;
     }
     
-    [SWPostAPI getFeedWithType:self.type keyID:self.keyID Min:nil max:self.minID reversed:FALSE completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
+    [SWFeedAPI getFeedWithType:self.type keyID:self.keyID Min:nil max:self.minID reversed:FALSE completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
         self.minID = [metadata objectForKey:@"min_id"];
         self.maxID = [metadata objectForKey:@"max_id"];
         self.moreItemsAvailable = [[metadata objectForKey:@"more"] boolValue];
@@ -45,7 +46,7 @@
 }
 - (void)loadNewerItemsWithBlock:(void (^)(NSError *error, NSMutableArray *posts))block
 {
-    [SWPostAPI getFeedWithType:self.type keyID:self.keyID Min:self.maxID max:nil reversed:FALSE completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
+    [SWFeedAPI getFeedWithType:self.type keyID:self.keyID Min:self.maxID max:nil reversed:FALSE completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
         self.minID = [metadata objectForKey:@"min_id"];
         self.maxID = [metadata objectForKey:@"max_id"];
         self.moreItemsAvailable = [[metadata objectForKey:@"more"] boolValue];
