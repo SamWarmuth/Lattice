@@ -91,10 +91,10 @@
     
     NSLog(@"Scale: %f w:%f h:%f", scale, scaledWidth, scaledHeight);
     
-    annotationView.frame = CGRectMake(0, 0, 320, scaledHeight + 40);
+    annotationView.frame = CGRectMake(0, 0, 320, scaledHeight + 20);
 
     
-    SWPhotoImageView *imageView = [[SWPhotoImageView alloc] initWithFrame:CGRectMake((320-scaledWidth)/2, 20, scaledWidth, scaledHeight)];
+    SWPhotoImageView *imageView = [[SWPhotoImageView alloc] initWithFrame:CGRectMake((320-scaledWidth)/2, 0, scaledWidth, scaledHeight)];
     [annotationView addSubview:imageView];
     imageView.clipsToBounds = FALSE;
     NSLog(@"image view frame: %@", NSStringFromCGRect(imageView.frame));

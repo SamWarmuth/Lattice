@@ -11,6 +11,7 @@
 #import "AFNetworking.h"
 #import "SWFeed.h"
 #import "SWFeedAPI.h"
+#import "SWItemAPI.h"
 
 @implementation SWUserAPI
 
@@ -41,55 +42,20 @@
 
 + (void)followUserID:(NSString *)userID completed:(void (^)(NSError *error, NSDictionary *user, NSDictionary *metadata))block
 {
-    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://alpha-api.app.net"]];
-    NSMutableDictionary *parameters = [NSMutableDictionary new];
-    [SWAuthAPI addAuthTokenToParameters:parameters];
-    
     NSString *path = [NSString stringWithFormat:@"/stream/0/users/%@/follow", userID];
-    [httpClient postPath:path parameters:parameters success:^(AFHTTPRequestOperation *request, id rawResponseData) {
-        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:rawResponseData options:kNilOptions error:nil];
-        
-        block(nil, [response objectForKey:@"data"], [response objectForKey:@"meta"]);
-    } failure:^(AFHTTPRequestOperation *request, NSError *error) {
-        DLog(@"Failure: %@", request.responseString);
-        block(nil,nil,nil);
-    }];
+    [SWItemAPI sendMethod:SWHTTPMethodPost toPath:path withParams:nil completed:block];
 }
+
 + (void)unfollowUserID:(NSString *)userID completed:(void (^)(NSError *error, NSDictionary *user, NSDictionary *metadata))block
 {
-    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://alpha-api.app.net"]];
-    NSMutableDictionary *parameters = [NSMutableDictionary new];
-    [SWAuthAPI addAuthTokenToParameters:parameters];
-    
-    
     NSString *path = [NSString stringWithFormat:@"/stream/0/users/%@/follow", userID];
-    [httpClient deletePath:path parameters:parameters success:^(AFHTTPRequestOperation *request, id rawResponseData) {
-        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:rawResponseData options:kNilOptions error:nil];
-        DLog(@"RESPO: %@", response);
-        block(nil, [response objectForKey:@"data"], [response objectForKey:@"meta"]);
-    } failure:^(AFHTTPRequestOperation *request, NSError *error) {
-        DLog(@"Failure: %@", request.responseString);
-        block(nil,nil,nil);
-    }];
+    [SWItemAPI sendMethod:SWHTTPMethodDelete toPath:path withParams:nil completed:block];
 }
 
 + (void)getUserWithID:(NSString *)userID completed:(void (^)(NSError *error, NSDictionary *user, NSDictionary *metadata))block
 {
-    AFHTTPClient *httpClient = [[AFHTTPClient alloc] initWithBaseURL:[NSURL URLWithString:@"https://alpha-api.app.net"]];
-    NSMutableDictionary *parameters = [NSMutableDictionary new];
-    [SWAuthAPI addAuthTokenToParameters:parameters];
-
-    
     NSString *path = [NSString stringWithFormat:@"/stream/0/users/%@", userID];
-    [httpClient getPath:path parameters:parameters success:^(AFHTTPRequestOperation *request, id rawResponseData) {
-        NSDictionary *response = [NSJSONSerialization JSONObjectWithData:rawResponseData options:kNilOptions error:nil];
-        //DLog(@"%@ - %@", [response objectForKey:@"data"], [response objectForKey:@"meta"]);
-        
-        block(nil, [response objectForKey:@"data"], [response objectForKey:@"meta"]);
-    } failure:^(AFHTTPRequestOperation *request, NSError *error) {
-        DLog(@"Failure: %@", request.responseString);
-        block(nil,nil,nil);
-    }];
+    [SWItemAPI sendMethod:SWHTTPMethodGet toPath:path withParams:nil completed:block];
 }
 
 @end

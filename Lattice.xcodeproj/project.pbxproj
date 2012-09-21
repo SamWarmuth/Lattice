@@ -104,6 +104,7 @@
 		88AA3C7F15FFD82300B550D2 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AA3C7515FFD82300B550D2 /* UIImageView+AFNetworking.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		88AA3C8415FFD8B100B550D2 /* SWPostAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AA3C8315FFD8B100B550D2 /* SWPostAPI.m */; };
 		88AA3C8715FFD97500B550D2 /* SWAuthAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AA3C8615FFD97500B550D2 /* SWAuthAPI.m */; };
+		88B435E9160D057000DEF194 /* SWItemAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B435E8160D057000DEF194 /* SWItemAPI.m */; };
 		88B837301607A0E70066138D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88B8372F1607A0E70066138D /* Default-568h@2x.png */; };
 		88F06203160C0213003F21AC /* SWAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F06202160C0213003F21AC /* SWAnnotationView.m */; };
 		88F06207160C0442003F21AC /* SWAnnotationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F06206160C0442003F21AC /* SWAnnotationCell.m */; };
@@ -250,6 +251,8 @@
 		88AA3C8315FFD8B100B550D2 /* SWPostAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWPostAPI.m; sourceTree = "<group>"; };
 		88AA3C8515FFD97500B550D2 /* SWAuthAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWAuthAPI.h; sourceTree = "<group>"; };
 		88AA3C8615FFD97500B550D2 /* SWAuthAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWAuthAPI.m; sourceTree = "<group>"; };
+		88B435E7160D057000DEF194 /* SWItemAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWItemAPI.h; sourceTree = "<group>"; };
+		88B435E8160D057000DEF194 /* SWItemAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWItemAPI.m; sourceTree = "<group>"; };
 		88B8372F1607A0E70066138D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		88F06201160C0213003F21AC /* SWAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWAnnotationView.h; sourceTree = "<group>"; };
 		88F06202160C0213003F21AC /* SWAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWAnnotationView.m; sourceTree = "<group>"; };
@@ -569,6 +572,8 @@
 				88510EC216004E4B009892C7 /* SWUserAPI.m */,
 				37A60598160BFB700010180A /* SWFeedAPI.h */,
 				37A60599160BFB700010180A /* SWFeedAPI.m */,
+				88B435E7160D057000DEF194 /* SWItemAPI.h */,
+				88B435E8160D057000DEF194 /* SWItemAPI.m */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -783,6 +788,7 @@
 				88F06211160C16D5003F21AC /* SWPhotoImageView.m in Sources */,
 				88F06217160C1F3D003F21AC /* LBYouTubePlayerController.m in Sources */,
 				88F06218160C1F3D003F21AC /* LBYouTubePlayerViewController.m in Sources */,
+				88B435E9160D057000DEF194 /* SWItemAPI.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
