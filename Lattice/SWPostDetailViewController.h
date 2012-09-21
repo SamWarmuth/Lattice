@@ -12,6 +12,7 @@
 
 @property (nonatomic, strong) IBOutlet UITableView *tv;
 @property (nonatomic, strong) NSDictionary *post;
+@property (nonatomic, strong) NSMutableArray *annotationViews;
 
 - (UITableViewCell *)postCellForIndexPath:(NSIndexPath *)indexPath;
 
