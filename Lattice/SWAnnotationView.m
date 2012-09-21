@@ -21,19 +21,28 @@
     return self;
 }
 
-+ (NSMutableArray *)autoAnnotationViewsFromPostDictionary:(NSDictionary *)postDict
++ (NSMutableArray *)annotationViewsFromPostDictionary:(NSDictionary *)postDict includeAuto:(BOOL)includeAuto
 {
+
     NSMutableArray *annotationViews = [NSMutableArray new];
-    NSLog(@"Post? %@", postDict);
-    NSURL *youtubeURL = [self youtubeURLWithinString:[postDict objectForKey:@"text"]];
-    if (youtubeURL) {
-        [annotationViews addObject:[self annotationViewWithYoutubeURL:youtubeURL]];
+    if (includeAuto) {
+        NSURL *youtubeURL = [self youtubeURLWithinString:[postDict objectForKey:@"text"]];
+        if (youtubeURL) {
+            [annotationViews addObject:[self annotationViewWithYoutubeURL:youtubeURL]];
+        }
     }
     
+    NSArray *annotations = [postDict objectForKey:@"annotations"];
+    if (!annotations) return annotationViews;
+            
+    for (NSDictionary *annotationDict in annotations){
+        SWAnnotationView *newAnnotationView = [SWAnnotationView annotationViewFromAnnotationDictionary:annotationDict];
+        if (newAnnotationView) [annotationViews addObject:newAnnotationView];
+    }
     return annotationViews;
 }
 
-+ (SWAnnotationView *)annotationViewFromDictionary:(NSDictionary *)annotationData
++ (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData
 {
     NSLog(@"Anndata: %@", annotationData);
     SWAnnotationType type = [self typeForAnnotationData:annotationData];

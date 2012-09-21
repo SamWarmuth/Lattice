@@ -22,8 +22,8 @@ typedef enum {
 @property SWAnnotationType type;
 
 
-+ (NSMutableArray *)autoAnnotationViewsFromPostDictionary:(NSDictionary *)postDict;
-+ (SWAnnotationView *)annotationViewFromDictionary:(NSDictionary *)annotationData;
++ (NSMutableArray *)annotationViewsFromPostDictionary:(NSDictionary *)postDict includeAuto:(BOOL)includeAuto;
++ (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData;
 + (SWAnnotationType)typeForAnnotationData:(NSDictionary *)annotationData;
 + (SWAnnotationView *)annotationViewWithPhotoData:(NSDictionary *)annotationData;
 + (SWAnnotationView *)annotationViewWithYoutubeURL:(NSURL *)videoURL;
