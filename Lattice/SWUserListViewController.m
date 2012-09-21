@@ -104,6 +104,11 @@
 - (void)loadUserFollowers
 {
     self.navigationItem.title = @"Followers";
+    
+    [self.feed loadItemsWithBlock:^(NSError *error, NSMutableArray *users) {
+        DLog("Code.");
+    }];
+    
     [SWUserAPI getFollowersForUserID:self.userID min:nil max:nil completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
         self.minID = [metadata objectForKey:@"min_id"];
         self.maxID = [metadata objectForKey:@"max_id"];

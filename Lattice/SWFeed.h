@@ -20,7 +20,10 @@ typedef enum {
     SWFeedTypeGlobal
 } SWFeedType;
 
-
+typedef enum {
+    SWUserTypeUserFollowers,
+    SWUserTypeUserFollowing
+} SWUserType;
 
 @interface SWFeed : NSObject
 

@@ -9,8 +9,26 @@
 #import "SWUserAPI.h"
 #import "SWAuthAPI.h"
 #import "AFNetworking.h"
+#import "SWFeed.h"
 
 @implementation SWUserAPI
+
++ (void)getUsersWithType:(SWUserType)type keyID:(NSString *)keyID Min:(NSString *)minID max:(NSString *)maxID reversed:(BOOL)reversed completed:(void (^)(NSError *error, NSMutableArray *posts, NSDictionary *metadata))block
+{
+    NSDictionary *matchingDict = @{@(SWFeedTypeMyFeed)       : @"/stream/0/posts/stream",
+    @(SWFeedTypeConversation) : [NSString stringWithFormat:@"/stream/0/posts/%@/replies",  keyID],
+    @(SWFeedTypeUserPosts)    : [NSString stringWithFormat:@"/stream/0/users/%@/posts",    keyID],
+    @(SWFeedTypeUserStars)    : [NSString stringWithFormat:@"/stream/0/users/%@/stars",    keyID],
+    @(SWFeedTypeHashtag)      : [NSString stringWithFormat:@"stream/0/posts/tag/%@",       keyID],
+    @(SWFeedTypeUserMentions) : [NSString stringWithFormat:@"stream/0/users/%@/mentions",  keyID],
+    @(SWFeedTypeGlobal)       : @"/stream/0/posts/stream/global"
+    };
+    
+    
+    
+    
+    //[self loadPostsWithPath:[matchingDict objectForKey:@(type)] min:minID max:maxID reversed:reversed completed:block];
+}
 
 
 + (void)loadMyFollowersAndSave

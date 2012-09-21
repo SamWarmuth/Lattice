@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "ODRefreshControl.h"
-
+#import "SWFeed.h"
 
 @interface SWUserListViewController : UIViewController  <UITableViewDataSource, UITableViewDelegate>
 
@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSMutableArray *users;
 @property (nonatomic, strong) NSString *userID, *minID, *maxID;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
+@property (nonatomic, strong) SWFeed *feed;
 
 @property BOOL moreUsersAvailable, loadingUsers, viewUserFollowers, viewUserFollowing;
 
