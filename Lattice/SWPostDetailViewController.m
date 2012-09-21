@@ -14,6 +14,8 @@
 #import "SWPostAPI.h"
 #import "SVProgressHUD.h"
 #import "SWComposeViewController.h"
+#import "SWAnnotationView.h"
+#import "SWAnnotationCell.h"
 
 @interface SWPostDetailViewController ()
 
@@ -33,6 +35,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.annotationViews = [NSMutableArray new];
     self.tv.tableFooterView = [UIView new];
     self.tv.backgroundColor = [UIColor colorWithRed:0.957 green:0.957 blue:0.957 alpha:1];
 }
@@ -45,18 +48,35 @@
 
 - (void)identifyAnnotations
 {
-    NSLog(@"POST: %@", self.post);
+    NSArray *annotations = [self.post objectForKey:@"annotations"];
+    if (!annotations) return;
+    
+    NSMutableArray *annotationViews = [NSMutableArray new];
+    
+    for (NSDictionary *annotationDict in annotations){
+        SWAnnotationView *newAnnotationView = [SWAnnotationView annotationViewFromDictionary:annotationDict];
+        if (newAnnotationView) [annotationViews addObject:newAnnotationView];
+    }
+    
+    @synchronized(self.annotationViews) {
+        self.annotationViews = annotationViews;
+    }
+    [self.tv reloadData];
 }
      
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 2;
+    return 2 + self.annotationViews.count;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) return [SWPostCell heightForPost:self.post];
-    return 84.0;
+    if (indexPath.row == 1) return 84.0;
+    
+    SWAnnotationView *annotationView = [self.annotationViews objectAtIndex:indexPath.row - 2];
+    NSLog(@"Cell height is %f", annotationView.frame.size.height);
+    return annotationView.frame.size.height;
 }
 
 
@@ -68,7 +88,7 @@
         case 1:
             return [self actionCell];
         default:
-            return [UITableViewCell new];
+            return [self annotationCellForIndexPath:indexPath];
     }
 }
 
@@ -124,6 +144,20 @@
     [cell.starButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
     [cell.starButton addTarget:self action:@selector(starPressed) forControlEvents:UIControlEventTouchUpInside];
 
+    return cell;
+}
+
+- (UITableViewCell *)annotationCellForIndexPath:(NSIndexPath *)indexPath
+{
+    //DLog(@"POST! %@", self.post);
+    static NSString *CellIdentifier = @"SWAnnotationCell";
+    SWAnnotationCell *cell = [self.tv dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[SWAnnotationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    }
+        
+    [cell prepareUIWithAnnotationView:[self.annotationViews objectAtIndex:indexPath.row - 2]];
+    
     return cell;
 }
 

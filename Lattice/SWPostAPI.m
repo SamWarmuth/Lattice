@@ -43,6 +43,8 @@
     [parameters setObject:@40 forKey:@"count"];
     [parameters setObject:@0 forKey:@"include_deleted"];
     [parameters setObject:@0 forKey:@"include_directed_posts"];
+    [parameters setObject:@1 forKey:@"include_annotations"];
+
     
     [httpClient getPath:path parameters:parameters success:^(AFHTTPRequestOperation *request, id rawResponseData) {
         NSDictionary *response = [NSJSONSerialization JSONObjectWithData:rawResponseData options:kNilOptions error:nil];
