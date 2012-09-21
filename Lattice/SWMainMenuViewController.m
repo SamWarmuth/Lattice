@@ -53,21 +53,28 @@
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         SWComposeViewController *composeViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWComposeViewController"];
         [self.navigationController presentModalViewController:composeViewController animated:TRUE];        
-    } else if (indexPath.row == 1){
+    } else if (indexPath.row == 1){ // Your Feed
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
         feedViewController.feed = [SWFeed feedWithType:SWFeedTypeMyFeed keyID:nil];
         [self.navigationController pushViewController:feedViewController animated:TRUE];
-    } else if (indexPath.row == 2){
+    } else if (indexPath.row == 2){ // Mentions (mentioning me)
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
         feedViewController.feed = [SWFeed feedWithType:SWFeedTypeUserMentions keyID:@"me"];
         [self.navigationController pushViewController:feedViewController animated:TRUE];
-    } else if (indexPath.row == 3){
+    } else if (indexPath.row == 3){ // Starred (posts i've starred)
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
         feedViewController.feed = [SWFeed feedWithType:SWFeedTypeUserStars keyID:@"me"];
         [self.navigationController pushViewController:feedViewController animated:TRUE];
+    } else if (indexPath.row == 4){ // Global Feed
+        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+        SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
+        feedViewController.feed = [SWFeed feedWithType:SWFeedTypeGlobal keyID:nil];
+        [self.navigationController pushViewController:feedViewController animated:TRUE];
+    } else if (indexPath.row == 5){ // Settings
+        
     }
 }
 
