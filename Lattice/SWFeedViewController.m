@@ -265,7 +265,8 @@
         } else if ([firstCharacter isEqualToString:@"#"]) {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
             SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
-            feedViewController.feed = [SWFeed feedWithType:SWFeedTypeHashtag keyID:[linkInfo.URL absoluteString]];
+            KLog(@"%@",[linkInfo.URL absoluteString]);
+            feedViewController.feed = [SWFeed feedWithType:SWFeedTypeHashtag keyID:[[linkInfo.URL absoluteString] substringFromIndex:1]];
             [self.navigationController pushViewController:feedViewController animated:TRUE];
         } else {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
