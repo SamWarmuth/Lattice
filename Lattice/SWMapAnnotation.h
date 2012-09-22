@@ -7,7 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <MapKit/MapKit.h>
 
-@interface SWMapAnnotation : NSObject
+@interface SWMapAnnotation : NSObject<MKAnnotation> {
+    CLLocationCoordinate2D coordinate;
+}
+
+- (id)initWithCoordinate:(CLLocationCoordinate2D) c;
 
 @end

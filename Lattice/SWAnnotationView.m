@@ -9,6 +9,8 @@
 #import "SWAnnotationView.h"
 #import "AFNetworking.h"
 #import "SWPhotoImageView.h"
+#import <MapKit/MapKit.h>
+#import "SWMapAnnotation.h"
 
 @implementation SWAnnotationView
 
@@ -44,11 +46,13 @@
 
 + (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData
 {
-    NSLog(@"Anndata: %@", annotationData);
+    KLog(@"Anndata: %@", annotationData);
     SWAnnotationType type = [self typeForAnnotationData:annotationData];
     switch (type) {
         case SWAnnotationTypePhoto:
             return [self annotationViewWithPhotoData:annotationData];
+        case SWAnnotationTypeGeolocation:
+            return [self annotationViewWithGeoData:annotationData];
         case SWAnnotationTypeUnknown:
             return nil;
         default:
@@ -65,7 +69,8 @@
         NSString *subTypeString = [[annotationData objectForKey:@"value"] objectForKey:@"type"];
         
         if ([subTypeString isEqualToString:@"photo"]) return SWAnnotationTypePhoto;
-    }
+    } else if ([typeString isEqualToString:@"net.app.core.geolocation"]) return SWAnnotationTypeGeolocation;
+    
     return SWAnnotationTypeUnknown;
 }
 
@@ -103,6 +108,35 @@
     [imageView setImageWithURL:[NSURL URLWithString:photoURLString]];
     [imageView setBorderWidth:3.0];
     return annotationView;
+}
+
++ (SWAnnotationView *)annotationViewWithGeoData:(NSDictionary *)annotationData
+{
+    SWAnnotationView *annotationView = [SWAnnotationView new];
+    annotationView.backgroundColor = [UIColor clearColor];
+    annotationView.clipsToBounds = TRUE;
+    annotationView.type = SWAnnotationTypeGeolocation;
+    annotationView.frame = CGRectMake(0, 0, 320, 220);
+    
+    NSDictionary *valueDict = [annotationData objectForKey:@"value"];
+    CGFloat latitude = [[valueDict objectForKey:@"latitude"] floatValue];
+    CGFloat longitude = [[valueDict objectForKey:@"longitude"] floatValue];
+    
+    MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, 320, 220)];
+    [annotationView addSubview:mapView];
+    
+    CLLocationCoordinate2D zoomLocation;
+    zoomLocation.latitude = latitude;
+    zoomLocation.longitude = longitude;
+    
+    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, 25000, 25000);
+    MKCoordinateRegion adjustedRegion = [mapView regionThatFits:viewRegion];
+    [mapView setRegion:adjustedRegion animated:TRUE];
+    
+    SWMapAnnotation *annotationToAdd = [[SWMapAnnotation alloc] initWithCoordinate:zoomLocation];
+    [mapView addAnnotation:annotationToAdd];
+    
+    return annotationView;    
 }
 
 + (NSURL *)youtubeURLWithinString:(NSString *)string

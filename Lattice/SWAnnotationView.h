@@ -26,6 +26,7 @@ typedef enum {
 + (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData;
 + (SWAnnotationType)typeForAnnotationData:(NSDictionary *)annotationData;
 + (SWAnnotationView *)annotationViewWithPhotoData:(NSDictionary *)annotationData;
++ (SWAnnotationView *)annotationViewWithGeoData:(NSDictionary *)annotationData;
 + (SWAnnotationView *)annotationViewWithYoutubeURL:(NSURL *)videoURL;
 
 

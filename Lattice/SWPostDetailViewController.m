@@ -65,7 +65,7 @@
     if (indexPath.row == 1) return 84.0;
     
     SWAnnotationView *annotationView = [self.annotationViews objectAtIndex:indexPath.row - 2];
-    NSLog(@"Cell height is %f", annotationView.frame.size.height);
+    KLog(@"Cell height is %f", annotationView.frame.size.height);
     return annotationView.frame.size.height;
 }
 
