@@ -46,7 +46,6 @@
 
 + (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData
 {
-    KLog(@"Anndata: %@", annotationData);
     SWAnnotationType type = [self typeForAnnotationData:annotationData];
     switch (type) {
         case SWAnnotationTypePhoto:
@@ -94,15 +93,11 @@
     CGFloat scaledWidth = width * scale;
     CGFloat scaledHeight = height * scale;
     
-    NSLog(@"Scale: %f w:%f h:%f", scale, scaledWidth, scaledHeight);
-    
     annotationView.frame = CGRectMake(0, 0, 320, scaledHeight + 20);
 
-    
     SWPhotoImageView *imageView = [[SWPhotoImageView alloc] initWithFrame:CGRectMake((320-scaledWidth)/2, 0, scaledWidth, scaledHeight)];
     [annotationView addSubview:imageView];
     imageView.clipsToBounds = FALSE;
-    NSLog(@"image view frame: %@", NSStringFromCGRect(imageView.frame));
     imageView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     [imageView setImageWithURL:[NSURL URLWithString:photoURLString]];
@@ -116,13 +111,13 @@
     annotationView.backgroundColor = [UIColor clearColor];
     annotationView.clipsToBounds = TRUE;
     annotationView.type = SWAnnotationTypeGeolocation;
-    annotationView.frame = CGRectMake(0, 0, 320, 220);
+    annotationView.frame = CGRectMake(0, 0, 320, 110);
     
     NSDictionary *valueDict = [annotationData objectForKey:@"value"];
     CGFloat latitude = [[valueDict objectForKey:@"latitude"] floatValue];
     CGFloat longitude = [[valueDict objectForKey:@"longitude"] floatValue];
     
-    MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, 320, 220)];
+    MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, 320, 110)];
     [annotationView addSubview:mapView];
     
     CLLocationCoordinate2D zoomLocation;
@@ -132,11 +127,12 @@
     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, 25000, 25000);
     MKCoordinateRegion adjustedRegion = [mapView regionThatFits:viewRegion];
     [mapView setRegion:adjustedRegion animated:TRUE];
+    [mapView setScrollEnabled:FALSE];
     
     SWMapAnnotation *annotationToAdd = [[SWMapAnnotation alloc] initWithCoordinate:zoomLocation];
     [mapView addAnnotation:annotationToAdd];
     
-    return annotationView;    
+    return annotationView;
 }
 
 + (NSURL *)youtubeURLWithinString:(NSString *)string
@@ -157,7 +153,7 @@
     annotationView.type = SWAnnotationTypePhoto;
     annotationView.frame = CGRectMake(0, 0, 320, 220);
 
-    NSLog(@"YOUTUEB WITH URL: %@",videoURL);
+    KLog(@"YOUTUEB WITH URL: %@",videoURL);
     
     LBYouTubePlayerViewController *youtubeController = [[LBYouTubePlayerViewController alloc] initWithYouTubeURL:videoURL];
     //self.controller.delegate = self;
@@ -166,18 +162,18 @@
     youtubeController.delegate = annotationView;
     youtubeController.view.center = annotationView.center;
 
-
     [annotationView addSubview:youtubeController.view];
+    
     return annotationView;
 }
 
 
 - (void)youTubePlayerViewController:(LBYouTubePlayerViewController *)controller didSuccessfullyExtractYouTubeURL:(NSURL *)videoURL {
-    NSLog(@"Did extract video source:%@", videoURL);
+    KLog(@"Did extract video source:%@", videoURL);
 }
 
 - (void)youTubePlayerViewController:(LBYouTubePlayerViewController *)controller failedExtractingYouTubeURLWithError:(NSError *)error {
-    NSLog(@"Failed to load video due to error:%@", error);
+    KLog(@"Failed to load video due to error:%@", error);
 }
 
 
