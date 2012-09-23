@@ -171,16 +171,18 @@
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [self.tv beginUpdates];
         if (!self.feed.moreItemsAvailable){
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:oldPostCount];
-            [self.tv deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationNone];
+            [self.tv deleteSections:[NSIndexSet indexSetWithIndex:oldPostCount] withRowAnimation:UITableViewRowAnimationNone];
         }
-        [self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationNone];
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(oldPostCount, posts.count)];
+        [self.tv insertSections:indexSet withRowAnimation:UITableViewRowAnimationBottom];
         [self.tv endUpdates];
     });
 }
 
 - (void)addPostsToBeginningOfTable:(NSMutableArray *)posts
 {
+    //posts.count adds 40 straight up..... I think only the first time, this is causing a problem for indexing sections in this function....
+    
     [SVProgressHUD dismiss];
     [self.refreshControl endRefreshing];
     self.loadingPosts = FALSE;
@@ -196,9 +198,14 @@
     }
     
     dispatch_async(dispatch_get_main_queue(), ^(void) {
+        KLog(@"Num of sect : %i", self.tv.numberOfSections);
         [self.tv beginUpdates];
-        [self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, posts.count)];
+        KLog(@"indexSet: %@", indexSet);
+        [self.tv insertSections:indexSet withRowAnimation:UITableViewRowAnimationBottom];
+        //[self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom]; //This might still need to be called here but I don't think so. (only if annotations?)
         [self.tv endUpdates];
+        KLog(@"Num of sect : %i", self.tv.numberOfSections);
     });
 }
 
