@@ -108,7 +108,8 @@
 		88AA3C8715FFD97500B550D2 /* SWAuthAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 88AA3C8615FFD97500B550D2 /* SWAuthAPI.m */; };
 		88B435E9160D057000DEF194 /* SWItemAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 88B435E8160D057000DEF194 /* SWItemAPI.m */; };
 		88B837301607A0E70066138D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88B8372F1607A0E70066138D /* Default-568h@2x.png */; };
-		88DD8A651610BE6000D01941 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 88DD8A631610BE6000D01941 /* Model.xcdatamodeld */; };
+		88DD8A651610BE6000D01941 /* Lattice.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 88DD8A631610BE6000D01941 /* Lattice.xcdatamodeld */; };
+		88DD8A691610C8E800D01941 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88DD8A671610C8E200D01941 /* CoreData.framework */; };
 		88F06203160C0213003F21AC /* SWAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F06202160C0213003F21AC /* SWAnnotationView.m */; };
 		88F06207160C0442003F21AC /* SWAnnotationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F06206160C0442003F21AC /* SWAnnotationCell.m */; };
 		88F06211160C16D5003F21AC /* SWPhotoImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F06210160C16D5003F21AC /* SWPhotoImageView.m */; };
@@ -260,7 +261,8 @@
 		88B435E7160D057000DEF194 /* SWItemAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWItemAPI.h; sourceTree = "<group>"; };
 		88B435E8160D057000DEF194 /* SWItemAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWItemAPI.m; sourceTree = "<group>"; };
 		88B8372F1607A0E70066138D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		88DD8A641610BE6000D01941 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
+		88DD8A641610BE6000D01941 /* Lattice.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Lattice.xcdatamodel; sourceTree = "<group>"; };
+		88DD8A671610C8E200D01941 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		88F06201160C0213003F21AC /* SWAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWAnnotationView.h; sourceTree = "<group>"; };
 		88F06202160C0213003F21AC /* SWAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWAnnotationView.m; sourceTree = "<group>"; };
 		88F06205160C0442003F21AC /* SWAnnotationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWAnnotationCell.h; sourceTree = "<group>"; };
@@ -281,6 +283,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88DD8A691610C8E800D01941 /* CoreData.framework in Frameworks */,
 				37256876160D4EF6009DF005 /* MapKit.framework in Frameworks */,
 				88AA3BFF15FF8BB800B550D2 /* CoreGraphics.framework in Frameworks */,
 				88510EF6160066C4009892C7 /* CoreText.framework in Frameworks */,
@@ -451,6 +454,7 @@
 		88AA3BF915FF8BB800B550D2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				88DD8A671610C8E200D01941 /* CoreData.framework */,
 				37256875160D4EF6009DF005 /* MapKit.framework */,
 				88F0621A160C1F52003F21AC /* MediaPlayer.framework */,
 				88510EF4160066BD009892C7 /* CoreText.framework */,
@@ -592,7 +596,7 @@
 			children = (
 				88183287160AD95400B3F6D2 /* SWFeed.h */,
 				88183288160AD95400B3F6D2 /* SWFeed.m */,
-				88DD8A631610BE6000D01941 /* Model.xcdatamodeld */,
+				88DD8A631610BE6000D01941 /* Lattice.xcdatamodeld */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -802,7 +806,7 @@
 				88F06218160C1F3D003F21AC /* LBYouTubePlayerViewController.m in Sources */,
 				88B435E9160D057000DEF194 /* SWItemAPI.m in Sources */,
 				3725687A160D5AEF009DF005 /* SWMapAnnotation.m in Sources */,
-				88DD8A651610BE6000D01941 /* Model.xcdatamodeld in Sources */,
+				88DD8A651610BE6000D01941 /* Lattice.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -925,13 +929,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		88DD8A631610BE6000D01941 /* Model.xcdatamodeld */ = {
+		88DD8A631610BE6000D01941 /* Lattice.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				88DD8A641610BE6000D01941 /* Model.xcdatamodel */,
+				88DD8A641610BE6000D01941 /* Lattice.xcdatamodel */,
 			);
-			currentVersion = 88DD8A641610BE6000D01941 /* Model.xcdatamodel */;
-			path = Model.xcdatamodeld;
+			currentVersion = 88DD8A641610BE6000D01941 /* Lattice.xcdatamodel */;
+			path = Lattice.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

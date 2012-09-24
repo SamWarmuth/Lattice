@@ -19,6 +19,7 @@
 @property (nonatomic, strong) TimeScroller *timeScroller;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 @property (nonatomic, strong) SWFeed *feed;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
 @property BOOL loadingPosts, isScrollingQuickly, viewUserPosts, viewUserStarred, viewUserMentions, reversedFeed;
 @property CGPoint lastTableViewOffset;

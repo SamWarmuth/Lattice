@@ -22,7 +22,6 @@
 
 - (void)loadItemsWithBlock:(void (^)(NSError *error, NSMutableArray *posts))block
 {
-    NSLog(@"Load items with block!");
     [SWFeedAPI getFeedWithType:self.type keyID:self.keyID Min:nil max:nil reversed:FALSE completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
         self.minID = [metadata objectForKey:@"min_id"];
         self.maxID = [metadata objectForKey:@"max_id"];

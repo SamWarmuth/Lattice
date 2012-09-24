@@ -14,6 +14,7 @@
 #import "SVProgressHUD.h"
 #import "SWUserDetailViewController.h"
 #import "SWWebViewController.h"
+#import "SWAppDelegate.h"
 
 @interface SWFeedViewController ()
 
@@ -41,6 +42,33 @@
     [self.refreshControl addTarget:self action:@selector(pulledToRefresh:) forControlEvents:UIControlEventValueChanged];
     
     self.loadingCellHeight = 60.0;
+    
+        /*
+    self.managedObjectContext = [(SWAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    
+
+    
+    NSManagedObjectContext *context = self.managedObjectContext;
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    // Configure the request's entity, and optionally its predicate.
+    NSArray *sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"id" ascending:YES]];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+
+    
+    NSFetchedResultsController *controller = [[NSFetchedResultsController alloc]
+                                              initWithFetchRequest:fetchRequest
+                                              managedObjectContext:context
+                                              sectionNameKeyPath:nil
+                                              cacheName:[NSString stringWithFormat:@"%dCache", self.feed.type]];
+    
+    NSError *error;
+    BOOL success = [controller performFetch:&error];
+    if (success){
+        NSLog(@"Fetch Succeeded!");
+    } else {
+        NSLog(@"Fetch Failed :(");
+    }*/
+    
 
 }
 - (void)pulledToRefresh:(ODRefreshControl *)control
@@ -316,7 +344,10 @@
 
 - (void)profilePressed:(UIButton *)sender
 {
-    NSDictionary *post = [self.posts objectAtIndex:sender.tag];    
+    NSDictionary *post = [self.posts objectAtIndex:sender.tag];
+    BOOL isRepost = !![post objectForKey:@"repost_of"];
+    if (isRepost) post = [post objectForKey:@"repost_of"];
+    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWUserDetailViewController *userViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWUserDetailViewController"];
     userViewController.user = [post objectForKey:@"user"];
