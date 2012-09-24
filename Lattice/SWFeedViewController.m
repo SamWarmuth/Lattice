@@ -91,7 +91,6 @@
     switch (self.feed.type) {
         case SWFeedTypeMyFeed:
             self.title = @"My Feed";
-            self.showingAnnotations = FALSE;
             break;
         case SWFeedTypeConversation:
             self.title = @"Conversation";
@@ -99,26 +98,21 @@
             break;
         case SWFeedTypeGlobal:
             self.title = @"Global Feed";
-            self.showingAnnotations = FALSE;
             break;
         case SWFeedTypeUserPosts:
             self.title = @"User Posts";
-            self.showingAnnotations = FALSE;
             break;
         case SWFeedTypeUserStars:
             self.title = @"User Starred";
-            self.showingAnnotations = FALSE;
             break;
         case SWFeedTypeUserMentions:
             self.title = @"Mentioning Me";
-            self.showingAnnotations = FALSE;
             break;
         case SWFeedTypeHashtag:
             self.title = @"Hash Feed";
             break;
         default:
             self.title = @"Give me a Title";
-            self.showingAnnotations = FALSE;
             break;
     }
 }
