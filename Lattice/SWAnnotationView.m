@@ -47,7 +47,6 @@
 
 + (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData
 {
-    KLog(@"Anndata: %@", annotationData);
     SWAnnotationType type = [self typeForAnnotationData:annotationData];
     switch (type) {
         case SWAnnotationTypePhoto:
@@ -100,7 +99,6 @@
     
     annotationView.frame = CGRectMake(0, 0, 320, scaledHeight + 20);
 
-    
     SWPhotoImageView *imageView = [[SWPhotoImageView alloc] initWithFrame:CGRectMake((320-scaledWidth)/2, 0, scaledWidth, scaledHeight)];
     [annotationView addSubview:imageView];
     imageView.clipsToBounds = FALSE;
@@ -126,6 +124,7 @@
     MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(20, 0, 280, 220)];
     mapView.scrollEnabled = FALSE;
     mapView.zoomEnabled = FALSE;
+
     [annotationView addSubview:mapView];
     
     CLLocationCoordinate2D zoomLocation;
@@ -135,6 +134,7 @@
     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, 25000, 25000);
     MKCoordinateRegion adjustedRegion = [mapView regionThatFits:viewRegion];
     [mapView setRegion:adjustedRegion animated:TRUE];
+    [mapView setScrollEnabled:FALSE];
     
     SWMapAnnotation *annotationToAdd = [[SWMapAnnotation alloc] initWithCoordinate:zoomLocation];
     [mapView addAnnotation:annotationToAdd];
@@ -156,6 +156,7 @@
     [shadowLayer setShadowPath:[[UIBezierPath bezierPathWithRect:mapView.bounds] CGPath]];
     
     return annotationView;    
+
 }
 
 + (NSURL *)youtubeURLWithinString:(NSString *)string
@@ -176,7 +177,7 @@
     annotationView.type = SWAnnotationTypePhoto;
     annotationView.frame = CGRectMake(0, 0, 320, 220);
 
-    NSLog(@"YOUTUEB WITH URL: %@",videoURL);
+    KLog(@"YOUTUEB WITH URL: %@",videoURL);
     
     LBYouTubePlayerViewController *youtubeController = [[LBYouTubePlayerViewController alloc] initWithYouTubeURL:videoURL];
     //self.controller.delegate = self;
@@ -185,18 +186,18 @@
     youtubeController.delegate = annotationView;
     youtubeController.view.center = annotationView.center;
 
-
     [annotationView addSubview:youtubeController.view];
+    
     return annotationView;
 }
 
 
 - (void)youTubePlayerViewController:(LBYouTubePlayerViewController *)controller didSuccessfullyExtractYouTubeURL:(NSURL *)videoURL {
-    NSLog(@"Did extract video source:%@", videoURL);
+    KLog(@"Did extract video source:%@", videoURL);
 }
 
 - (void)youTubePlayerViewController:(LBYouTubePlayerViewController *)controller failedExtractingYouTubeURLWithError:(NSError *)error {
-    NSLog(@"Failed to load video due to error:%@", error);
+    KLog(@"Failed to load video due to error:%@", error);
 }
 
 
