@@ -58,6 +58,7 @@
     }
     
     self.controller = [[MPMoviePlayerController alloc] initWithContentURL:URL];
+    self.controller.shouldAutoplay = FALSE;
     [self.controller prepareToPlay];
     self.controller.view.frame = self.bounds;
     self.controller.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
