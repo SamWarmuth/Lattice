@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
-@interface SWMapAnnotation : NSObject<MKAnnotation> {
-    CLLocationCoordinate2D coordinate;
-}
+@interface SWMapAnnotation : NSObject<MKAnnotation>
 
-- (id)initWithCoordinate:(CLLocationCoordinate2D) c;
+@property CLLocationCoordinate2D coordinate;
+
+- (id)initWithCoordinate:(CLLocationCoordinate2D)coord;
 
 @end

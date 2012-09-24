@@ -22,6 +22,7 @@
 
 - (void)loadItemsWithBlock:(void (^)(NSError *error, NSMutableArray *posts))block
 {
+    NSLog(@"Load items with block!");
     [SWFeedAPI getFeedWithType:self.type keyID:self.keyID Min:nil max:nil reversed:FALSE completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
         self.minID = [metadata objectForKey:@"min_id"];
         self.maxID = [metadata objectForKey:@"max_id"];
@@ -38,18 +39,21 @@
     }
     
     [SWFeedAPI getFeedWithType:self.type keyID:self.keyID Min:nil max:self.minID reversed:FALSE completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.maxID = [metadata objectForKey:@"max_id"];
-        self.moreItemsAvailable = [[metadata objectForKey:@"more"] boolValue];
+        if ([metadata objectForKey:@"min_id"]){
+            self.minID = [metadata objectForKey:@"min_id"];
+            self.moreItemsAvailable = [[metadata objectForKey:@"more"] boolValue];
+        }
+
         block(nil, posts);
     }];
 }
+
 - (void)loadNewerItemsWithBlock:(void (^)(NSError *error, NSMutableArray *posts))block
 {
     [SWFeedAPI getFeedWithType:self.type keyID:self.keyID Min:self.maxID max:nil reversed:FALSE completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        self.minID = [metadata objectForKey:@"min_id"];
-        self.maxID = [metadata objectForKey:@"max_id"];
-        self.moreItemsAvailable = [[metadata objectForKey:@"more"] boolValue];
+        if ([metadata objectForKey:@"max_id"]){
+            self.maxID = [metadata objectForKey:@"max_id"];
+        }
         block(nil, posts);
     }];
 }

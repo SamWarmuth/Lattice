@@ -10,6 +10,7 @@
 #import "AFNetworking.h"
 #import "SWPhotoImageView.h"
 #import <MapKit/MapKit.h>
+#import <QuartzCore/QuartzCore.h>
 #import "SWMapAnnotation.h"
 
 @implementation SWAnnotationView
@@ -69,7 +70,10 @@
         NSString *subTypeString = [[annotationData objectForKey:@"value"] objectForKey:@"type"];
         
         if ([subTypeString isEqualToString:@"photo"]) return SWAnnotationTypePhoto;
-    } else if ([typeString isEqualToString:@"net.app.core.geolocation"]) return SWAnnotationTypeGeolocation;
+        
+    } else if ([typeString isEqualToString:@"net.app.core.geolocation"]) {
+        return SWAnnotationTypeGeolocation;
+    }
     
     return SWAnnotationTypeUnknown;
 }
@@ -94,15 +98,12 @@
     CGFloat scaledWidth = width * scale;
     CGFloat scaledHeight = height * scale;
     
-    NSLog(@"Scale: %f w:%f h:%f", scale, scaledWidth, scaledHeight);
-    
     annotationView.frame = CGRectMake(0, 0, 320, scaledHeight + 20);
 
     
     SWPhotoImageView *imageView = [[SWPhotoImageView alloc] initWithFrame:CGRectMake((320-scaledWidth)/2, 0, scaledWidth, scaledHeight)];
     [annotationView addSubview:imageView];
     imageView.clipsToBounds = FALSE;
-    NSLog(@"image view frame: %@", NSStringFromCGRect(imageView.frame));
     imageView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1];
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     [imageView setImageWithURL:[NSURL URLWithString:photoURLString]];
@@ -116,13 +117,15 @@
     annotationView.backgroundColor = [UIColor clearColor];
     annotationView.clipsToBounds = TRUE;
     annotationView.type = SWAnnotationTypeGeolocation;
-    annotationView.frame = CGRectMake(0, 0, 320, 220);
+    annotationView.frame = CGRectMake(0, 0, 320, 240);
     
     NSDictionary *valueDict = [annotationData objectForKey:@"value"];
     CGFloat latitude = [[valueDict objectForKey:@"latitude"] floatValue];
     CGFloat longitude = [[valueDict objectForKey:@"longitude"] floatValue];
     
-    MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(0, 0, 320, 220)];
+    MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(20, 0, 280, 220)];
+    mapView.scrollEnabled = FALSE;
+    mapView.zoomEnabled = FALSE;
     [annotationView addSubview:mapView];
     
     CLLocationCoordinate2D zoomLocation;
@@ -135,6 +138,22 @@
     
     SWMapAnnotation *annotationToAdd = [[SWMapAnnotation alloc] initWithCoordinate:zoomLocation];
     [mapView addAnnotation:annotationToAdd];
+    
+    mapView.layer.borderColor = [UIColor colorWithRed:0.992 green:0.886 blue:0.616 alpha:1].CGColor;
+    mapView.layer.borderWidth = 4.0;
+
+    
+    UIView *shadowView = [[UIView alloc] initWithFrame:mapView.frame];
+    [mapView.superview insertSubview:shadowView belowSubview:mapView];
+    
+    CALayer *shadowLayer = shadowView.layer;
+    shadowLayer.backgroundColor = [UIColor whiteColor].CGColor;
+    
+    shadowLayer.shadowColor = [UIColor colorWithWhite:0.3 alpha:1.0].CGColor;
+    shadowLayer.shadowOpacity = 0.8f;
+    shadowLayer.shadowOffset = CGSizeMake(0, 0.5);
+    shadowLayer.shadowRadius = 0.5;
+    [shadowLayer setShadowPath:[[UIBezierPath bezierPathWithRect:mapView.bounds] CGPath]];
     
     return annotationView;    
 }

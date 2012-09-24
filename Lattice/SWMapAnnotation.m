@@ -21,9 +21,9 @@
     return nil;
 }
 
-- (id)initWithCoordinate:(CLLocationCoordinate2D) c
+- (id)initWithCoordinate:(CLLocationCoordinate2D)coord
 {
-    coordinate = c;
+    self.coordinate = coord;
     return self;
 }
 
