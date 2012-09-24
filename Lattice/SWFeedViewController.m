@@ -46,17 +46,27 @@
     
     self.loadingCellHeight = 60.0;
     
-
     self.managedObjectContext = [(SWAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
-    
 
-    
+}
+- (void)pulledToRefresh:(ODRefreshControl *)control
+{
+    if (self.reversedFeed) {
+        [self loadOlderPosts];
+    } else {
+        [self loadNewerPosts];
+    }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
     NSManagedObjectContext *context = self.managedObjectContext;
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     fetchRequest.entity = [NSEntityDescription entityForName:@"Post" inManagedObjectContext:context];
-    NSArray *sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"id" ascending:YES]];
+    NSArray *sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"id" ascending:NO]];
     [fetchRequest setSortDescriptors:sortDescriptors];
-
+    if (self.feed && self.feed.predicate) fetchRequest.predicate = self.feed.predicate;
+    [NSFetchedResultsController deleteCacheWithName:[NSString stringWithFormat:@"%dCache", self.feed.type]];
     
     self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                         managedObjectContext:context
@@ -72,20 +82,8 @@
         NSLog(@"Fetch Failed :(");
     }
     [self loadPosts];
-
-}
-- (void)pulledToRefresh:(ODRefreshControl *)control
-{
-    if (self.reversedFeed) {
-        [self loadOlderPosts];
-    } else {
-        [self loadNewerPosts];
-    }
     
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
+    
     [super viewWillAppear:animated];
     if (!self.posts || self.posts.count == 0) [self loadPosts];
     
@@ -128,12 +126,12 @@
 {
     if (self.loadingPosts) return;
     self.loadingPosts = TRUE;
-    if (self.posts.count == 0) [SVProgressHUD show];
     [self.refreshControl beginRefreshing];
     
     
     [self.feed loadItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
-        [self replacePostsInTableWithPosts:posts];
+        self.loadingPosts = FALSE;
+        [self.refreshControl endRefreshing];
     }];
     
 }
@@ -142,10 +140,10 @@
 {
     if (self.loadingPosts) return;
     self.loadingPosts = TRUE;
-    if (self.posts.count == 0) [SVProgressHUD show];
     
     [self.feed loadOlderItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
-        [self addPostsToEndOfTable:posts];
+        self.loadingPosts = FALSE;
+        [self.refreshControl endRefreshing];
     }];
     
 }
@@ -154,89 +152,13 @@
 {
     if (self.loadingPosts) return;
     self.loadingPosts = TRUE;
-    if (self.posts.count == 0) [SVProgressHUD show];
     NSInteger sectionCount = [[[self.fetchedResultsController sections] objectAtIndex:0] numberOfObjects];
     
     [self.feed loadNewerItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
         KLog(@"%i current", sectionCount);
-        //[self addPostsToBeginningOfTable:posts];
+        self.loadingPosts = FALSE;
+        [self.refreshControl endRefreshing];
     }];
-    
-        
-}
-
-- (void)replacePostsInTableWithPosts:(NSMutableArray *)posts
-{
-    return;
-    [self.refreshControl endRefreshing];
-    [SVProgressHUD dismiss];
-    self.loadingPosts = FALSE;
-    
-    @synchronized(self.posts) {
-        self.posts = posts;
-    }
-    dispatch_async(dispatch_get_main_queue(), ^(void) {
-        [self.tv reloadData];
-    });
-}
-
-- (void)addPostsToEndOfTable:(NSMutableArray *)posts
-{
-    [SVProgressHUD dismiss];
-    [self.refreshControl endRefreshing];
-    self.loadingPosts = FALSE;
-    if (posts.count == 0) return;
-    return;
-    
-    NSInteger oldPostCount = self.posts.count;
-    
-    @synchronized(self.posts) {
-        self.posts = [[self.posts arrayByAddingObjectsFromArray:posts] mutableCopy];
-    }
-
-    NSMutableArray *indexPaths = [NSMutableArray new];
-    for (int i = 0; i < posts.count; i++){
-        [indexPaths addObject:[NSIndexPath indexPathForRow:0 inSection:oldPostCount + i]];
-    }
-
-    dispatch_async(dispatch_get_main_queue(), ^(void) {
-        [self.tv beginUpdates];
-        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(oldPostCount, posts.count)];
-        [self.tv insertSections:indexSet withRowAnimation:UITableViewRowAnimationBottom];
-        [self.tv endUpdates];
-    });
-}
-
-- (void)addPostsToBeginningOfTable:(NSMutableArray *)posts
-{
-    return;
-    //posts.count adds 40 straight up..... every other time?
-    
-    [SVProgressHUD dismiss];
-    [self.refreshControl endRefreshing];
-    self.loadingPosts = FALSE;
-    if (posts.count == 0) return;
-    
-    @synchronized(self.posts) {
-        self.posts = [[posts arrayByAddingObjectsFromArray:self.posts] mutableCopy];
-    }
-
-    [self.tv reloadData];
-    
-    /*
-    
-    dispatch_async(dispatch_get_main_queue(), ^(void) {
-        //KLog(@"Num of sect : %i", self.tv.numberOfSections);
-        //[self.tv beginUpdates];
-        //NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, posts.count)];
-        //KLog(@"indexSet: %@", indexSet);
-        //[self.tv insertSections:indexSet withRowAnimation:UITableViewRowAnimationBottom];
-        //[self.tv endUpdates];
-        //KLog(@"Num of sect : %i", self.tv.numberOfSections);
-    });
-     
-     */
-    
 }
 
 
@@ -249,7 +171,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return [[self.fetchedResultsController sections] count];
-    
     
     id  sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:0];
     NSLog(@"number of sections: %d", [sectionInfo numberOfObjects]);
@@ -267,24 +188,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSInteger sectionCount = [[[self.fetchedResultsController sections] objectAtIndex:0] numberOfObjects];
-
-    if (sectionCount == 0) return 100.0;
-    if (indexPath.section >= sectionCount) return self.loadingCellHeight;
-    Post *post = [[self.fetchedResultsController fetchedObjects] objectAtIndex:indexPath.section];
+    Post *post = [[self.fetchedResultsController fetchedObjects] objectAtIndex:indexPath.row];
 
     return [SWPostCell heightForPost:post];
 
-    if (indexPath.row == 0) {
-        
-    } else {
-        NSArray *annoViews = [SWAnnotationView annotationViewsFromPost:post includeAuto:TRUE];
-        
-        SWAnnotationView *annotationView = [annoViews objectAtIndex:indexPath.row - 1];
-        return annotationView.frame.size.height;
-    }
+    NSArray *annotationViews = [SWAnnotationView annotationViewsFromPost:post includeAuto:TRUE];
     
-
+    SWAnnotationView *annotationView = [annotationViews objectAtIndex:indexPath.row - 1];
+    return annotationView.frame.size.height;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -301,14 +212,12 @@
         }
     }
     
-    
     if (indexPath.row == 0) {
         return [self postCellForIndexPath:indexPath];
     } else {
         KLog(@"indexPath: %i, %i", indexPath.row, indexPath.section);
         return [self annotationCellForIndexPath:indexPath];
     }
-    
 }
 
 - (UITableViewCell *)annotationCellForIndexPath:(NSIndexPath *)indexPath
@@ -320,17 +229,15 @@
     }
     
     Post *post = [[self.fetchedResultsController fetchedObjects] objectAtIndex:indexPath.section];
-    NSArray *annoViews = [SWAnnotationView annotationViewsFromPost:post includeAuto:TRUE];
+    NSArray *annotationViews = [SWAnnotationView annotationViewsFromPost:post includeAuto:TRUE];
     
-    [cell prepareUIWithAnnotationView:[annoViews objectAtIndex:indexPath.row - 1]];
-    
+    [cell prepareUIWithAnnotationView:[annotationViews objectAtIndex:indexPath.row - 1]];
     return cell;
 }
 
 - (UITableViewCell *)postCellForIndexPath:(NSIndexPath *)indexPath
 {
     NSInteger postCount = [[[self.fetchedResultsController sections] objectAtIndex:0] numberOfObjects];
-
     if (indexPath.section >= postCount) return [UITableViewCell new];
     
     static NSString *CellIdentifier = @"SWPostCell";
@@ -341,12 +248,10 @@
     
     Post *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    
     if (self.feed.type == SWFeedTypeConversation) {
         cell.suppressConversationMarker = TRUE;
-        cell.marked = ([(NSString *)[post valueForKey:@"id"] isEqualToString:self.feed.keyID]);
+        cell.marked = ([post.id isEqualToString:self.feed.keyID]);
     }
-
 
     [cell prepareUIWithPost:post];
     
@@ -397,17 +302,16 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section >= self.posts.count || indexPath.row != 0) return;
 
-    NSDictionary *post = [self.posts objectAtIndex:indexPath.section];
-    BOOL threadExists = ([post objectForKey:@"num_replies"] != @0 || [post objectForKey:@"reply_to"]);
+    Post *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    BOOL threadExists = (post.num_replies != @0 || post.reply_to);
     //If we're in a thread, go to item detail
     if (self.feed.type == SWFeedTypeConversation || !threadExists){
         [self performSegueWithIdentifier:@"SWFeedToPostDetail" sender:self];
     } else {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         SWFeedViewController *threadViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
-        threadViewController.feed = [SWFeed feedWithType:SWFeedTypeConversation keyID:[post objectForKey:@"id"]];
+        threadViewController.feed = [SWFeed feedWithType:SWFeedTypeConversation keyID:post.thread_id];
         [self.navigationController pushViewController:threadViewController animated:TRUE];
     }
 }
@@ -455,7 +359,6 @@
     BOOL currentlyDisplayed = (self.dateOverlay && [self.dateOverlay superview]);
     if (currentlyDisplayed == visible) return;
     
-    
     if (visible){
         self.dateOverlay = [[UIView alloc] initWithFrame:CGRectMake(20, 130, 280, 120)];
         self.dateOverlay.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
@@ -474,7 +377,6 @@
         } else {
             [self.view addSubview:self.dateOverlay];
         }
-        
 
     } else {
         if (!self.dateOverlay) return;
@@ -493,9 +395,7 @@
         } else {
             [self.dateOverlay removeFromSuperview];
             self.dateOverlay = nil;
-        }
-        
-        
+        }        
     }
 }
 
@@ -509,7 +409,7 @@
 {
     if ([[segue identifier] isEqualToString:@"SWFeedToPostDetail"]) {
         SWPostDetailViewController *destinationView = segue.destinationViewController;
-        Post *post = [[self.fetchedResultsController fetchedObjects] objectAtIndex:[self.tv indexPathForSelectedRow].section];
+        Post *post = [[self.fetchedResultsController fetchedObjects] objectAtIndex:[self.tv indexPathForSelectedRow].row];
         destinationView.post = post;
     }
 }
@@ -517,10 +417,8 @@
 
 - (NSDate *)dateForCell:(UITableViewCell *)cell
 {
-        
     NSIndexPath *indexPath = [self.tv indexPathForCell:cell];
-    Post *post = [[self.fetchedResultsController fetchedObjects] objectAtIndex:indexPath.section];
-    
+    Post *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     NSDate *date = post.created_at;
     return date;
@@ -543,7 +441,6 @@
     if (!decelerate) [_timeScroller scrollViewDidEndDecelerating];
 }
 
-
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
@@ -553,6 +450,7 @@
         DLog(@"NOOOOOO");
     }
 }
+
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
@@ -561,6 +459,7 @@
         if (success) return;
     }
 }
+
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
     UITouch *touch = [touches anyObject];
@@ -570,12 +469,9 @@
     }
 }
 
-
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     [self.tv beginUpdates];
-    NSLog(@"huh.");
 }
-
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
            atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
@@ -592,13 +488,10 @@
     }
 }
 
-
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath {
-    NSLog(@"did change? %d", type);
     switch(type) {
-            
         case NSFetchedResultsChangeInsert:
             [self.tv insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath]  withRowAnimation:UITableViewRowAnimationFade];
             break;
@@ -611,7 +504,6 @@
         case NSFetchedResultsChangeUpdate:
             //[self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
             break;
-            
         case NSFetchedResultsChangeMove:
             [self.tv deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
             [self.tv insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
@@ -619,13 +511,9 @@
     }
 }
 
-
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
-    NSLog(@"done?");
     [self.tv endUpdates];
 }
-
-
 
 - (void)viewDidUnload
 {

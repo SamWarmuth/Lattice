@@ -21,6 +21,22 @@
     return feed;
 }
 
+- (NSPredicate *)predicate
+{
+    switch (self.type) {
+        case SWFeedTypeConversation:
+            return [NSPredicate predicateWithFormat:@"thread_id == %@", self.keyID];
+        case SWFeedTypeUserStars:
+            return [NSPredicate predicateWithFormat:@"you_starred == TRUE", self.keyID];
+        case SWFeedTypeMyFeed:
+            return [NSPredicate predicateWithFormat:@"user.you_follow == TRUE", self.keyID];
+        case SWFeedTypeGlobal:
+            return [NSPredicate predicateWithFormat:@"id != nil"];
+        default:
+            return [NSPredicate predicateWithFormat:@"id != nil"];
+    }    
+}
+
 - (void)loadItemsWithBlock:(void (^)(NSError *error, NSMutableArray *posts))block
 {
     [SWFeedAPI getFeedWithType:self.type keyID:self.keyID Min:nil max:nil reversed:FALSE completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
@@ -28,7 +44,6 @@
         self.maxID = [metadata objectForKey:@"max_id"];
         self.moreItemsAvailable = [[metadata objectForKey:@"more"] boolValue];
         [Post createOrUpdatePostsFromArray:posts];
-        
         
         block(nil, posts);
     }];

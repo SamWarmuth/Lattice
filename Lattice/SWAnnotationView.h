@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "LBYouTubePlayerViewController.h"
 #import "Post.h"
+#import "Annotation.h"
 
 typedef enum {
     SWAnnotationTypePhoto,
@@ -23,11 +24,11 @@ typedef enum {
 @property SWAnnotationType type;
 
 
-+ (NSMutableArray *)annotationViewsFromPost:(Post *)postDict includeAuto:(BOOL)includeAuto;
-+ (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData;
-+ (SWAnnotationType)typeForAnnotationData:(NSDictionary *)annotationData;
-+ (SWAnnotationView *)annotationViewWithPhotoData:(NSDictionary *)annotationData;
-+ (SWAnnotationView *)annotationViewWithGeoData:(NSDictionary *)annotationData;
++ (NSMutableArray *)annotationViewsFromPost:(Post *)post includeAuto:(BOOL)includeAuto;
++ (SWAnnotationView *)annotationViewFromAnnotation:(Annotation *)annotationData;
++ (SWAnnotationType)typeForAnnotationData:(Annotation *)annotationData;
++ (SWAnnotationView *)annotationViewWithPhotoData:(Annotation *)annotationData;
++ (SWAnnotationView *)annotationViewWithGeoData:(Annotation *)annotationData;
 + (SWAnnotationView *)annotationViewWithYoutubeURL:(NSURL *)videoURL;
 
 

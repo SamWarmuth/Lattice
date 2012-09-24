@@ -21,4 +21,7 @@
 @property (nonatomic, retain) NSString * url;
 @property (nonatomic, retain) RichText *text;
 
+
++ (NSManagedObject *)objectForID:(NSString *)id;
+
 @end

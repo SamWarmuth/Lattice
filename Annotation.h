@@ -33,4 +33,7 @@
 @property (nonatomic, retain) Post *post;
 @property (nonatomic, retain) Image *thumbnail;
 
++ (NSOrderedSet *)createOrUpdateAnnotationsFromArray:(NSArray *)annotationsArray;
++ (Annotation *)createOrUpdateAnnotationFromDictionary:(NSDictionary *)dictionary;
+
 @end

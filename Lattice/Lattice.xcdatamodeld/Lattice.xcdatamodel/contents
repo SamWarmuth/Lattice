@@ -35,7 +35,7 @@
         <attribute name="thread_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="you_reposted" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="you_starred" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <relationship name="annotations" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Annotation" inverseName="post" inverseEntity="Annotation" syncable="YES"/>
+        <relationship name="annotations" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Annotation" inverseName="post" inverseEntity="Annotation" syncable="YES"/>
         <relationship name="replies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Post" inverseName="reply_to" inverseEntity="Post" syncable="YES"/>
         <relationship name="reply_to" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Post" inverseName="replies" inverseEntity="Post" syncable="YES"/>
         <relationship name="repost_of" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Post" inverseName="reposts" inverseEntity="Post" syncable="YES"/>

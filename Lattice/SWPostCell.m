@@ -32,7 +32,6 @@
     [messageString setFont:[UIFont systemFontOfSize:13]];
     CGSize constraint = CGSizeMake(225.0, 20000.0f);
     CGSize size = [messageString sizeConstrainedToSize:constraint];
-    
     if (isRepost) return size.height + 19;
     return size.height;
 }

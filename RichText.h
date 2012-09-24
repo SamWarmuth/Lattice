@@ -17,6 +17,9 @@
 @property (nonatomic, retain) NSSet *entities;
 @property (nonatomic, retain) Post *post;
 @property (nonatomic, retain) User *user;
+
++ (RichText *)createOrUpdateRichTextFromDictionary:(NSDictionary *)dictionary;
+
 @end
 
 @interface RichText (CoreDataGeneratedAccessors)
@@ -26,7 +29,7 @@
 - (void)addEntities:(NSSet *)values;
 - (void)removeEntities:(NSSet *)values;
 
-+ (RichText *)createOrUpdateRichTextFromDictionary:(NSDictionary *)dictionary;
+
 
 
 @end

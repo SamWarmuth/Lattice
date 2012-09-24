@@ -19,10 +19,11 @@
 @dynamic post;
 @dynamic user;
 
+
 + (RichText *)createOrUpdateRichTextFromDictionary:(NSDictionary *)dictionary
 {
-    NSLog(@"Creating new rich text");
     SWAppDelegate *appDelegate = (SWAppDelegate *)[[UIApplication sharedApplication] delegate];
+        
     RichText *text = (RichText *)[NSEntityDescription insertNewObjectForEntityForName:@"RichText" inManagedObjectContext:appDelegate.managedObjectContext];
     
     text.text = [dictionary objectForKey:@"text"];

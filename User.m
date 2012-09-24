@@ -34,13 +34,31 @@
 @dynamic posts;
 @dynamic userDescription;
 
++ (NSManagedObject *)objectForID:(NSString *)id
+{
+    SWAppDelegate *appDelegate = (SWAppDelegate *)[[UIApplication sharedApplication] delegate];
+    NSManagedObjectContext *managedObjectContext = appDelegate.managedObjectContext;
+    NSError *error;
+    NSFetchRequest *existsFetch = [[NSFetchRequest alloc] init];
+    [existsFetch setEntity:[NSEntityDescription entityForName:NSStringFromClass([self class]) inManagedObjectContext:managedObjectContext]];
+    [existsFetch setFetchLimit:1];
+    [existsFetch setPredicate:[NSPredicate predicateWithFormat:@"id == %@", id]];
+    return [[managedObjectContext executeFetchRequest:existsFetch error:&error] lastObject];
+}
+
 + (User *)createOrUpdateUserFromDictionary:(NSDictionary *)dictionary
 {
-    NSLog(@"Creating new User");
     SWAppDelegate *appDelegate = (SWAppDelegate *)[[UIApplication sharedApplication] delegate];
-    User *user = (User *)[NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:appDelegate.managedObjectContext];
-    user.name = @"rands";
-    user.avatar_image = [Image createOrUpdateImageFromDictionary:dictionary];
+    
+    User *user = (User *)[self objectForID:[dictionary objectForKey:@"id"]];
+    if (!user) user = (User *)[NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:appDelegate.managedObjectContext];
+    
+    
+    user.name = [dictionary objectForKey:@"name"];
+    user.username = [dictionary objectForKey:@"username"];
+    user.avatar_image = [Image createOrUpdateImageFromDictionary:[dictionary objectForKey:@"avatar_image"]];
+    user.you_follow = [dictionary objectForKey:@"you_follow"];
+
     
     return user;
 }

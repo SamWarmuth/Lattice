@@ -32,6 +32,7 @@
 @property (nonatomic, retain) NSSet *posts;
 @property (nonatomic, retain) RichText *userDescription;
 
++ (NSManagedObject *)objectForID:(NSString *)id;
 + (User *)createOrUpdateUserFromDictionary:(NSDictionary *)dictionary;
 
 

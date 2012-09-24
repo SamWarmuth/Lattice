@@ -20,12 +20,12 @@
 @dynamic annotation;
 @dynamic user;
 
+
 + (Image *)createOrUpdateImageFromDictionary:(NSDictionary *)dictionary
 {
-    NSLog(@"Creating new Image");
     SWAppDelegate *appDelegate = (SWAppDelegate *)[[UIApplication sharedApplication] delegate];
     Image *image = (Image *)[NSEntityDescription insertNewObjectForEntityForName:@"Image" inManagedObjectContext:appDelegate.managedObjectContext];
-    image.url = @"http://static.adzerk.net/Advertisers/d9a919813dac42adbd0e3106bc19bc04.png";
+    image.url = [dictionary objectForKey:@"url"];
     return image;
 }
 

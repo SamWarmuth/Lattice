@@ -25,10 +25,10 @@
     return self;
 }
 
-+ (NSMutableArray *)annotationViewsFromPostDictionary:(Post *)post includeAuto:(BOOL)includeAuto
++ (NSMutableArray *)annotationViewsFromPost:(Post *)post includeAuto:(BOOL)includeAuto
 {
-
     NSMutableArray *annotationViews = [NSMutableArray new];
+    
     if (includeAuto) {
         NSURL *youtubeURL = [self youtubeURLWithinString:post.text.text];
         if (youtubeURL) {
@@ -36,24 +36,24 @@
         }
     }
     
-    NSSet *annotations = post.annotations;
+    NSOrderedSet *annotations = post.annotations;
     if (!annotations) return annotationViews;
             
-    for (NSDictionary *annotationDict in annotations){
-        SWAnnotationView *newAnnotationView = [SWAnnotationView annotationViewFromAnnotationDictionary:annotationDict];
+    for (Annotation *annotation in annotations){
+        SWAnnotationView *newAnnotationView = [SWAnnotationView annotationViewFromAnnotation:annotation];
         if (newAnnotationView) [annotationViews addObject:newAnnotationView];
     }
     return annotationViews;
 }
 
-+ (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData
++ (SWAnnotationView *)annotationViewFromAnnotation:(Annotation *)annotation
 {
-    SWAnnotationType type = [self typeForAnnotationData:annotationData];
+    SWAnnotationType type = [self typeForAnnotationData:annotation];
     switch (type) {
         case SWAnnotationTypePhoto:
-            return [self annotationViewWithPhotoData:annotationData];
+            return [self annotationViewWithPhotoData:annotation];
         case SWAnnotationTypeGeolocation:
-            return [self annotationViewWithGeoData:annotationData];
+            return [self annotationViewWithGeoData:annotation];
         case SWAnnotationTypeUnknown:
             return nil;
         default:
@@ -63,32 +63,27 @@
     return nil;
 }
 
-+ (SWAnnotationType)typeForAnnotationData:(NSDictionary *)annotationData
++ (SWAnnotationType)typeForAnnotationData:(Annotation *)annotation
 {
-    NSString *typeString = [annotationData objectForKey:@"type"];
-    if ([typeString isEqualToString:@"net.app.core.oembed"]) {
-        NSString *subTypeString = [[annotationData objectForKey:@"value"] objectForKey:@"type"];
-        
-        if ([subTypeString isEqualToString:@"photo"]) return SWAnnotationTypePhoto;
-        
-    } else if ([typeString isEqualToString:@"net.app.core.geolocation"]) {
+    if ([annotation.type isEqualToString:@"net.app.core.oembed"]) {        
+        if ([annotation.subType isEqualToString:@"photo"]) return SWAnnotationTypePhoto;
+    } else if ([annotation.type isEqualToString:@"net.app.core.geolocation"]) {
         return SWAnnotationTypeGeolocation;
     }
     
     return SWAnnotationTypeUnknown;
 }
 
-+ (SWAnnotationView *)annotationViewWithPhotoData:(NSDictionary *)annotationData
++ (SWAnnotationView *)annotationViewWithPhotoData:(Annotation *)annotation
 {
     SWAnnotationView *annotationView = [SWAnnotationView new];
     annotationView.backgroundColor = [UIColor clearColor];
     annotationView.clipsToBounds = TRUE;
     annotationView.type = SWAnnotationTypePhoto;
     
-    NSDictionary *valueDict = [annotationData objectForKey:@"value"];
-    NSString *photoURLString = [valueDict objectForKey:@"file_url"];
-    CGFloat width = [[valueDict objectForKey:@"width"] floatValue];
-    CGFloat height = [[valueDict objectForKey:@"height"] floatValue];
+    NSString *photoURLString = annotation.url;
+    CGFloat width = [annotation.width floatValue];
+    CGFloat height = [annotation.height floatValue];
     CGFloat scale = 1.0;
     
     if (width > 280.0f){
@@ -110,7 +105,7 @@
     return annotationView;
 }
 
-+ (SWAnnotationView *)annotationViewWithGeoData:(NSDictionary *)annotationData
++ (SWAnnotationView *)annotationViewWithGeoData:(Annotation *)annotation
 {
     SWAnnotationView *annotationView = [SWAnnotationView new];
     annotationView.backgroundColor = [UIColor clearColor];
@@ -118,9 +113,8 @@
     annotationView.type = SWAnnotationTypeGeolocation;
     annotationView.frame = CGRectMake(0, 0, 320, 240);
     
-    NSDictionary *valueDict = [annotationData objectForKey:@"value"];
-    CGFloat latitude = [[valueDict objectForKey:@"latitude"] floatValue];
-    CGFloat longitude = [[valueDict objectForKey:@"longitude"] floatValue];
+    CGFloat latitude = [annotation.latitude floatValue];
+    CGFloat longitude = [annotation.longitude floatValue];
     
     MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(20, 0, 280, 220)];
     mapView.scrollEnabled = FALSE;

@@ -216,7 +216,7 @@
     if ([[segue identifier] isEqualToString:@"SWPostDetailToUserDetail"]) {
         SWUserDetailViewController *destinationView = segue.destinationViewController;
         if ([sender isKindOfClass:[NSString class]]) destinationView.userID = (NSString *)sender;
-        if ([sender isKindOfClass:[NSDictionary class]]) destinationView.user = (NSDictionary *)sender;
+        if ([sender isKindOfClass:[User class]]) destinationView.user = (User *)sender;
     }
 }
 
