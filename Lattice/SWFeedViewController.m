@@ -131,6 +131,7 @@
     if (self.posts.count == 0) [SVProgressHUD show];
     
     [self.feed loadNewerItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
+        KLog(@"%i current, %i new", self.posts.count, posts.count);
         [self addPostsToBeginningOfTable:posts];
     }];
         
@@ -170,7 +171,7 @@
 
     dispatch_async(dispatch_get_main_queue(), ^(void) {
         [self.tv beginUpdates];
-        if (!self.feed.moreItemsAvailable){
+        if (!self.feed.moreItemsAvailable) {
             [self.tv deleteSections:[NSIndexSet indexSetWithIndex:oldPostCount] withRowAnimation:UITableViewRowAnimationNone];
         }
         NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(oldPostCount, posts.count)];
@@ -181,7 +182,7 @@
 
 - (void)addPostsToBeginningOfTable:(NSMutableArray *)posts
 {
-    //posts.count adds 40 straight up..... I think only the first time, this is causing a problem for indexing sections in this function....
+    //posts.count adds 40 straight up..... every other time?
     
     [SVProgressHUD dismiss];
     [self.refreshControl endRefreshing];
@@ -191,22 +192,23 @@
     @synchronized(self.posts) {
         self.posts = [[posts arrayByAddingObjectsFromArray:self.posts] mutableCopy];
     }
+
+    [self.tv reloadData];
     
-    NSMutableArray *indexPaths = [NSMutableArray new];
-    for (int i = 0; i < posts.count; i++){
-        [indexPaths addObject:[NSIndexPath indexPathForRow:0 inSection:i]];
-    }
+    /*
     
     dispatch_async(dispatch_get_main_queue(), ^(void) {
-        KLog(@"Num of sect : %i", self.tv.numberOfSections);
-        [self.tv beginUpdates];
-        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, posts.count)];
-        KLog(@"indexSet: %@", indexSet);
-        [self.tv insertSections:indexSet withRowAnimation:UITableViewRowAnimationBottom];
-        //[self.tv insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom]; //This might still need to be called here but I don't think so. (only if annotations?)
-        [self.tv endUpdates];
-        KLog(@"Num of sect : %i", self.tv.numberOfSections);
+        //KLog(@"Num of sect : %i", self.tv.numberOfSections);
+        //[self.tv beginUpdates];
+        //NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, posts.count)];
+        //KLog(@"indexSet: %@", indexSet);
+        //[self.tv insertSections:indexSet withRowAnimation:UITableViewRowAnimationBottom];
+        //[self.tv endUpdates];
+        //KLog(@"Num of sect : %i", self.tv.numberOfSections);
     });
+     
+     */
+    
 }
 
 
