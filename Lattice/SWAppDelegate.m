@@ -36,7 +36,12 @@
         self.window.rootViewController = menuNavController;        
     }
     
+    [self resetCoreData];
     [self downloadUserMetadata];
+    
+    
+    //NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Post" inManagedObjectContext:self.managedObjectContext];
+    //[object setValue:@"42" forKey:@"id"];
     
     return TRUE;
 }
@@ -72,12 +77,41 @@
     NSError *error = nil;
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
+        //NSLog(@"Changes? %d",[managedObjectContext hasChanges]);
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
             // Replace this implementation with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
+        } else {
+            //NSLog(@"Saved successfully");
+            
+            NSManagedObjectContext *moc = self.managedObjectContext;
+            NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Post" inManagedObjectContext:moc];
+            NSFetchRequest *request = [[NSFetchRequest alloc] init];
+            [request setEntity:entityDescription];
+            
+            // Set example predicate and sort orderings...
+            //NSNumber *minimumSalary = ...;
+            //NSPredicate *predicate = [NSPredicate predicateWithFormat: @"(lastName LIKE[c] 'Worsley') AND (salary > %@)", minimumSalary];
+            //[request setPredicate:predicate];
+            
+            NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"id" ascending:YES];
+            [request setSortDescriptors:@[sortDescriptor]];
+            
+            NSError *error;
+            NSArray *array = [moc executeFetchRequest:request error:&error];
+            if (array == nil) {
+                NSLog(@"Error, array is nil. Er: %@", error);
+            }
+            
+           // NSLog(@"Objects? %@", array);
+            
+            
+            
         }
+    } else {
+        NSLog(@"ERROR: No managed object context");
     }
 }
 
@@ -95,7 +129,10 @@
     if (coordinator != nil) {
         _managedObjectContext = [[NSManagedObjectContext alloc] init];
         [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+    } else {
+        NSLog(@"Coordinator is nil. huh.");
     }
+    
     return _managedObjectContext;
 }
 
@@ -184,6 +221,16 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)resetCoreData
+{
+    NSFileManager *localFileManager = [[NSFileManager alloc] init];
+    NSString * rootDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSURL *rootURL = [NSURL fileURLWithPath:rootDir isDirectory:YES];
+    
+    NSURL *storeURL = [rootURL URLByAppendingPathComponent:@"Lattice.sqlite"];
+    [localFileManager removeItemAtURL:storeURL error:NULL];
 }
 
 @end

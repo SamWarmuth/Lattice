@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LBYouTubePlayerViewController.h"
+#import "Post.h"
 
 typedef enum {
     SWAnnotationTypePhoto,
@@ -22,7 +23,7 @@ typedef enum {
 @property SWAnnotationType type;
 
 
-+ (NSMutableArray *)annotationViewsFromPostDictionary:(NSDictionary *)postDict includeAuto:(BOOL)includeAuto;
++ (NSMutableArray *)annotationViewsFromPost:(Post *)postDict includeAuto:(BOOL)includeAuto;
 + (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData;
 + (SWAnnotationType)typeForAnnotationData:(NSDictionary *)annotationData;
 + (SWAnnotationView *)annotationViewWithPhotoData:(NSDictionary *)annotationData;

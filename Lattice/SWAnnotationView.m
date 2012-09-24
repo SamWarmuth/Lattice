@@ -12,6 +12,7 @@
 #import <MapKit/MapKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "SWMapAnnotation.h"
+#import "RichText.h"
 
 @implementation SWAnnotationView
 
@@ -24,18 +25,18 @@
     return self;
 }
 
-+ (NSMutableArray *)annotationViewsFromPostDictionary:(NSDictionary *)postDict includeAuto:(BOOL)includeAuto
++ (NSMutableArray *)annotationViewsFromPostDictionary:(Post *)post includeAuto:(BOOL)includeAuto
 {
 
     NSMutableArray *annotationViews = [NSMutableArray new];
     if (includeAuto) {
-        NSURL *youtubeURL = [self youtubeURLWithinString:[postDict objectForKey:@"text"]];
+        NSURL *youtubeURL = [self youtubeURLWithinString:post.text.text];
         if (youtubeURL) {
             [annotationViews addObject:[self annotationViewWithYoutubeURL:youtubeURL]];
         }
     }
     
-    NSArray *annotations = [postDict objectForKey:@"annotations"];
+    NSSet *annotations = post.annotations;
     if (!annotations) return annotationViews;
             
     for (NSDictionary *annotationDict in annotations){

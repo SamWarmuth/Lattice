@@ -11,6 +11,12 @@
 		3725687A160D5AEF009DF005 /* SWMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 37256879160D5AEF009DF005 /* SWMapAnnotation.m */; };
 		37A6059A160BFB700010180A /* SWFeedAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A60599160BFB700010180A /* SWFeedAPI.m */; };
 		88183289160AD95400B3F6D2 /* SWFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 88183288160AD95400B3F6D2 /* SWFeed.m */; };
+		8846B59C1610F7EE0003AC1C /* RichText.m in Sources */ = {isa = PBXBuildFile; fileRef = 8846B59B1610F7EE0003AC1C /* RichText.m */; };
+		8846B59F1610F7EE0003AC1C /* TextEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 8846B59E1610F7EE0003AC1C /* TextEntity.m */; };
+		8846B5A21610F7EE0003AC1C /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 8846B5A11610F7EE0003AC1C /* User.m */; };
+		8846B5A51610F7EE0003AC1C /* Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 8846B5A41610F7EE0003AC1C /* Image.m */; };
+		8846B5A81610F7EE0003AC1C /* Annotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8846B5A71610F7EE0003AC1C /* Annotation.m */; };
+		8846B5AB1610F7EF0003AC1C /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 8846B5AA1610F7EF0003AC1C /* Post.m */; };
 		88510EA315FFEA80009892C7 /* timescroll_pointer.png in Resources */ = {isa = PBXBuildFile; fileRef = 88510E9B15FFEA80009892C7 /* timescroll_pointer.png */; };
 		88510EA415FFEA80009892C7 /* timescroll_pointer@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88510E9C15FFEA80009892C7 /* timescroll_pointer@2x.png */; };
 		88510EA515FFEA80009892C7 /* TimeScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 88510E9E15FFEA80009892C7 /* TimeScroller.m */; };
@@ -126,6 +132,18 @@
 		37A60599160BFB700010180A /* SWFeedAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SWFeedAPI.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		88183287160AD95400B3F6D2 /* SWFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SWFeed.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		88183288160AD95400B3F6D2 /* SWFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SWFeed.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		8846B59A1610F7EE0003AC1C /* RichText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RichText.h; path = ../RichText.h; sourceTree = "<group>"; };
+		8846B59B1610F7EE0003AC1C /* RichText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RichText.m; path = ../RichText.m; sourceTree = "<group>"; };
+		8846B59D1610F7EE0003AC1C /* TextEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextEntity.h; path = ../TextEntity.h; sourceTree = "<group>"; };
+		8846B59E1610F7EE0003AC1C /* TextEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextEntity.m; path = ../TextEntity.m; sourceTree = "<group>"; };
+		8846B5A01610F7EE0003AC1C /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = User.h; path = ../User.h; sourceTree = "<group>"; };
+		8846B5A11610F7EE0003AC1C /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = User.m; path = ../User.m; sourceTree = "<group>"; };
+		8846B5A31610F7EE0003AC1C /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Image.h; path = ../Image.h; sourceTree = "<group>"; };
+		8846B5A41610F7EE0003AC1C /* Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Image.m; path = ../Image.m; sourceTree = "<group>"; };
+		8846B5A61610F7EE0003AC1C /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Annotation.h; path = ../Annotation.h; sourceTree = "<group>"; };
+		8846B5A71610F7EE0003AC1C /* Annotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Annotation.m; path = ../Annotation.m; sourceTree = "<group>"; };
+		8846B5A91610F7EF0003AC1C /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Post.h; path = ../../Post.h; sourceTree = "<group>"; };
+		8846B5AA1610F7EF0003AC1C /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Post.m; path = ../../Post.m; sourceTree = "<group>"; };
 		88510E9B15FFEA80009892C7 /* timescroll_pointer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = timescroll_pointer.png; sourceTree = "<group>"; };
 		88510E9C15FFEA80009892C7 /* timescroll_pointer@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "timescroll_pointer@2x.png"; sourceTree = "<group>"; };
 		88510E9D15FFEA80009892C7 /* TimeScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TimeScroller.h; sourceTree = "<group>"; };
@@ -472,6 +490,7 @@
 				88AA3C0915FF8BB800B550D2 /* SWAppDelegate.h */,
 				88AA3C0A15FF8BB800B550D2 /* SWAppDelegate.m */,
 				88AA3C0C15FF8BB800B550D2 /* MainStoryboard.storyboard */,
+				88DD8A631610BE6000D01941 /* Lattice.xcdatamodeld */,
 				88AA3C4C15FFD2C200B550D2 /* Connect */,
 				88AA3C2215FF963800B550D2 /* Feed */,
 				88AA3C4115FFCC0F00B550D2 /* Menu */,
@@ -596,7 +615,18 @@
 			children = (
 				88183287160AD95400B3F6D2 /* SWFeed.h */,
 				88183288160AD95400B3F6D2 /* SWFeed.m */,
-				88DD8A631610BE6000D01941 /* Lattice.xcdatamodeld */,
+				8846B5A91610F7EF0003AC1C /* Post.h */,
+				8846B5AA1610F7EF0003AC1C /* Post.m */,
+				8846B5A61610F7EE0003AC1C /* Annotation.h */,
+				8846B5A71610F7EE0003AC1C /* Annotation.m */,
+				8846B5A31610F7EE0003AC1C /* Image.h */,
+				8846B5A41610F7EE0003AC1C /* Image.m */,
+				8846B5A01610F7EE0003AC1C /* User.h */,
+				8846B5A11610F7EE0003AC1C /* User.m */,
+				8846B59D1610F7EE0003AC1C /* TextEntity.h */,
+				8846B59E1610F7EE0003AC1C /* TextEntity.m */,
+				8846B59A1610F7EE0003AC1C /* RichText.h */,
+				8846B59B1610F7EE0003AC1C /* RichText.m */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -807,6 +837,12 @@
 				88B435E9160D057000DEF194 /* SWItemAPI.m in Sources */,
 				3725687A160D5AEF009DF005 /* SWMapAnnotation.m in Sources */,
 				88DD8A651610BE6000D01941 /* Lattice.xcdatamodeld in Sources */,
+				8846B59C1610F7EE0003AC1C /* RichText.m in Sources */,
+				8846B59F1610F7EE0003AC1C /* TextEntity.m in Sources */,
+				8846B5A21610F7EE0003AC1C /* User.m in Sources */,
+				8846B5A51610F7EE0003AC1C /* Image.m in Sources */,
+				8846B5A81610F7EE0003AC1C /* Annotation.m in Sources */,
+				8846B5AB1610F7EF0003AC1C /* Post.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

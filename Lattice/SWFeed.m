@@ -9,6 +9,7 @@
 #import "SWFeed.h"
 #import "SWPostAPI.h"
 #import "SWFeedAPI.h"
+#import "Post.h"
 
 @implementation SWFeed
 
@@ -26,6 +27,9 @@
         self.minID = [metadata objectForKey:@"min_id"];
         self.maxID = [metadata objectForKey:@"max_id"];
         self.moreItemsAvailable = [[metadata objectForKey:@"more"] boolValue];
+        [Post createOrUpdatePostsFromArray:posts];
+        
+        
         block(nil, posts);
     }];
 }

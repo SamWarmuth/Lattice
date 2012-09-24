@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Post.h"
 
 @interface SWPostDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) IBOutlet UITableView *tv;
-@property (nonatomic, strong) NSDictionary *post;
+@property (nonatomic, strong) Post *post;
 @property (nonatomic, strong) NSMutableArray *annotationViews;
 
 - (UITableViewCell *)postCellForIndexPath:(NSIndexPath *)indexPath;

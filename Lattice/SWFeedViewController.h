@@ -11,8 +11,9 @@
 #import "SWFeed.h"
 #import "ODRefreshControl.h"
 
-@interface SWFeedViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, TimeScrollerDelegate>
+@interface SWFeedViewController : UIViewController <UITableViewDataSource, UITableViewDelegate, TimeScrollerDelegate, NSFetchedResultsControllerDelegate>
 
+@property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) IBOutlet UITableView *tv;
 @property (nonatomic, strong) UIView *dateOverlay;
 @property (nonatomic, strong) NSMutableArray *posts;

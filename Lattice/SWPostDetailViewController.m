@@ -16,6 +16,7 @@
 #import "SWComposeViewController.h"
 #import "SWAnnotationView.h"
 #import "SWAnnotationCell.h"
+#import "User.h"
 
 @interface SWPostDetailViewController ()
 
@@ -49,7 +50,7 @@
 - (void)identifyAnnotations
 {
     @synchronized(self.annotationViews) {
-        self.annotationViews = [SWAnnotationView annotationViewsFromPostDictionary:self.post includeAuto:TRUE];
+        self.annotationViews = [SWAnnotationView annotationViewsFromPost:self.post includeAuto:TRUE];
     }
     [self.tv reloadData];
 }
@@ -155,23 +156,24 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWComposeViewController *composeViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWComposeViewController"];
-    composeViewController.replyToID = [self.post objectForKey:@"id"];
-    composeViewController.prefillText = [NSString stringWithFormat:@"@%@ ", [[self.post objectForKey:@"user"] objectForKey:@"username"]];
+    composeViewController.replyToID = self.post.id;
+    composeViewController.prefillText = [NSString stringWithFormat:@"@%@ ", self.post.user.username];
     [self.navigationController presentModalViewController:composeViewController animated:TRUE];
 }
 
 - (void)repostPressed
 {    
     [SVProgressHUD show];
-    if ([[self.post objectForKey:@"you_reposted"] intValue] == 1) {
-        [SWPostAPI unrepostPostID:[self.post objectForKey:@"id"] completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
+    if ([self.post.you_reposted intValue] == 1) {
+        [SWPostAPI unrepostPostID:self.post.id completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
             //returned post is the old one.
-            self.post = post;
+#warning  fix
+            //self.post = post;
             [SVProgressHUD dismiss];
             [self.tv reloadData];
         }];
     } else {
-        [SWPostAPI repostPostID:[self.post objectForKey:@"id"] completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
+        [SWPostAPI repostPostID:self.post.id completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
             //returned post is the new one. We want to refresh the old.
             self.post = [post objectForKey:@"repost_of"];
 
@@ -184,15 +186,19 @@
 - (void)starPressed
 {
     [SVProgressHUD show];
-    if ([[self.post objectForKey:@"you_starred"] intValue] == 1) {
-        [SWPostAPI unstarPostID:[self.post objectForKey:@"id"] completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
-            self.post = post;
+    if ([self.post.you_starred intValue] == 1) {
+        [SWPostAPI unstarPostID:self.post.id completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
+#warning  fix
+
+            //self.post = post;
             [SVProgressHUD dismiss];
             [self.tv reloadData];
         }];
     } else {
-        [SWPostAPI starPostID:[self.post objectForKey:@"id"] completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
-            self.post = post;
+        [SWPostAPI starPostID:self.post.id completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
+            //self.post = post;
+#warning  fix
+
             [SVProgressHUD dismiss];
             [self.tv reloadData];
         }];
@@ -202,7 +208,7 @@
 
 - (void)profilePressed:(UIButton *)sender
 {
-    [self performSegueWithIdentifier:@"SWPostDetailToUserDetail" sender:[self.post objectForKey:@"user"]];
+    [self performSegueWithIdentifier:@"SWPostDetailToUserDetail" sender:self.post.user];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
