@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "LBYouTubePlayerViewController.h"
+#import <MapKit/MapKit.h>
 
 typedef enum {
     SWAnnotationTypePhoto,
@@ -17,7 +18,7 @@ typedef enum {
     SWAnnotationTypeUnknown
 } SWAnnotationType;
 
-@interface SWAnnotationView : UIView <LBYouTubePlayerControllerDelegate>
+@interface SWAnnotationView : UIView <LBYouTubePlayerControllerDelegate, MKMapViewDelegate>
 
 @property SWAnnotationType type;
 

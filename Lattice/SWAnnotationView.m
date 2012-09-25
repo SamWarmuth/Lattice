@@ -122,8 +122,8 @@
     CGFloat longitude = [[valueDict objectForKey:@"longitude"] floatValue];
     
     MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(20, 0, 280, 220)];
-    mapView.scrollEnabled = FALSE;
-    mapView.zoomEnabled = FALSE;
+    mapView.userInteractionEnabled = FALSE;
+    mapView.delegate = annotationView;
 
     [annotationView addSubview:mapView];
     
@@ -141,7 +141,6 @@
     
     mapView.layer.borderColor = [UIColor colorWithRed:0.992 green:0.886 blue:0.616 alpha:1].CGColor;
     mapView.layer.borderWidth = 4.0;
-
     
     UIView *shadowView = [[UIView alloc] initWithFrame:mapView.frame];
     [mapView.superview insertSubview:shadowView belowSubview:mapView];

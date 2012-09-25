@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		37256876160D4EF6009DF005 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37256875160D4EF6009DF005 /* MapKit.framework */; };
 		3725687A160D5AEF009DF005 /* SWMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 37256879160D5AEF009DF005 /* SWMapAnnotation.m */; };
+		373665FC1611171A00D65A9F /* SWAnnotationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 373665FB1611171A00D65A9F /* SWAnnotationDetailViewController.m */; };
 		37A6059A160BFB700010180A /* SWFeedAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A60599160BFB700010180A /* SWFeedAPI.m */; };
 		88183289160AD95400B3F6D2 /* SWFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 88183288160AD95400B3F6D2 /* SWFeed.m */; };
 		88510EA315FFEA80009892C7 /* timescroll_pointer.png in Resources */ = {isa = PBXBuildFile; fileRef = 88510E9B15FFEA80009892C7 /* timescroll_pointer.png */; };
@@ -122,6 +123,8 @@
 		37256875160D4EF6009DF005 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		37256878160D5AEF009DF005 /* SWMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWMapAnnotation.h; sourceTree = "<group>"; };
 		37256879160D5AEF009DF005 /* SWMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWMapAnnotation.m; sourceTree = "<group>"; };
+		373665FA1611171A00D65A9F /* SWAnnotationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWAnnotationDetailViewController.h; sourceTree = "<group>"; };
+		373665FB1611171A00D65A9F /* SWAnnotationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWAnnotationDetailViewController.m; sourceTree = "<group>"; };
 		37A60598160BFB700010180A /* SWFeedAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SWFeedAPI.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		37A60599160BFB700010180A /* SWFeedAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SWFeedAPI.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		88183287160AD95400B3F6D2 /* SWFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SWFeed.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -504,6 +507,8 @@
 				88AA3C2415FF964C00B550D2 /* SWFeedViewController.m */,
 				88510EC4160050A9009892C7 /* SWPostDetailViewController.h */,
 				88510EC5160050A9009892C7 /* SWPostDetailViewController.m */,
+				373665FA1611171A00D65A9F /* SWAnnotationDetailViewController.h */,
+				373665FB1611171A00D65A9F /* SWAnnotationDetailViewController.m */,
 				88510ECD16005BA0009892C7 /* SWUserDetailViewController.h */,
 				88510ECE16005BA0009892C7 /* SWUserDetailViewController.m */,
 				8878B07B160250F700691C54 /* SWUserListViewController.h */,
@@ -518,6 +523,8 @@
 			children = (
 				88AA3C2715FF96B000B550D2 /* SWPostCell.h */,
 				88AA3C2815FF96B000B550D2 /* SWPostCell.m */,
+				88F06205160C0442003F21AC /* SWAnnotationCell.h */,
+				88F06206160C0442003F21AC /* SWAnnotationCell.m */,
 				88510EC716005502009892C7 /* SWUserCell.h */,
 				88510EC816005502009892C7 /* SWUserCell.m */,
 				88510ECA1600562D009892C7 /* SWActionCell.h */,
@@ -610,18 +617,8 @@
 				37256879160D5AEF009DF005 /* SWMapAnnotation.m */,
 				88F0620F160C16D5003F21AC /* SWPhotoImageView.h */,
 				88F06210160C16D5003F21AC /* SWPhotoImageView.m */,
-				88F06204160C0432003F21AC /* Table Cells */,
 			);
 			name = "UI Elements";
-			sourceTree = "<group>";
-		};
-		88F06204160C0432003F21AC /* Table Cells */ = {
-			isa = PBXGroup;
-			children = (
-				88F06205160C0442003F21AC /* SWAnnotationCell.h */,
-				88F06206160C0442003F21AC /* SWAnnotationCell.m */,
-			);
-			name = "Table Cells";
 			sourceTree = "<group>";
 		};
 		88F06212160C1F3C003F21AC /* LBYouTubePlayerController */ = {
@@ -807,6 +804,7 @@
 				88B435E9160D057000DEF194 /* SWItemAPI.m in Sources */,
 				3725687A160D5AEF009DF005 /* SWMapAnnotation.m in Sources */,
 				88DD8A651610BE6000D01941 /* Lattice.xcdatamodeld in Sources */,
+				373665FC1611171A00D65A9F /* SWAnnotationDetailViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

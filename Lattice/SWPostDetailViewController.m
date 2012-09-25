@@ -151,6 +151,12 @@
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    KLog(@"%@",self);
+    [self performSegueWithIdentifier:@"SWPostDetailToAnnotationDetail" sender:self];
+}
+
 - (void)replyPressed
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
@@ -211,7 +217,11 @@
         SWUserDetailViewController *destinationView = segue.destinationViewController;
         if ([sender isKindOfClass:[NSString class]]) destinationView.userID = (NSString *)sender;
         if ([sender isKindOfClass:[NSDictionary class]]) destinationView.user = (NSDictionary *)sender;
+    }else if ([[segue identifier] isEqualToString:@"SWFeedToPostDetail"]) {
+        SWPostDetailViewController *destinationView = segue.destinationViewController;
+        destinationView.post = self.post;
     }
+
 }
 
 - (void)viewDidUnload
