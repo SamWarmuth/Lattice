@@ -10,39 +10,55 @@
 #import "AFNetworking.h"
 #import "SWAuthAPI.h"
 #import "SWItemAPI.h"
+
 @implementation SWPostAPI
 
-+ (void)starPostID:(NSString *)postID completed:(void (^)(NSError *error, NSDictionary *post, NSDictionary *metadata))block
++ (void)starPostID:(NSString *)postID completed:(void (^)(NSError *error, Post *post, NSDictionary *metadata))block
 {
     NSString *path = [NSString stringWithFormat:@"/stream/0/posts/%@/star", postID];
-    [SWItemAPI sendMethod:SWHTTPMethodPost toPath:path withParams:nil completed:block];
+    [SWItemAPI sendMethod:SWHTTPMethodPost toPath:path withParams:nil completed:^(NSError *error, NSDictionary *item, NSDictionary *metadata) {
+        Post *post = [Post createOrUpdatePostFromDictionary:item];
+        block(nil, post, metadata);
+    }];
 }
 
-+ (void)unstarPostID:(NSString *)postID completed:(void (^)(NSError *error, NSDictionary *post, NSDictionary *metadata))block
++ (void)unstarPostID:(NSString *)postID completed:(void (^)(NSError *error, Post *post, NSDictionary *metadata))block
 {
     NSString *path = [NSString stringWithFormat:@"/stream/0/posts/%@/star", postID];
-    [SWItemAPI sendMethod:SWHTTPMethodDelete toPath:path withParams:nil completed:block];
+    [SWItemAPI sendMethod:SWHTTPMethodDelete toPath:path withParams:nil completed:^(NSError *error, NSDictionary *item, NSDictionary *metadata) {
+        Post *post = [Post createOrUpdatePostFromDictionary:item];
+        block(nil, post, metadata);
+    }];
 }
 
-+ (void)repostPostID:(NSString *)postID completed:(void (^)(NSError *error, NSDictionary *post, NSDictionary *metadata))block
++ (void)repostPostID:(NSString *)postID completed:(void (^)(NSError *error, Post *post, NSDictionary *metadata))block
 {
     NSString *path = [NSString stringWithFormat:@"/stream/0/posts/%@/repost", postID];
-    [SWItemAPI sendMethod:SWHTTPMethodPost toPath:path withParams:nil completed:block];
+    [SWItemAPI sendMethod:SWHTTPMethodPost toPath:path withParams:nil completed:^(NSError *error, NSDictionary *item, NSDictionary *metadata) {
+        Post *post = [Post createOrUpdatePostFromDictionary:item];
+        block(nil, post, metadata);
+    }];
 }
 
-+ (void)unrepostPostID:(NSString *)postID completed:(void (^)(NSError *error, NSDictionary *post, NSDictionary *metadata))block
++ (void)unrepostPostID:(NSString *)postID completed:(void (^)(NSError *error, Post *post, NSDictionary *metadata))block
 {
     NSString *path = [NSString stringWithFormat:@"/stream/0/posts/%@/repost", postID];
-    [SWItemAPI sendMethod:SWHTTPMethodDelete toPath:path withParams:nil completed:block];
+    [SWItemAPI sendMethod:SWHTTPMethodDelete toPath:path withParams:nil completed:^(NSError *error, NSDictionary *item, NSDictionary *metadata) {
+        Post *post = [Post createOrUpdatePostFromDictionary:item];
+        block(nil, post, metadata);
+    }];
 }
 
-+ (void)createPostWithText:(NSString *)text replyTo:(NSString *)userID completed:(void (^)(NSError *error, NSDictionary *post, NSDictionary *metadata))block
++ (void)createPostWithText:(NSString *)text replyTo:(NSString *)userID completed:(void (^)(NSError *error, Post *post, NSDictionary *metadata))block
 {
     NSMutableDictionary *parameters = [NSMutableDictionary new];
     [parameters setObject:text forKey:@"text"];
     if (userID) [parameters setObject:userID forKey:@"reply_to"];
     NSString *path = [NSString stringWithFormat:@"/stream/0/posts"];
-    [SWItemAPI sendMethod:SWHTTPMethodPost toPath:path withParams:parameters completed:block];
+    [SWItemAPI sendMethod:SWHTTPMethodPost toPath:path withParams:parameters completed:^(NSError *error, NSDictionary *item, NSDictionary *metadata) {
+        Post *post = [Post createOrUpdatePostFromDictionary:item];
+        block(nil, post, metadata);
+    }];
 }
 
 @end

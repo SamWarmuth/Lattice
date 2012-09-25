@@ -19,9 +19,10 @@
 @property (nonatomic, retain) NSNumber * pos;
 @property (nonatomic, retain) NSString * type;
 @property (nonatomic, retain) NSString * url;
-@property (nonatomic, retain) RichText *text;
+@property (nonatomic, retain) RichText * text;
 
 
-+ (NSManagedObject *)objectForID:(NSString *)id;
++ (NSMutableSet *)createOrUpdateEntitesFromDictionary:(NSDictionary *)entityDict;
++ (TextEntity *)createOrUpdateEntityFromDictionary:(NSDictionary *)dictionary withType:(NSString *)type;
 
 @end

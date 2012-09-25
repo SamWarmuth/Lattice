@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Post, Image;
+@class Post, Image, SWAnnotationView;
 
 @interface Annotation : NSManagedObject
 
@@ -35,5 +35,6 @@
 
 + (NSOrderedSet *)createOrUpdateAnnotationsFromArray:(NSArray *)annotationsArray;
 + (Annotation *)createOrUpdateAnnotationFromDictionary:(NSDictionary *)dictionary;
+
 
 @end

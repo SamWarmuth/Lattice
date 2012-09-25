@@ -218,9 +218,10 @@ NSInteger const LBYouTubePlayerControllerErrorCodeNoJSONData   =    3;
 #pragma mark Delegate Calls
 
 -(void)_didSuccessfullyExtractYouTubeURL:(NSURL *)videoURL {
-    if ([self.delegate respondsToSelector:@selector(youTubePlayerViewController:didSuccessfullyExtractYouTubeURL:)]) {
-        [self.delegate youTubePlayerViewController:self didSuccessfullyExtractYouTubeURL:videoURL];
-    }
+    NSLog(@"Hi!, %@", videoURL);
+    //if ([self.delegate respondsToSelector:@selector(youTubePlayerViewController:didSuccessfullyExtractYouTubeURL:)]) {
+    //    [self.delegate youTubePlayerViewController:self didSuccessfullyExtractYouTubeURL:videoURL];
+   // }
 }
 
 -(void)_failedExtractingYouTubeURLWithError:(NSError *)error {

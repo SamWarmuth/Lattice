@@ -15,16 +15,17 @@
 #import "RichText.h"
 #import "User.h"
 #import "Image.h"
+#import "TextEntity.h"
 
 @implementation SWPostCell
 
 + (CGFloat)messageHeightForPost:(Post *)post
 {
-    BOOL isRepost = FALSE && !![post valueForKey:@"repost_of"];
+    BOOL isRepost = !![post valueForKey:@"repost_of"];
     
     NSString *text;
     
-    if (isRepost) text = [[post valueForKey:@"repost_of"] objectForKey:@"text"];
+    if (isRepost) text = post.repost_of.text;
     else text = post.text.text;
 
 
@@ -60,14 +61,15 @@
 
 - (void)prepareUIWithPost:(Post *)post
 {
-    NSManagedObject *originalPost;
+    Post *originalPost;
     BOOL isRepost = !![post valueForKey:@"repost_of"];
     
     self.repostLabel.hidden = !isRepost;
     
     if (isRepost) {
+        NSLog(@"Repost");
         originalPost = post;
-        post = [post valueForKey:@"repost_of"];
+        post = post.repost_of;
     }
     
     if (!post) return;
@@ -98,7 +100,7 @@
         self.conversationMarkerImageView.hidden = TRUE;
     }
     
-    self.repostLabel.text = [NSString stringWithFormat:@"Reposted by @%@",[[originalPost valueForKey:@"user"] valueForKey:@"username"]];
+    self.repostLabel.text = [NSString stringWithFormat:@"Reposted by @%@", originalPost.user.username];
     oldFrame = self.repostLabel.frame;
     self.repostLabel.frame =  CGRectMake(oldFrame.origin.x, messageHeight + 42, oldFrame.size.width, oldFrame.size.height);
     
@@ -110,49 +112,32 @@
     
     [self.messageLabel setAutomaticallyAddLinksForType:0];
     
-    
-    NSManagedObject *text = [post valueForKey:@"text"];
-    
-    NSArray *entities = [text valueForKey:@"entities"];
-    
-    for (NSManagedObject *entity in entities) {
-        NSLog(@"Entity!");
-    }
-    /*
-    
-    NSArray *hashtags = [entities valueForKey:@"hashtags"];
-    NSArray *links = [entities valueForKey:@"links"];
-    NSArray *mentions = [entities valueForKey:@"mentions"];
-    
     NSInteger messageLength = self.messageLabel.text.length;
     
-    for (NSDictionary *link in hashtags){
-        NSInteger position = [[link objectForKey:@"pos"] integerValue];
-        NSInteger length = [[link objectForKey:@"len"] integerValue];
+    RichText *text = post.text;
+    
+    NSSet *entities = text.entities;
+    
+    for (TextEntity *entity in entities) {
+        NSLog(@"Entity!");
+        NSInteger position = [entity.pos integerValue];
+        NSInteger length = [entity.len integerValue];
         if (position >= messageLength) continue;
         if (position + length > messageLength) length = messageLength - position;
         
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"#%@", [link objectForKey:@"name"]]];
-        [self.messageLabel addCustomLink:url inRange:NSMakeRange(position, length)];
-    }
-    for (NSDictionary *link in links) {
-        NSInteger position = [[link objectForKey:@"pos"] integerValue];
-        NSInteger length = [[link objectForKey:@"len"] integerValue];
-        if (position >= messageLength) continue;
-        if (position + length > messageLength) length = messageLength - position;
-        NSURL *url = [NSURL URLWithString:[link objectForKey:@"url"]];
-        [self.messageLabel addCustomLink:url inRange:NSMakeRange(position, length)];
-    }
-    for (NSDictionary *link in mentions) {
-        NSInteger position = [[link objectForKey:@"pos"] integerValue];
-        NSInteger length = [[link objectForKey:@"len"] integerValue];
-        if (position >= messageLength) continue;
-        if (position + length > messageLength) length = messageLength - position;
+        NSURL *url;
+        if ([entity.type isEqualToString:@"hashtags"]) {
+            url = [NSURL URLWithString:[NSString stringWithFormat:@"#%@", entity.name]];
+        } else if ([entity.type isEqualToString:@"links"]) {
+            url = [NSURL URLWithString:entity.url];
+        } else if ([entity.type isEqualToString:@"mentions"]) {
+            url = [NSURL URLWithString:[NSString stringWithFormat:@"@%@", entity.name]];
+        }
         
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"@%@", [link objectForKey:@"name"]]];
         [self.messageLabel addCustomLink:url inRange:NSMakeRange(position, length)];
+    
     }
-     */
+
 
         
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];    

@@ -95,7 +95,7 @@
     
     annotationView.frame = CGRectMake(0, 0, 320, scaledHeight + 20);
 
-    SWPhotoImageView *imageView = [[SWPhotoImageView alloc] initWithFrame:CGRectMake((320-scaledWidth)/2, 0, scaledWidth, scaledHeight)];
+    SWPhotoImageView *imageView = [[SWPhotoImageView alloc] initWithFrame:CGRectMake((320-scaledWidth)/2, 10.0, scaledWidth, scaledHeight)];
     [annotationView addSubview:imageView];
     imageView.clipsToBounds = FALSE;
     imageView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1];
@@ -111,7 +111,7 @@
     annotationView.backgroundColor = [UIColor clearColor];
     annotationView.clipsToBounds = TRUE;
     annotationView.type = SWAnnotationTypeGeolocation;
-    annotationView.frame = CGRectMake(0, 0, 320, 240);
+    annotationView.frame = CGRectMake(0, 10, 320, 240);
     
     CGFloat latitude = [annotation.latitude floatValue];
     CGFloat longitude = [annotation.longitude floatValue];
@@ -169,20 +169,20 @@
     SWAnnotationView *annotationView = [SWAnnotationView new];
     annotationView.backgroundColor = [UIColor clearColor];
     annotationView.clipsToBounds = TRUE;
-    annotationView.type = SWAnnotationTypePhoto;
+    annotationView.type = SWAnnotationTypeYoutube;
     annotationView.frame = CGRectMake(0, 0, 320, 220);
 
-    KLog(@"YOUTUEB WITH URL: %@",videoURL);
+    KLog(@"Youtube WITH URL: %@",videoURL);
     
     LBYouTubePlayerViewController *youtubeController = [[LBYouTubePlayerViewController alloc] initWithYouTubeURL:videoURL];
     //self.controller.delegate = self;
-    youtubeController.quality = LBYouTubePlayerQualityLarge;
-    youtubeController.view.frame = CGRectMake(20.0, 0, 280.0, 200.0);
+    youtubeController.quality = LBYouTubePlayerQualityMedium;
+    youtubeController.view.frame = CGRectMake(10.0, 10.0, 280.0, 200.0);
     youtubeController.delegate = annotationView;
     youtubeController.view.center = annotationView.center;
 
     [annotationView addSubview:youtubeController.view];
-    
+
     return annotationView;
 }
 

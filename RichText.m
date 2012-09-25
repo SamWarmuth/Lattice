@@ -9,6 +9,7 @@
 #import "RichText.h"
 #import "Post.h"
 #import "User.h"
+#import "TextEntity.h"
 #import "SWAppDelegate.h"
 
 
@@ -27,8 +28,9 @@
     RichText *text = (RichText *)[NSEntityDescription insertNewObjectForEntityForName:@"RichText" inManagedObjectContext:appDelegate.managedObjectContext];
     
     text.text = [dictionary objectForKey:@"text"];
+    text.entities = [TextEntity createOrUpdateEntitesFromDictionary:[dictionary objectForKey:@"entities"]];
+    
     return text;
 }
-
 
 @end

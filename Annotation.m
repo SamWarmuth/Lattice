@@ -70,9 +70,9 @@
     if ([valueDict objectForKey:@"title"]) annotation.title = [valueDict objectForKey:@"title"];
     if ([valueDict objectForKey:@"url"]) annotation.url = [valueDict objectForKey:@"url"];
     if ([valueDict objectForKey:@"width"]) annotation.width = [valueDict objectForKey:@"width"];
-    
-    
+        
     return annotation;
 }
+
 
 @end

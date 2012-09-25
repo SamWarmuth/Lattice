@@ -17,6 +17,7 @@
 #import "SWAnnotationView.h"
 #import "SWAnnotationCell.h"
 #import "User.h"
+#import "Post.h"
 
 @interface SWPostDetailViewController ()
 
@@ -165,18 +166,12 @@
 {    
     [SVProgressHUD show];
     if ([self.post.you_reposted intValue] == 1) {
-        [SWPostAPI unrepostPostID:self.post.id completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
-            //returned post is the old one.
-#warning  fix
-            //self.post = post;
+        [SWPostAPI unrepostPostID:self.post.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
             [SVProgressHUD dismiss];
             [self.tv reloadData];
         }];
     } else {
-        [SWPostAPI repostPostID:self.post.id completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
-            //returned post is the new one. We want to refresh the old.
-            self.post = [post objectForKey:@"repost_of"];
-
+        [SWPostAPI repostPostID:self.post.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
             [SVProgressHUD dismiss];
             [self.tv reloadData];
         }];
@@ -187,18 +182,12 @@
 {
     [SVProgressHUD show];
     if ([self.post.you_starred intValue] == 1) {
-        [SWPostAPI unstarPostID:self.post.id completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
-#warning  fix
-
-            //self.post = post;
+        [SWPostAPI unstarPostID:self.post.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
             [SVProgressHUD dismiss];
             [self.tv reloadData];
         }];
     } else {
-        [SWPostAPI starPostID:self.post.id completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
-            //self.post = post;
-#warning  fix
-
+        [SWPostAPI starPostID:self.post.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
             [SVProgressHUD dismiss];
             [self.tv reloadData];
         }];

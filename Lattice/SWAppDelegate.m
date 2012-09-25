@@ -36,7 +36,7 @@
         self.window.rootViewController = menuNavController;        
     }
     
-    [self resetCoreData];
+    //[self resetCoreData];
     [self downloadUserMetadata];
     
     

@@ -22,7 +22,7 @@
 @property (nonatomic, strong) SWFeed *feed;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
-@property BOOL loadingPosts, isScrollingQuickly, viewUserPosts, viewUserStarred, viewUserMentions, reversedFeed, showingAnnotations;
+@property BOOL loadingPosts, isScrollingQuickly, viewUserPosts, viewUserStarred, viewUserMentions, reversedFeed, showAnnotations;
 @property CGPoint lastTableViewOffset;
 @property NSTimeInterval lastOffsetCapture;
 

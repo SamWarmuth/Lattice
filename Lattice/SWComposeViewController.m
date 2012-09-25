@@ -80,7 +80,6 @@
 }
 
 
-
 - (NSString *)horizontalPickerView:(V8HorizontalPickerView *)picker titleForElementAtIndex:(NSInteger)index
 {
     if (self.matchingAutocompleteStrings.count == 0) {
@@ -159,7 +158,6 @@
 - (void)checkForAutocomplete:(NSString *)text
 {
     NSRange matchRange = [self autocompleteMatchRangeForText:text];
-    
     if (matchRange.location == NSNotFound) {
         if (!self.autocompletePicker.hidden) self.autocompletePicker.hidden = TRUE;
         return;
@@ -203,7 +201,7 @@
         return;
     }
     
-    [SWPostAPI createPostWithText:self.messageTextView.text replyTo:self.replyToID completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
+    [SWPostAPI createPostWithText:self.messageTextView.text replyTo:self.replyToID completed:^(NSError *error, Post *post, NSDictionary *metadata) {
         [SVProgressHUD dismissWithSuccess:@"Posted!"];
         DLog(@"Created Post! %@", post);
         [self dismissModalViewControllerAnimated:TRUE];
