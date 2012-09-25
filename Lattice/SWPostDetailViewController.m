@@ -16,6 +16,7 @@
 #import "SWComposeViewController.h"
 #import "SWAnnotationView.h"
 #import "SWAnnotationCell.h"
+#import "SWAnnotationDetailViewController.h"
 
 @interface SWPostDetailViewController ()
 
@@ -151,12 +152,6 @@
     return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    KLog(@"%@",self);
-    [self performSegueWithIdentifier:@"SWPostDetailToAnnotationDetail" sender:self];
-}
-
 - (void)replyPressed
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
@@ -211,17 +206,21 @@
     [self performSegueWithIdentifier:@"SWPostDetailToUserDetail" sender:[self.post objectForKey:@"user"]];
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    SWAnnotationDetailViewController *annotationDetailViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWAnnotationDetailViewController"];
+    annotationDetailViewController.annotationView = [self.annotationViews objectAtIndex:indexPath.row-2];
+    [self.navigationController pushViewController:annotationDetailViewController animated:TRUE];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"SWPostDetailToUserDetail"]) {
         SWUserDetailViewController *destinationView = segue.destinationViewController;
         if ([sender isKindOfClass:[NSString class]]) destinationView.userID = (NSString *)sender;
         if ([sender isKindOfClass:[NSDictionary class]]) destinationView.user = (NSDictionary *)sender;
-    }else if ([[segue identifier] isEqualToString:@"SWFeedToPostDetail"]) {
-        SWPostDetailViewController *destinationView = segue.destinationViewController;
-        destinationView.post = self.post;
     }
-
 }
 
 - (void)viewDidUnload

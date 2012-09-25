@@ -7,12 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SWAnnotationView.h"
 
 @interface SWAnnotationDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) IBOutlet UITableView *tv;
-@property (nonatomic, strong) NSDictionary *post;
-
-- (UITableViewCell *)annotationCellForIndexPath:(NSIndexPath *)indexPath;
+@property (nonatomic, strong) SWAnnotationView *annotationView;
 
 @end

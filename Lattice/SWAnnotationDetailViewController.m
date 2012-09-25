@@ -36,6 +36,11 @@
     return 1;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return self.annotationView.frame.size.height;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return [self annotationCellForIndexPath:indexPath];
@@ -43,25 +48,15 @@
 
 - (UITableViewCell *)annotationCellForIndexPath:(NSIndexPath *)indexPath
 {
-    //DLog(@"POST! %@", self.post);
     static NSString *CellIdentifier = @"SWAnnotationCell";
     SWAnnotationCell *cell = [self.tv dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[SWAnnotationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     
-    [cell prepareUIWithAnnotationView:indexPath];
+    [cell prepareUIWithAnnotationView:self.annotationView];
     
     return cell;
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if ([[segue identifier] isEqualToString:@"SWPostDetailToUserDetail"]) {
-        SWUserDetailViewController *destinationView = segue.destinationViewController;
-        if ([sender isKindOfClass:[NSString class]]) destinationView.userID = (NSString *)sender;
-        if ([sender isKindOfClass:[NSDictionary class]]) destinationView.user = (NSDictionary *)sender;
-    }
 }
 
 - (void)didReceiveMemoryWarning
