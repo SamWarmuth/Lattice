@@ -18,7 +18,9 @@
 
 + (CGFloat)shortCellMessageHeightForUser:(User *)user
 {
-    NSString *text = [SWHelpers fixNewlinesInString:user.userDescription.text];
+    DLog(@"User@! %@", user);
+
+    NSString *text = [SWHelpers fixNewlinesInString:user.user_description.text];
     
     NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:text];
     [messageString setFont:[UIFont systemFontOfSize:13]];
@@ -31,7 +33,8 @@
 
 + (CGFloat)messageHeightForUser:(User *)user
 {
-    NSString *text = [SWHelpers fixNewlinesInString:user.userDescription.text];
+    DLog(@"User@!! %@", user);
+    NSString *text = [SWHelpers fixNewlinesInString:user.user_description.text];
 
     NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:text];
     [messageString setFont:[UIFont systemFontOfSize:13]];
@@ -78,11 +81,11 @@
 
     if (!user) return;
     
-    //DLog(@"User! %@", user);
+    DLog(@"User! %@", user);
 
     self.usernameLabel.text = user.username;
     
-    NSString *text = [SWHelpers fixNewlinesInString:user.userDescription.text];
+    NSString *text = [SWHelpers fixNewlinesInString:user.user_description.text];
 
     CGRect oldFrame = self.messageLabel.frame;
     self.messageLabel.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, oldFrame.size.width, [[self class] messageHeightForUser:user]);

@@ -16,6 +16,7 @@
 + (void)starPostID:(NSString *)postID completed:(void (^)(NSError *error, Post *post, NSDictionary *metadata))block
 {
     NSString *path = [NSString stringWithFormat:@"/stream/0/posts/%@/star", postID];
+    NSLog(@"Path: %@", path);
     [SWItemAPI sendMethod:SWHTTPMethodPost toPath:path withParams:nil completed:^(NSError *error, NSDictionary *item, NSDictionary *metadata) {
         Post *post = [Post createOrUpdatePostFromDictionary:item];
         block(nil, post, metadata);
@@ -25,6 +26,7 @@
 + (void)unstarPostID:(NSString *)postID completed:(void (^)(NSError *error, Post *post, NSDictionary *metadata))block
 {
     NSString *path = [NSString stringWithFormat:@"/stream/0/posts/%@/star", postID];
+    NSLog(@"Path: %@", path);
     [SWItemAPI sendMethod:SWHTTPMethodDelete toPath:path withParams:nil completed:^(NSError *error, NSDictionary *item, NSDictionary *metadata) {
         Post *post = [Post createOrUpdatePostFromDictionary:item];
         block(nil, post, metadata);
@@ -34,6 +36,7 @@
 + (void)repostPostID:(NSString *)postID completed:(void (^)(NSError *error, Post *post, NSDictionary *metadata))block
 {
     NSString *path = [NSString stringWithFormat:@"/stream/0/posts/%@/repost", postID];
+    NSLog(@"Path: %@", path);
     [SWItemAPI sendMethod:SWHTTPMethodPost toPath:path withParams:nil completed:^(NSError *error, NSDictionary *item, NSDictionary *metadata) {
         Post *post = [Post createOrUpdatePostFromDictionary:item];
         block(nil, post, metadata);
@@ -43,6 +46,7 @@
 + (void)unrepostPostID:(NSString *)postID completed:(void (^)(NSError *error, Post *post, NSDictionary *metadata))block
 {
     NSString *path = [NSString stringWithFormat:@"/stream/0/posts/%@/repost", postID];
+    NSLog(@"Path: %@", path);
     [SWItemAPI sendMethod:SWHTTPMethodDelete toPath:path withParams:nil completed:^(NSError *error, NSDictionary *item, NSDictionary *metadata) {
         Post *post = [Post createOrUpdatePostFromDictionary:item];
         block(nil, post, metadata);
@@ -55,6 +59,7 @@
     [parameters setObject:text forKey:@"text"];
     if (userID) [parameters setObject:userID forKey:@"reply_to"];
     NSString *path = [NSString stringWithFormat:@"/stream/0/posts"];
+    NSLog(@"Path: %@", path);
     [SWItemAPI sendMethod:SWHTTPMethodPost toPath:path withParams:parameters completed:^(NSError *error, NSDictionary *item, NSDictionary *metadata) {
         Post *post = [Post createOrUpdatePostFromDictionary:item];
         block(nil, post, metadata);

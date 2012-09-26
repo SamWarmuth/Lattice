@@ -157,21 +157,24 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWComposeViewController *composeViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWComposeViewController"];
-    composeViewController.replyToID = self.post.id;
+    Post *replyToPost = (self.post.repost_of ? self.post.repost_of : self.post);
+    composeViewController.replyToID = replyToPost.id;
     composeViewController.prefillText = [NSString stringWithFormat:@"@%@ ", self.post.user.username];
     [self.navigationController presentModalViewController:composeViewController animated:TRUE];
 }
 
 - (void)repostPressed
-{    
+{
+    Post *selectedPost = (self.post.repost_of ? self.post.repost_of : self.post);
+
     [SVProgressHUD show];
-    if ([self.post.you_reposted intValue] == 1) {
-        [SWPostAPI unrepostPostID:self.post.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
+    if ([selectedPost.you_reposted intValue] == 1) {
+        [SWPostAPI unrepostPostID:selectedPost.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
             [SVProgressHUD dismiss];
             [self.tv reloadData];
         }];
     } else {
-        [SWPostAPI repostPostID:self.post.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
+        [SWPostAPI repostPostID:selectedPost.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
             [SVProgressHUD dismiss];
             [self.tv reloadData];
         }];
@@ -180,14 +183,16 @@
 
 - (void)starPressed
 {
+    Post *selectedPost = (self.post.repost_of ? self.post.repost_of : self.post);
+    
     [SVProgressHUD show];
-    if ([self.post.you_starred intValue] == 1) {
-        [SWPostAPI unstarPostID:self.post.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
+    if ([selectedPost.you_starred intValue] == 1) {
+        [SWPostAPI unstarPostID:selectedPost.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
             [SVProgressHUD dismiss];
             [self.tv reloadData];
         }];
     } else {
-        [SWPostAPI starPostID:self.post.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
+        [SWPostAPI starPostID:selectedPost.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
             [SVProgressHUD dismiss];
             [self.tv reloadData];
         }];

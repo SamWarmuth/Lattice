@@ -30,7 +30,7 @@
 @property (nonatomic, retain) Image *avatar_image;
 @property (nonatomic, retain) Image *cover_image;
 @property (nonatomic, retain) NSSet *posts;
-@property (nonatomic, retain) RichText *userDescription;
+@property (nonatomic, retain) RichText *user_description;
 
 + (NSManagedObject *)objectForID:(NSString *)id;
 + (User *)createOrUpdateUserFromDictionary:(NSDictionary *)dictionary;

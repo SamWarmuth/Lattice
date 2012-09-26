@@ -71,6 +71,7 @@
         NSArray *sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"id" ascending:NO]];
         [fetchRequest setSortDescriptors:sortDescriptors];
         if (self.feed && self.feed.predicate) fetchRequest.predicate = self.feed.predicate;
+        NSLog(@"predicate: %@", self.feed.predicate);
         [NSFetchedResultsController deleteCacheWithName:[NSString stringWithFormat:@"%dCache", self.feed.type]];
         
         self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
@@ -321,13 +322,13 @@
 
 - (void)profilePressed:(UIButton *)sender
 {
-    NSDictionary *post = [self.posts objectAtIndex:sender.tag];
-    BOOL isRepost = !![post objectForKey:@"repost_of"];
-    if (isRepost) post = [post objectForKey:@"repost_of"];
+    Post *post = [[self.fetchedResultsController fetchedObjects] objectAtIndex:sender.tag];
+    if (post.repost_of) post = post.repost_of;
     
+    //NSLog(@"POST: %@, USER: %@", post, post.user);
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWUserDetailViewController *userViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWUserDetailViewController"];
-    userViewController.user = [post objectForKey:@"user"];
+    userViewController.user = post.user;
     [self.navigationController pushViewController:userViewController animated:TRUE];
 }
 

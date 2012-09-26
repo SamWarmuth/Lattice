@@ -16,7 +16,6 @@
 @property (nonatomic, strong) NSFetchedResultsController *fetchedResultsController;
 @property (nonatomic, strong) IBOutlet UITableView *tv;
 @property (nonatomic, strong) UIView *dateOverlay;
-@property (nonatomic, strong) NSMutableArray *posts;
 @property (nonatomic, strong) TimeScroller *timeScroller;
 @property (nonatomic, strong) ODRefreshControl *refreshControl;
 @property (nonatomic, strong) SWFeed *feed;

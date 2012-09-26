@@ -25,7 +25,7 @@
     
     NSString *text;
     
-    if (isRepost) text = post.repost_of.text;
+    if (isRepost) text = post.repost_of.text.text;
     else text = post.text.text;
 
 
@@ -61,11 +61,9 @@
 
 - (void)prepareUIWithPost:(Post *)post
 {
-    Post *originalPost;
     BOOL isRepost = !![post valueForKey:@"repost_of"];
-    
     self.repostLabel.hidden = !isRepost;
-    
+    Post *originalPost;
     if (isRepost) {
         NSLog(@"Repost");
         originalPost = post;
@@ -119,7 +117,6 @@
     NSSet *entities = text.entities;
     
     for (TextEntity *entity in entities) {
-        NSLog(@"Entity!");
         NSInteger position = [entity.pos integerValue];
         NSInteger length = [entity.len integerValue];
         if (position >= messageLength) continue;

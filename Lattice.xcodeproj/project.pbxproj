@@ -116,6 +116,8 @@
 		88B837301607A0E70066138D /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88B8372F1607A0E70066138D /* Default-568h@2x.png */; };
 		88DD8A651610BE6000D01941 /* Lattice.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 88DD8A631610BE6000D01941 /* Lattice.xcdatamodeld */; };
 		88DD8A691610C8E800D01941 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88DD8A671610C8E200D01941 /* CoreData.framework */; };
+		88EA6DF41612C3D400536D0B /* lattice@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 88EA6DF31612C3D400536D0B /* lattice@2x.png */; };
+		88EA6DF71612C3D700536D0B /* lattice.png in Resources */ = {isa = PBXBuildFile; fileRef = 88EA6DF61612C3D700536D0B /* lattice.png */; };
 		88F06203160C0213003F21AC /* SWAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F06202160C0213003F21AC /* SWAnnotationView.m */; };
 		88F06207160C0442003F21AC /* SWAnnotationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F06206160C0442003F21AC /* SWAnnotationCell.m */; };
 		88F06211160C16D5003F21AC /* SWPhotoImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 88F06210160C16D5003F21AC /* SWPhotoImageView.m */; };
@@ -281,6 +283,8 @@
 		88B8372F1607A0E70066138D /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		88DD8A641610BE6000D01941 /* Lattice.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Lattice.xcdatamodel; sourceTree = "<group>"; };
 		88DD8A671610C8E200D01941 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		88EA6DF31612C3D400536D0B /* lattice@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lattice@2x.png"; sourceTree = "<group>"; };
+		88EA6DF61612C3D700536D0B /* lattice.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lattice.png; sourceTree = "<group>"; };
 		88F06201160C0213003F21AC /* SWAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWAnnotationView.h; sourceTree = "<group>"; };
 		88F06202160C0213003F21AC /* SWAnnotationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWAnnotationView.m; sourceTree = "<group>"; };
 		88F06205160C0442003F21AC /* SWAnnotationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWAnnotationCell.h; sourceTree = "<group>"; };
@@ -452,6 +456,8 @@
 		88AA3BEB15FF8BB800B550D2 = {
 			isa = PBXGroup;
 			children = (
+				88EA6DF61612C3D700536D0B /* lattice.png */,
+				88EA6DF31612C3D400536D0B /* lattice@2x.png */,
 				88B8372F1607A0E70066138D /* Default-568h@2x.png */,
 				8887C12216028F230035E804 /* latticeIcon.png */,
 				8887C12016028F1F0035E804 /* latticeIcon@2x.png */,
@@ -784,6 +790,8 @@
 				8887C1621603CFCC0035E804 /* cameraIconSmall@2x.png in Resources */,
 				8887C1631603CFCC0035E804 /* cameraIcon@2x.png in Resources */,
 				88B837301607A0E70066138D /* Default-568h@2x.png in Resources */,
+				88EA6DF41612C3D400536D0B /* lattice@2x.png in Resources */,
+				88EA6DF71612C3D700536D0B /* lattice.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

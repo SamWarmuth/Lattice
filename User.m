@@ -32,7 +32,7 @@
 @dynamic avatar_image;
 @dynamic cover_image;
 @dynamic posts;
-@dynamic userDescription;
+@dynamic user_description;
 
 + (NSManagedObject *)objectForID:(NSString *)id
 {
@@ -53,11 +53,21 @@
     User *user = (User *)[self objectForID:[dictionary objectForKey:@"id"]];
     if (!user) user = (User *)[NSEntityDescription insertNewObjectForEntityForName:@"User" inManagedObjectContext:appDelegate.managedObjectContext];
     
-    
+    user.id = [dictionary objectForKey:@"id"];
     user.name = [dictionary objectForKey:@"name"];
     user.username = [dictionary objectForKey:@"username"];
     user.avatar_image = [Image createOrUpdateImageFromDictionary:[dictionary objectForKey:@"avatar_image"]];
     user.you_follow = [dictionary objectForKey:@"you_follow"];
+    user.user_description = [RichText createOrUpdateRichTextFromDictionary:[dictionary objectForKey:@"description"]];
+    
+
+    NSDictionary *counts = [dictionary objectForKey:@"counts"];
+    NSLog(@"COUNTS: %@", counts);
+    
+    if ([counts objectForKey:@"followers"]) user.followers_count = [counts objectForKey:@"followers"];
+    if ([counts objectForKey:@"following"]) user.following_count = [counts objectForKey:@"following"];
+    if ([counts objectForKey:@"posts"]) user.posts_count = [counts objectForKey:@"posts"];
+    if ([counts objectForKey:@"stars"]) user.stars_count = [counts objectForKey:@"stars"];
 
     
     return user;

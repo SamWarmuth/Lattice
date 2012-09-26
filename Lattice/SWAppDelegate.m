@@ -36,7 +36,7 @@
         self.window.rootViewController = menuNavController;        
     }
     
-    //[self resetCoreData];
+    [self resetCoreData];
     [self downloadUserMetadata];
     
     
@@ -54,7 +54,6 @@
         if (!token) return TRUE;
         
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        
         [defaults setObject:token forKey:@"SWAPToken"];
         [defaults synchronize];
         [self downloadUserMetadata];
@@ -70,7 +69,6 @@
     [SWUserAPI loadMyFollowersAndSave];
     [SWUserAPI loadMyFollowingAndSave];
 }
-
 
 - (void)saveContext
 {

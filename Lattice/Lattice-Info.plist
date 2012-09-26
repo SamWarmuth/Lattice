@@ -14,8 +14,8 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>latticeIcon@2x.png</string>
-				<string>latticeIcon.png</string>
+				<string>lattice@2x.png</string>
+				<string>lattice.png</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
 			<true/>

@@ -42,6 +42,7 @@
 {
     [super viewWillAppear:animated];
     [self updateFollowButton];
+    NSLog(@"User? %@ %@", self.user, self.userID);
     if (!self.user && self.userID){
         [self loadUser];
     }
@@ -155,6 +156,7 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
+    NSLog(@"New Feed with user id: %@", self.user.id);
     feedViewController.feed = [SWFeed feedWithType:SWFeedTypeUserPosts keyID:self.user.id];
     [self.navigationController pushViewController:feedViewController animated:TRUE];
 }
