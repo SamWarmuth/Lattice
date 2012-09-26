@@ -134,7 +134,6 @@
     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, 25000, 25000);
     MKCoordinateRegion adjustedRegion = [mapView regionThatFits:viewRegion];
     [mapView setRegion:adjustedRegion animated:TRUE];
-    [mapView setScrollEnabled:FALSE];
     
     SWMapAnnotation *annotationToAdd = [[SWMapAnnotation alloc] initWithCoordinate:zoomLocation];
     [mapView addAnnotation:annotationToAdd];

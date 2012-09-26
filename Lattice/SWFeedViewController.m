@@ -283,7 +283,6 @@
     if (indexPath.section >= self.posts.count) {
         return [self loadingCellForIndexPath:indexPath];
     } else if (indexPath.row != 0) {
-        KLog(@"indexPath:%i,%i", indexPath.row, indexPath.section);
         return [self annotationCellForIndexPath:indexPath];
     }
     return [self postCellForIndexPath:indexPath];

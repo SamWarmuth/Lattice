@@ -9,9 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "SWAnnotationView.h"
 
-@interface SWAnnotationDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface SWAnnotationDetailViewController : UIViewController <UIScrollViewDelegate>
 
-@property (nonatomic, strong) IBOutlet UITableView *tv;
+@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) SWAnnotationView *annotationView;
+@property (nonatomic, strong) NSDictionary *annotation;
 
 @end
