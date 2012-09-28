@@ -44,7 +44,7 @@
     [self.view addSubview: annotationView];
     [self.annotationView removeFromSuperview];
     self.annotationView = annotationView;
-    NSLog(@"Annotation? %@", self.annotation);
+    KLog(@"subviews : %@", self.view.subviews);
 
 
 }

@@ -85,10 +85,6 @@
     annotationView.clipsToBounds = TRUE;
     annotationView.type = SWAnnotationTypePhoto;
     
-    if (annotationView.fullscreen){
-        
-    }
-    
     NSDictionary *valueDict = [annotationData objectForKey:@"value"];
     NSString *photoURLString = [valueDict objectForKey:@"file_url"];
     CGFloat width = [[valueDict objectForKey:@"width"] floatValue];
@@ -111,6 +107,13 @@
     imageView.contentMode = UIViewContentModeScaleAspectFit;
     [imageView setImageWithURL:[NSURL URLWithString:photoURLString]];
     [imageView setBorderWidth:3.0];
+    
+    if (fullscreen) {
+        annotationView.frame = CGRectMake(0, 0, 320, 416);
+        imageView.frame = annotationView.frame;
+        imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    }
+    
     return annotationView;
 }
 
@@ -166,7 +169,7 @@
     
     if (fullscreen) {
         annotationView.frame = CGRectMake(0, 0, 320, 416);
-        mapView.frame = CGRectMake(0, 0, annotationView.frame.size.width, annotationView.frame.size.height);
+        mapView.frame = annotationView.frame;
         mapView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
         mapView.userInteractionEnabled = TRUE;
     }
