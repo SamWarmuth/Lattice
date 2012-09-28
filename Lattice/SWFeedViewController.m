@@ -504,7 +504,7 @@
             
         case NSFetchedResultsChangeUpdate:
             NSLog(@"Fix me!");
-            [self.tv cellForRowAtIndexPath:indexPath];
+            //[self.tv cellForRowAtIndexPath:indexPath];
             break;
         case NSFetchedResultsChangeMove:
             [self.tv deleteSections:[NSIndexSet indexSetWithIndex:indexPath.row] withRowAnimation:UITableViewRowAnimationFade];

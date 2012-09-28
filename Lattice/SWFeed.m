@@ -31,7 +31,7 @@
         case SWFeedTypeUserStars:
             return [NSPredicate predicateWithFormat:@"you_starred == TRUE", self.keyID];
         case SWFeedTypeMyFeed:
-            return [NSPredicate predicateWithFormat:@"user.you_follow == TRUE && id >= %@ && id <= %@", self.minID, self.maxID];
+            return [NSPredicate predicateWithFormat:@"user.you_follow == TRUE"];
         case SWFeedTypeUserPosts:
             return [NSPredicate predicateWithFormat:@"user.id == %@", self.keyID];
         case SWFeedTypeGlobal:
