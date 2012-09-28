@@ -73,12 +73,10 @@
         if (self.feed && self.feed.predicate) fetchRequest.predicate = self.feed.predicate;
         NSLog(@"predicate: %@", self.feed.predicate);
         [NSFetchedResultsController deleteCacheWithName:[NSString stringWithFormat:@"%dCache", self.feed.type]];
-        
         self.fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
                                                                             managedObjectContext:context
                                                                               sectionNameKeyPath:nil
                                                                                        cacheName:[NSString stringWithFormat:@"%dCache", self.feed.type]];
-        
         
         self.fetchedResultsController.delegate = self;
         NSError *error;
@@ -473,18 +471,18 @@
     }
 }
 
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
     [self.tv beginUpdates];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
-           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
     switch(type) {
         case NSFetchedResultsChangeInsert:
-            [self.tv insertSections:[NSIndexSet indexSetWithIndex:sectionIndex]
-                          withRowAnimation:UITableViewRowAnimationFade];
+            [self.tv insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
-            
         case NSFetchedResultsChangeDelete:
             [self.tv deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
             break;
@@ -493,7 +491,8 @@
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
-      newIndexPath:(NSIndexPath *)newIndexPath {
+      newIndexPath:(NSIndexPath *)newIndexPath
+{
     switch(type) {
         case NSFetchedResultsChangeInsert:
             [self.tv insertSections:[NSIndexSet indexSetWithIndex:newIndexPath.row]  withRowAnimation:UITableViewRowAnimationFade];
@@ -504,7 +503,8 @@
             break;
             
         case NSFetchedResultsChangeUpdate:
-            //[self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+            NSLog(@"Fix me!");
+            [self.tv cellForRowAtIndexPath:indexPath];
             break;
         case NSFetchedResultsChangeMove:
             [self.tv deleteSections:[NSIndexSet indexSetWithIndex:indexPath.row] withRowAnimation:UITableViewRowAnimationFade];

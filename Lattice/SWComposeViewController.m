@@ -61,7 +61,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.autocompletePicker reloadData];
+    [self.autocompletePicker reloadData];    
 }
 
 

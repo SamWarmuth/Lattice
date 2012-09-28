@@ -16,6 +16,8 @@
 + (SWFeed *)feedWithType:(SWFeedType)type keyID:(NSString *)keyID
 {
     SWFeed *feed = [SWFeed new];
+    feed.minID = @"-1";
+    feed.maxID = @"1000000000000000000";
     feed.type = type;
     feed.keyID = keyID;
     return feed;
@@ -29,7 +31,7 @@
         case SWFeedTypeUserStars:
             return [NSPredicate predicateWithFormat:@"you_starred == TRUE", self.keyID];
         case SWFeedTypeMyFeed:
-            return [NSPredicate predicateWithFormat:@"user.you_follow == TRUE"];
+            return [NSPredicate predicateWithFormat:@"user.you_follow == TRUE && id >= %@ && id <= %@", self.minID, self.maxID];
         case SWFeedTypeUserPosts:
             return [NSPredicate predicateWithFormat:@"user.id == %@", self.keyID];
         case SWFeedTypeGlobal:
@@ -47,7 +49,7 @@
         self.moreItemsAvailable = [[metadata objectForKey:@"more"] boolValue];
         [Post createOrUpdatePostsFromArray:posts];
         
-        block(nil, posts);
+        block(nil, nil);
     }];
 }
 

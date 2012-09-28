@@ -72,9 +72,9 @@
     self.followButton.enabled = !!self.user;
     if (!self.user) return;
     
-    if (self.user.you_follow){
+    if ([self.user.you_follow intValue] == 1) {
         self.followButton.title = @"Unfollow";
-    } else if (self.user.you_follow == nil){
+    } else if (self.user.you_follow == nil) {
         self.followButton.enabled = FALSE;
         self.followButton.title = @"You";
     } else {

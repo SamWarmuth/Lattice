@@ -79,7 +79,7 @@
         <relationship name="user_description" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="RichText" inverseName="user" inverseEntity="RichText" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Annotation" positionX="270" positionY="126" width="128" height="330"/>
+        <element name="Annotation" positionX="133" positionY="-198" width="128" height="330"/>
         <element name="Image" positionX="414" positionY="201" width="128" height="120"/>
         <element name="Post" positionX="-99" positionY="324" width="128" height="240"/>
         <element name="RichText" positionX="502" positionY="468" width="128" height="105"/>

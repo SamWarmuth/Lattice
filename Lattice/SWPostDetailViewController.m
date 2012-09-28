@@ -202,7 +202,9 @@
 
 - (void)profilePressed:(UIButton *)sender
 {
-    [self performSegueWithIdentifier:@"SWPostDetailToUserDetail" sender:self.post.user];
+    Post *selectedPost = (self.post.repost_of ? self.post.repost_of : self.post);
+
+    [self performSegueWithIdentifier:@"SWPostDetailToUserDetail" sender:selectedPost.user];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
