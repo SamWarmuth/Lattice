@@ -10,6 +10,7 @@
 #import "SWAnnotationCell.h"
 #import "SWActionCell.h"
 #import "SWAnnotationView.h"
+#import "SWPhotoImageView.h"
 
 
 @interface SWAnnotationDetailViewController ()
@@ -30,13 +31,22 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    KLog(@"annotationView.subviews : %@", self.annotationView.subviews);
     switch (self.annotationView.type)
     {
         case SWAnnotationTypePhoto: {
             
             self.scrollView.backgroundColor = [UIColor colorWithRed:0.957 green:0.957 blue:0.957 alpha:1];
-            [self.scrollView addSubview:self.annotationView];
+            for (int i=0; i < self.annotationView.subviews.count; i++) {
+                if ([[self.annotationView.subviews objectAtIndex:i] isKindOfClass:[SWPhotoImageView class]]) {
+                    SWPhotoImageView *image = [self.annotationView.subviews objectAtIndex:i];
+                    self.scrollView.contentSize = image.frame.size;
+
+                    [self.scrollView addSubview:image];
+                    break;
+                }
+            }
+            //[self.scrollView addSubview:self.annotationView];
             
             UITapGestureRecognizer *doubleTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(scrollViewDoubleTapped:)];
             doubleTapRecognizer.numberOfTapsRequired = 2;
@@ -50,7 +60,25 @@
             break;
         }
             
+        case SWAnnotationTypeGeolocation: {
+            self.scrollView.userInteractionEnabled = FALSE;
+            MKMapView *mapView = [MKMapView new];
+            for (int i=0; i < self.annotationView.subviews.count; i++) {
+                if ([[self.annotationView.subviews objectAtIndex:i] isKindOfClass:[MKMapView class]]) {
+                    mapView = [self.annotationView.subviews objectAtIndex:i];
+                    mapView.frame = CGRectMake(0, 0, 320, 416);
+                    mapView.contentMode = UIViewContentModeCenter;
+                    mapView.userInteractionEnabled = TRUE;
+                    [self.view addSubview:mapView];
+                    
+                    break;
+                }
+            }
+            break;
+        }
+            
         default: {
+            /*
             self.annotationView.frame = CGRectMake(0, 0, 320, 416);
             [self.view addSubview:self.annotationView];
             self.scrollView.userInteractionEnabled = FALSE;
@@ -60,11 +88,11 @@
                 view.frame = self.annotationView.frame;
                 view.userInteractionEnabled = TRUE;
             }
-            
+            */
             break;
         }
     }
-    self.scrollView.contentSize = [[self.annotationView.subviews objectAtIndex:1] size];
+    KLog(@"scrollView.subviews : %@", self.scrollView.subviews);
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -79,7 +107,7 @@
     self.scrollView.maximumZoomScale = 2.0f;
     self.scrollView.zoomScale = minScale;
     
-    [self centerScrollViewContents];
+    //[self centerScrollViewContents];
 }
 
 - (void)centerScrollViewContents
@@ -136,6 +164,93 @@
 {
     // The scroll view has zoomed, so you need to re-center the contents
     [self centerScrollViewContents];
+}
+
+- (IBAction)activityButtonTapped:(id)sender
+{
+    switch (self.annotationView.type) {
+        case SWAnnotationTypePhoto: {
+            [self photoActionSheet:sender];
+            break;
+        }
+            
+        case SWAnnotationTypeGeolocation: {
+            [self geolocationActionSheet:sender];
+            break;
+        }
+            
+        default:
+            break;
+    }
+}
+
+- (void)photoActionSheet:(id)sender
+{
+    UIActionSheet *popupQuery = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Save to Camera Roll", @"Email", nil];
+    popupQuery.actionSheetStyle = UIActionSheetStyleAutomatic;
+    popupQuery.tag = SWAnnotationTypePhoto;
+    [popupQuery showInView:self.view];
+}
+
+- (void)geolocationActionSheet:(id)sender
+{
+    UIActionSheet *popupQuery = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Open in Maps", @"Email?", nil];
+    popupQuery.actionSheetStyle = UIActionSheetStyleAutomatic;
+    popupQuery.tag = SWAnnotationTypeGeolocation;
+    [popupQuery showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    switch (actionSheet.tag) {
+        case SWAnnotationTypePhoto: {
+            switch (buttonIndex) {
+                    
+                case 0: {
+                    KLog(@"Save to Camera Roll");
+                    break;
+                }
+                    
+                case 1: {
+                    KLog(@"Email");
+                    break;
+                }
+                    
+                default: {
+                    KLog(@"default");
+                    break;
+                }
+            }
+            break;
+        }
+        
+        case SWAnnotationTypeGeolocation: {
+            switch (buttonIndex) {
+
+                case 0: {
+                    KLog(@"Open in Maps");
+                    break;
+                }
+                    
+                case 1: {
+                    KLog(@"Email?");
+                    break;
+                }
+                    
+                default: {
+                    KLog(@"default");
+                    break;
+                }
+            }
+            break;
+        }
+        default: {
+            KLog(@"default");
+            break;
+        }
+            
+    }
+    
 }
 
 - (void)didReceiveMemoryWarning

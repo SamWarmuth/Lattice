@@ -9,10 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "SWAnnotationView.h"
 
-@interface SWAnnotationDetailViewController : UIViewController <UIScrollViewDelegate>
+@interface SWAnnotationDetailViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>
 
 @property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
 @property (nonatomic, strong) SWAnnotationView *annotationView;
 @property (nonatomic, strong) NSDictionary *annotation;
+
+- (IBAction)activityButtonTapped:(id)sender;
 
 @end
