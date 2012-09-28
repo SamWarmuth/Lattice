@@ -21,14 +21,15 @@ typedef enum {
 @interface SWAnnotationView : UIView <LBYouTubePlayerControllerDelegate, MKMapViewDelegate>
 
 @property SWAnnotationType type;
+@property NSDictionary *annotation;
+@property BOOL fullscreen;
 
-
-+ (NSMutableArray *)annotationViewsFromPostDictionary:(NSDictionary *)postDict includeAuto:(BOOL)includeAuto;
-+ (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData;
++ (NSMutableArray *)annotationViewsFromPostDictionary:(NSDictionary *)postDict includeAuto:(BOOL)includeAuto fullscreen:(BOOL)fullscreen;
++ (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData fullscreen:(BOOL)fullscreen;
 + (SWAnnotationType)typeForAnnotationData:(NSDictionary *)annotationData;
-+ (SWAnnotationView *)annotationViewWithPhotoData:(NSDictionary *)annotationData;
-+ (SWAnnotationView *)annotationViewWithGeoData:(NSDictionary *)annotationData;
-+ (SWAnnotationView *)annotationViewWithYoutubeURL:(NSURL *)videoURL;
++ (SWAnnotationView *)annotationViewWithPhotoData:(NSDictionary *)annotationData fullscreen:(BOOL)fullscreen;
++ (SWAnnotationView *)annotationViewWithGeoData:(NSDictionary *)annotationData fullscreen:(BOOL)fullscreen;
++ (SWAnnotationView *)annotationViewWithYoutubeURL:(NSURL *)videoURL fullscreen:(BOOL)fullscreen;
 
 
 + (NSURL *)youtubeURLWithinString:(NSString *)string;

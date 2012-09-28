@@ -11,8 +11,7 @@
 
 @interface SWAnnotationDetailViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>
 
-@property (nonatomic, strong) IBOutlet UIScrollView *scrollView;
-@property (nonatomic, strong) SWAnnotationView *annotationView;
+@property (nonatomic, strong) IBOutlet SWAnnotationView *annotationView;
 @property (nonatomic, strong) NSDictionary *annotation;
 
 - (IBAction)activityButtonTapped:(id)sender;

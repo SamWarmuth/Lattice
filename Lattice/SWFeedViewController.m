@@ -255,7 +255,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if ((section == [self numberOfSectionsInTableView:tableView] - 1 && self.feed.moreItemsAvailable) || !self.showingAnnotations) return 1;
-    return 1 + [[SWAnnotationView annotationViewsFromPostDictionary:[self.posts objectAtIndex:section] includeAuto:TRUE] count];
+    return 1 + [[SWAnnotationView annotationViewsFromPostDictionary:[self.posts objectAtIndex:section] includeAuto:FALSE fullscreen:FALSE] count];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -265,7 +265,7 @@
     if (indexPath.row == 0)return [SWPostCell heightForPost:[self.posts objectAtIndex:indexPath.section]];
     
     NSDictionary *post = [self.posts objectAtIndex:indexPath.section];
-    NSArray *annoViews = [SWAnnotationView annotationViewsFromPostDictionary:post includeAuto:TRUE];
+    NSArray *annoViews = [SWAnnotationView annotationViewsFromPostDictionary:post includeAuto:FALSE fullscreen:FALSE];
     
     SWAnnotationView *annotationView = [annoViews objectAtIndex:indexPath.row - 1];
     return annotationView.frame.size.height;
@@ -297,7 +297,7 @@
     }
     
     NSDictionary *post = [self.posts objectAtIndex:indexPath.section];
-    NSArray *annoViews = [SWAnnotationView annotationViewsFromPostDictionary:post includeAuto:TRUE];
+    NSArray *annoViews = [SWAnnotationView annotationViewsFromPostDictionary:post includeAuto:FALSE fullscreen:FALSE];
     
     [cell prepareUIWithAnnotationView:[annoViews objectAtIndex:indexPath.row - 1]];
     
@@ -377,8 +377,8 @@
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         SWAnnotationDetailViewController *annotationDetailViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWAnnotationDetailViewController"];
         NSDictionary *post = [self.posts objectAtIndex:indexPath.section];
-        NSArray *annoViews = [SWAnnotationView annotationViewsFromPostDictionary:post includeAuto:TRUE];
-        annotationDetailViewController.annotationView = [annoViews objectAtIndex:indexPath.row -1];
+        NSArray *annoViews = [SWAnnotationView annotationViewsFromPostDictionary:post includeAuto:FALSE fullscreen:TRUE];
+        annotationDetailViewController.annotation = [(SWAnnotationView *)[annoViews objectAtIndex:indexPath.row - 1] annotation];
         [self.navigationController pushViewController:annotationDetailViewController animated:TRUE];
     } else {
         BOOL threadExists = ([post objectForKey:@"num_replies"] != @0 || [post objectForKey:@"reply_to"]);

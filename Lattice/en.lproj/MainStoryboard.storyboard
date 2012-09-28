@@ -546,13 +546,11 @@
                         <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="MDx-IP-JXw">
+                            <view contentMode="scaleToFill" id="Xk0-Vb-xWg" customClass="SWAnnotationView">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <connections>
-                                    <outlet property="delegate" destination="fHU-FJ-qk8" id="KjK-bW-Bgg"/>
-                                </connections>
-                            </scrollView>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -565,12 +563,12 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="scrollView" destination="MDx-IP-JXw" id="P1n-WP-jSR"/>
+                        <outlet property="annotationView" destination="Xk0-Vb-xWg" id="beA-JE-M0o"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dFp-3B-mJk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2514" y="197"/>
+            <point key="canvasLocation" x="2484" y="138"/>
         </scene>
         <!--Web View Controller - Loading...-->
         <scene sceneID="UBH-Oq-mOh">
@@ -943,7 +941,7 @@
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SWAnnotationDetailViewController.h"/>
             <relationships>
                 <relationship kind="action" name="activityButtonTapped:"/>
-                <relationship kind="outlet" name="scrollView" candidateClass="UIScrollView"/>
+                <relationship kind="outlet" name="annotationView" candidateClass="SWAnnotationView"/>
             </relationships>
         </class>
         <class className="SWAnnotationView" superclassName="UIView">

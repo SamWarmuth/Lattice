@@ -50,7 +50,7 @@
 - (void)identifyAnnotations
 {
     @synchronized(self.annotationViews) {
-        self.annotationViews = [SWAnnotationView annotationViewsFromPostDictionary:self.post includeAuto:TRUE];
+        self.annotationViews = [SWAnnotationView annotationViewsFromPostDictionary:self.post includeAuto:FALSE fullscreen:FALSE];
     }
     [self.tv reloadData];
 }
@@ -210,7 +210,8 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWAnnotationDetailViewController *annotationDetailViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWAnnotationDetailViewController"];
-    annotationDetailViewController.annotationView = [self.annotationViews objectAtIndex:indexPath.row-2];
+    annotationDetailViewController.annotation = [(SWAnnotationView *)[self.annotationViews objectAtIndex:indexPath.row - 2] annotation];
+    
     [self.navigationController pushViewController:annotationDetailViewController animated:TRUE];
 }
 

@@ -24,14 +24,14 @@
     return self;
 }
 
-+ (NSMutableArray *)annotationViewsFromPostDictionary:(NSDictionary *)postDict includeAuto:(BOOL)includeAuto
++ (NSMutableArray *)annotationViewsFromPostDictionary:(NSDictionary *)postDict includeAuto:(BOOL)includeAuto fullscreen:(BOOL)fullscreen
 {
-
     NSMutableArray *annotationViews = [NSMutableArray new];
     if (includeAuto) {
+        NSLog(@"AUTO IS BROKEN.");
         NSURL *youtubeURL = [self youtubeURLWithinString:[postDict objectForKey:@"text"]];
         if (youtubeURL) {
-            [annotationViews addObject:[self annotationViewWithYoutubeURL:youtubeURL]];
+            [annotationViews addObject:[self annotationViewWithYoutubeURL:youtubeURL fullscreen:fullscreen]];
         }
     }
     
@@ -39,20 +39,20 @@
     if (!annotations) return annotationViews;
             
     for (NSDictionary *annotationDict in annotations){
-        SWAnnotationView *newAnnotationView = [SWAnnotationView annotationViewFromAnnotationDictionary:annotationDict];
+        SWAnnotationView *newAnnotationView = [SWAnnotationView annotationViewFromAnnotationDictionary:annotationDict fullscreen:fullscreen];
         if (newAnnotationView) [annotationViews addObject:newAnnotationView];
     }
     return annotationViews;
 }
 
-+ (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData
++ (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData fullscreen:(BOOL)fullscreen
 {
     SWAnnotationType type = [self typeForAnnotationData:annotationData];
     switch (type) {
         case SWAnnotationTypePhoto:
-            return [self annotationViewWithPhotoData:annotationData];
+            return [self annotationViewWithPhotoData:annotationData fullscreen:fullscreen];
         case SWAnnotationTypeGeolocation:
-            return [self annotationViewWithGeoData:annotationData];
+            return [self annotationViewWithGeoData:annotationData fullscreen:fullscreen];
         case SWAnnotationTypeUnknown:
             return nil;
         default:
@@ -77,12 +77,17 @@
     return SWAnnotationTypeUnknown;
 }
 
-+ (SWAnnotationView *)annotationViewWithPhotoData:(NSDictionary *)annotationData
++ (SWAnnotationView *)annotationViewWithPhotoData:(NSDictionary *)annotationData fullscreen:(BOOL)fullscreen
 {
     SWAnnotationView *annotationView = [SWAnnotationView new];
+    annotationView.annotation = annotationData;
     annotationView.backgroundColor = [UIColor clearColor];
     annotationView.clipsToBounds = TRUE;
     annotationView.type = SWAnnotationTypePhoto;
+    
+    if (annotationView.fullscreen){
+        
+    }
     
     NSDictionary *valueDict = [annotationData objectForKey:@"value"];
     NSString *photoURLString = [valueDict objectForKey:@"file_url"];
@@ -109,19 +114,24 @@
     return annotationView;
 }
 
-+ (SWAnnotationView *)annotationViewWithGeoData:(NSDictionary *)annotationData
++ (SWAnnotationView *)annotationViewWithGeoData:(NSDictionary *)annotationData fullscreen:(BOOL)fullscreen
 {
     SWAnnotationView *annotationView = [SWAnnotationView new];
+    annotationView.autoresizesSubviews = YES;
+    annotationView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    annotationView.annotation = annotationData;
     annotationView.backgroundColor = [UIColor clearColor];
     annotationView.clipsToBounds = TRUE;
     annotationView.type = SWAnnotationTypeGeolocation;
     annotationView.frame = CGRectMake(0, 0, 320, 240);
+
     
     NSDictionary *valueDict = [annotationData objectForKey:@"value"];
     CGFloat latitude = [[valueDict objectForKey:@"latitude"] floatValue];
     CGFloat longitude = [[valueDict objectForKey:@"longitude"] floatValue];
     
-    MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(20, 0, 280, 220)];
+
+    MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(20, 0, annotationView.frame.size.width - 40, annotationView.frame.size.height - 20)];
     mapView.userInteractionEnabled = FALSE;
     mapView.delegate = annotationView;
 
@@ -153,6 +163,14 @@
     shadowLayer.shadowRadius = 0.5;
     [shadowLayer setShadowPath:[[UIBezierPath bezierPathWithRect:mapView.bounds] CGPath]];
     
+    
+    if (fullscreen) {
+        annotationView.frame = CGRectMake(0, 0, 320, 416);
+        mapView.frame = CGRectMake(0, 0, annotationView.frame.size.width, annotationView.frame.size.height);
+        mapView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+        mapView.userInteractionEnabled = TRUE;
+    }
+    
     return annotationView;    
 
 }
@@ -167,7 +185,7 @@
     return [NSURL URLWithString:[@"http://" stringByAppendingString:[string substringWithRange:matchRange]]];
 }
 
-+ (SWAnnotationView *)annotationViewWithYoutubeURL:(NSURL *)videoURL
++ (SWAnnotationView *)annotationViewWithYoutubeURL:(NSURL *)videoURL fullscreen:(BOOL)fullscreen
 {
     SWAnnotationView *annotationView = [SWAnnotationView new];
     annotationView.backgroundColor = [UIColor clearColor];
@@ -175,7 +193,7 @@
     annotationView.type = SWAnnotationTypePhoto;
     annotationView.frame = CGRectMake(0, 0, 320, 220);
 
-    KLog(@"YOUTUEB WITH URL: %@",videoURL);
+    KLog(@"YOUTUBE WITH URL: %@", videoURL);
     
     LBYouTubePlayerViewController *youtubeController = [[LBYouTubePlayerViewController alloc] initWithYouTubeURL:videoURL];
     //self.controller.delegate = self;
