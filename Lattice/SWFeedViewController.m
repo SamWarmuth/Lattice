@@ -378,7 +378,7 @@
         SWAnnotationDetailViewController *annotationDetailViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWAnnotationDetailViewController"];
         NSDictionary *post = [self.posts objectAtIndex:indexPath.section];
         NSArray *annoViews = [SWAnnotationView annotationViewsFromPostDictionary:post includeAuto:FALSE fullscreen:TRUE];
-        annotationDetailViewController.annotation = [(SWAnnotationView *)[annoViews objectAtIndex:indexPath.row - 1] annotation];
+        annotationDetailViewController.annotationView = (SWAnnotationView *)[annoViews objectAtIndex:indexPath.row - 1];
         [self.navigationController pushViewController:annotationDetailViewController animated:TRUE];
     } else {
         BOOL threadExists = ([post objectForKey:@"num_replies"] != @0 || [post objectForKey:@"reply_to"]);

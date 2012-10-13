@@ -89,31 +89,43 @@
     NSString *photoURLString = [valueDict objectForKey:@"file_url"];
     CGFloat width = [[valueDict objectForKey:@"width"] floatValue];
     CGFloat height = [[valueDict objectForKey:@"height"] floatValue];
-    CGFloat scale = 1.0;
     
-    if (width > 280.0f){
-        scale = 280.0f / width;
-    }
-    
-    CGFloat scaledWidth = width * scale;
-    CGFloat scaledHeight = height * scale;
-    
-    annotationView.frame = CGRectMake(0, 0, 320, scaledHeight + 20);
 
-    SWPhotoImageView *imageView = [[SWPhotoImageView alloc] initWithFrame:CGRectMake((320-scaledWidth)/2, 0, scaledWidth, scaledHeight)];
-    [annotationView addSubview:imageView];
-    imageView.clipsToBounds = FALSE;
-    imageView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1];
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [imageView setImageWithURL:[NSURL URLWithString:photoURLString]];
-    [imageView setBorderWidth:3.0];
-    
     if (fullscreen) {
-        annotationView.frame = CGRectMake(0, 0, 320, 416);
-        imageView.frame = annotationView.frame;
-        imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+        UIScrollView *scrollView = [UIScrollView new];
+        [annotationView addSubview:scrollView];
+        
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+        KLog(@"%f, %f", width, height);
+        [imageView setImageWithURL:[NSURL URLWithString:photoURLString]];
+        [scrollView addSubview:imageView];
+        
+        scrollView.contentSize = CGSizeMake(width, height);
+        CGRect scrollViewFrame = scrollView.frame;
+        CGFloat scaledWidth = scrollViewFrame.size.width / scrollView.contentSize.width;
+        CGFloat scaledHeight = scrollViewFrame.size.height / scrollView.contentSize.height;
+        CGFloat minScale = MIN(scaledWidth, scaledHeight);
+        scrollView.minimumZoomScale = minScale;
+        scrollView.maximumZoomScale = 2.0f;
+        scrollView.zoomScale = minScale;
+        
+        
+    } else {
+        CGFloat scale = 1.0;
+        if (width > 280.0f){
+            scale = 280.0f / width;
+        }
+        CGFloat scaledWidth = width * scale;
+        CGFloat scaledHeight = height * scale;
+        annotationView.frame = CGRectMake(0, 0, 320, scaledHeight + 20);
+        
+        SWPhotoImageView *imageView = [[SWPhotoImageView alloc] initWithFrame:CGRectMake((320-scaledWidth)/2, 0, scaledWidth, scaledHeight)];
+        imageView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [imageView setImageWithURL:[NSURL URLWithString:photoURLString]];
+        [imageView setBorderWidth:3.0];
+        [annotationView addSubview:imageView];
     }
-    
     return annotationView;
 }
 
