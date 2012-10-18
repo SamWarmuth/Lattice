@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		37256876160D4EF6009DF005 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37256875160D4EF6009DF005 /* MapKit.framework */; };
 		3725687A160D5AEF009DF005 /* SWMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 37256879160D5AEF009DF005 /* SWMapAnnotation.m */; };
+		37277348162F79E5008B9808 /* SWFullScreenImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37277347162F79E5008B9808 /* SWFullScreenImageView.m */; };
 		373665FC1611171A00D65A9F /* SWAnnotationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 373665FB1611171A00D65A9F /* SWAnnotationDetailViewController.m */; };
 		37A6059A160BFB700010180A /* SWFeedAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A60599160BFB700010180A /* SWFeedAPI.m */; };
 		88183289160AD95400B3F6D2 /* SWFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 88183288160AD95400B3F6D2 /* SWFeed.m */; };
@@ -123,6 +124,8 @@
 		37256875160D4EF6009DF005 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		37256878160D5AEF009DF005 /* SWMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWMapAnnotation.h; sourceTree = "<group>"; };
 		37256879160D5AEF009DF005 /* SWMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWMapAnnotation.m; sourceTree = "<group>"; };
+		37277346162F79E4008B9808 /* SWFullScreenImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWFullScreenImageView.h; sourceTree = "<group>"; };
+		37277347162F79E5008B9808 /* SWFullScreenImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWFullScreenImageView.m; sourceTree = "<group>"; };
 		373665FA1611171A00D65A9F /* SWAnnotationDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWAnnotationDetailViewController.h; sourceTree = "<group>"; };
 		373665FB1611171A00D65A9F /* SWAnnotationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWAnnotationDetailViewController.m; sourceTree = "<group>"; };
 		37A60598160BFB700010180A /* SWFeedAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SWFeedAPI.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
@@ -617,6 +620,8 @@
 				37256879160D5AEF009DF005 /* SWMapAnnotation.m */,
 				88F0620F160C16D5003F21AC /* SWPhotoImageView.h */,
 				88F06210160C16D5003F21AC /* SWPhotoImageView.m */,
+				37277346162F79E4008B9808 /* SWFullScreenImageView.h */,
+				37277347162F79E5008B9808 /* SWFullScreenImageView.m */,
 			);
 			name = "UI Elements";
 			sourceTree = "<group>";
@@ -805,6 +810,7 @@
 				3725687A160D5AEF009DF005 /* SWMapAnnotation.m in Sources */,
 				88DD8A651610BE6000D01941 /* Lattice.xcdatamodeld in Sources */,
 				373665FC1611171A00D65A9F /* SWAnnotationDetailViewController.m in Sources */,
+				37277348162F79E5008B9808 /* SWFullScreenImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -12,6 +12,7 @@
 #import <MapKit/MapKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "SWMapAnnotation.h"
+#import "SWFullScreenImageView.h"
 
 @implementation SWAnnotationView
 
@@ -90,25 +91,24 @@
     CGFloat width = [[valueDict objectForKey:@"width"] floatValue];
     CGFloat height = [[valueDict objectForKey:@"height"] floatValue];
     
-
     if (fullscreen) {
-        UIScrollView *scrollView = [UIScrollView new];
-        [annotationView addSubview:scrollView];
+        annotationView.frame = CGRectMake(0, 0, 320, 416); //set the annotationView.frame to what it is in storyboard
+        SWFullScreenImageView *fullScreenImageView = [[SWFullScreenImageView alloc] initWithFrame:annotationView.frame]; //create fullScreenImageView with annotationView's frame settings
+        fullScreenImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth; //resize fullScreenImageView to match annotationView always
         
-        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-        KLog(@"%f, %f", width, height);
-        [imageView setImageWithURL:[NSURL URLWithString:photoURLString]];
-        [scrollView addSubview:imageView];
+        fullScreenImageView.imageView.frame = CGRectMake(0, 0, width, height); //set the frame of the imageview to the image size
+        [fullScreenImageView.imageView setImageWithURL:[NSURL URLWithString:photoURLString]]; //set the image from the url in annotation data
+        fullScreenImageView.scrollView.contentSize = CGSizeMake(width, height); //content size is actual size of image
+        CGFloat scaledWidth = fullScreenImageView.scrollView.frame.size.width / fullScreenImageView.scrollView.contentSize.width; //scale the width of (screen size / image size)
+        CGFloat scaledHeight = fullScreenImageView.scrollView.frame.size.height / fullScreenImageView.scrollView.contentSize.height; //scale the height of (screen size / image size)
+        CGFloat minScale = MIN(scaledWidth, scaledHeight); //get the minimum between scaledWidth and scaledHeight
+        fullScreenImageView.scrollView.minimumZoomScale = minScale; //minimum zoom scale is above value (meaning whole image will fit on screen)
+        fullScreenImageView.scrollView.maximumZoomScale = 2.0f; //set max zoom (arbitrairily set to 2x regular image)
+        fullScreenImageView.scrollView.zoomScale = minScale; //set the zoomScale at start to the minimum (what fits on screen)
         
-        scrollView.contentSize = CGSizeMake(width, height);
-        CGRect scrollViewFrame = scrollView.frame;
-        CGFloat scaledWidth = scrollViewFrame.size.width / scrollView.contentSize.width;
-        CGFloat scaledHeight = scrollViewFrame.size.height / scrollView.contentSize.height;
-        CGFloat minScale = MIN(scaledWidth, scaledHeight);
-        scrollView.minimumZoomScale = minScale;
-        scrollView.maximumZoomScale = 2.0f;
-        scrollView.zoomScale = minScale;
+        [fullScreenImageView centerScrollViewContents]; //centers the contents inside the screen
         
+        [annotationView addSubview:fullScreenImageView]; //add the fullScreenImageView to the annotationView so all the above is useful
         
     } else {
         CGFloat scale = 1.0;

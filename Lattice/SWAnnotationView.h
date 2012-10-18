@@ -18,11 +18,12 @@ typedef enum {
     SWAnnotationTypeUnknown
 } SWAnnotationType;
 
-@interface SWAnnotationView : UIView <LBYouTubePlayerControllerDelegate, MKMapViewDelegate>
+@interface SWAnnotationView : UIView <LBYouTubePlayerControllerDelegate, MKMapViewDelegate, UIScrollViewDelegate>
 
 @property SWAnnotationType type;
 @property NSDictionary *annotation;
 @property BOOL fullscreen;
+@property (nonatomic, strong) IBOutlet UIImageView *imageView;
 
 + (NSMutableArray *)annotationViewsFromPostDictionary:(NSDictionary *)postDict includeAuto:(BOOL)includeAuto fullscreen:(BOOL)fullscreen;
 + (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData fullscreen:(BOOL)fullscreen;

@@ -35,19 +35,12 @@
 
 -(NSDictionary *)annotation
 {
-    KLog(@"Boo!");
     return self.annotationView.annotation;
 }
 
 - (void)setAnnotation:(NSDictionary *)annotation
 {
-    NSLog(@"BOO!");
     self.annotationView = [SWAnnotationView annotationViewFromAnnotationDictionary:annotation fullscreen:TRUE];
-}
-
-- (void)setAnnotationView:(SWAnnotationView *)annotationView
-{
-    
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -55,12 +48,9 @@
     [super viewWillAppear:animated];
     if (!self.annotationView) return;
     
-    NSLog(@"%@", self.annotation);
     self.annotationView.frame = self.view.frame;
-    [self.view addSubview: self.annotationView];
+    [self.view addSubview:self.annotationView];
     KLog(@"subviews : %@", self.view.subviews);
-
-
 }
 
 
