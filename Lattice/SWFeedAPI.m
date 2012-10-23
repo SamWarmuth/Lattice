@@ -43,7 +43,7 @@
     if (minID) [parameters setObject:minID forKey:@"since_id"];
     if (maxID) [parameters setObject:maxID forKey:@"before_id"];
     
-    [parameters setObject:@40 forKey:@"count"]; //200 for loadUsersWithPath
+    [parameters setObject:@20 forKey:@"count"]; //200 for loadUsersWithPath
     [parameters setObject:@0 forKey:@"include_deleted"];
     [parameters setObject:@1 forKey:@"include_annotations"];
     [parameters setObject:@0 forKey:@"include_directed_posts"];

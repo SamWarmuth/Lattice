@@ -16,6 +16,8 @@
 #import "SWComposeViewController.h"
 #import "SWAnnotationView.h"
 #import "SWAnnotationCell.h"
+#import "User.h"
+#import "Post.h"
 #import "SWAnnotationDetailViewController.h"
 
 @interface SWPostDetailViewController ()
@@ -50,7 +52,7 @@
 - (void)identifyAnnotations
 {
     @synchronized(self.annotationViews) {
-        self.annotationViews = [SWAnnotationView annotationViewsFromPostDictionary:self.post includeAuto:FALSE fullscreen:FALSE];
+        self.annotationViews = [SWAnnotationView annotationViewsFromPost:self.post includeAuto:TRUE fullscreen:FALSE];
     }
     [self.tv reloadData];
 }
@@ -156,26 +158,24 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWComposeViewController *composeViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWComposeViewController"];
-    composeViewController.replyToID = [self.post objectForKey:@"id"];
-    composeViewController.prefillText = [NSString stringWithFormat:@"@%@ ", [[self.post objectForKey:@"user"] objectForKey:@"username"]];
+    Post *replyToPost = (self.post.repost_of ? self.post.repost_of : self.post);
+    composeViewController.replyToID = replyToPost.id;
+    composeViewController.prefillText = [NSString stringWithFormat:@"@%@ ", self.post.user.username];
     [self.navigationController presentModalViewController:composeViewController animated:TRUE];
 }
 
 - (void)repostPressed
-{    
+{
+    Post *selectedPost = (self.post.repost_of ? self.post.repost_of : self.post);
+
     [SVProgressHUD show];
-    if ([[self.post objectForKey:@"you_reposted"] intValue] == 1) {
-        [SWPostAPI unrepostPostID:[self.post objectForKey:@"id"] completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
-            //returned post is the old one.
-            self.post = post;
+    if ([selectedPost.you_reposted intValue] == 1) {
+        [SWPostAPI unrepostPostID:selectedPost.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
             [SVProgressHUD dismiss];
             [self.tv reloadData];
         }];
     } else {
-        [SWPostAPI repostPostID:[self.post objectForKey:@"id"] completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
-            //returned post is the new one. We want to refresh the old.
-            self.post = [post objectForKey:@"repost_of"];
-
+        [SWPostAPI repostPostID:selectedPost.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
             [SVProgressHUD dismiss];
             [self.tv reloadData];
         }];
@@ -184,16 +184,16 @@
 
 - (void)starPressed
 {
+    Post *selectedPost = (self.post.repost_of ? self.post.repost_of : self.post);
+    
     [SVProgressHUD show];
-    if ([[self.post objectForKey:@"you_starred"] intValue] == 1) {
-        [SWPostAPI unstarPostID:[self.post objectForKey:@"id"] completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
-            self.post = post;
+    if ([selectedPost.you_starred intValue] == 1) {
+        [SWPostAPI unstarPostID:selectedPost.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
             [SVProgressHUD dismiss];
             [self.tv reloadData];
         }];
     } else {
-        [SWPostAPI starPostID:[self.post objectForKey:@"id"] completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
-            self.post = post;
+        [SWPostAPI starPostID:selectedPost.id completed:^(NSError *error, Post *post, NSDictionary *metadata) {
             [SVProgressHUD dismiss];
             [self.tv reloadData];
         }];
@@ -203,11 +203,15 @@
 
 - (void)profilePressed:(UIButton *)sender
 {
-    [self performSegueWithIdentifier:@"SWPostDetailToUserDetail" sender:[self.post objectForKey:@"user"]];
+    Post *selectedPost = (self.post.repost_of ? self.post.repost_of : self.post);
+
+    [self performSegueWithIdentifier:@"SWPostDetailToUserDetail" sender:selectedPost.user];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row == 0) return;
+    if (indexPath.row - 2 < 0) return;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWAnnotationDetailViewController *annotationDetailViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWAnnotationDetailViewController"];
     annotationDetailViewController.annotation = [(SWAnnotationView *)[self.annotationViews objectAtIndex:indexPath.row - 2] annotation];
@@ -220,7 +224,7 @@
     if ([[segue identifier] isEqualToString:@"SWPostDetailToUserDetail"]) {
         SWUserDetailViewController *destinationView = segue.destinationViewController;
         if ([sender isKindOfClass:[NSString class]]) destinationView.userID = (NSString *)sender;
-        if ([sender isKindOfClass:[NSDictionary class]]) destinationView.user = (NSDictionary *)sender;
+        if ([sender isKindOfClass:[User class]]) destinationView.user = (User *)sender;
     }
 }
 

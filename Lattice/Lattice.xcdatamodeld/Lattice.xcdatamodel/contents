@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1810" systemVersion="12C54" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="Annotation" syncable="YES">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1811" systemVersion="12C60" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Annotation" representedClassName="Annotation" syncable="YES">
         <attribute name="annotationDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="author_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="author_url" optional="YES" attributeType="String" syncable="YES"/>
@@ -21,32 +21,36 @@
         <relationship name="post" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Post" inverseName="annotations" inverseEntity="Post" syncable="YES"/>
         <relationship name="thumbnail" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="annotation" inverseEntity="Image" syncable="YES"/>
     </entity>
-    <entity name="Image" syncable="YES">
+    <entity name="Image" representedClassName="Image" syncable="YES">
         <attribute name="height" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="width" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="annotation" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Annotation" inverseName="image" inverseEntity="Annotation" syncable="YES"/>
-        <relationship name="user" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="coverImage" inverseEntity="User" syncable="YES"/>
+        <relationship name="user" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="cover_image" inverseEntity="User" syncable="YES"/>
     </entity>
-    <entity name="Post" syncable="YES">
+    <entity name="Post" representedClassName="Post" syncable="YES">
         <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="int_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="num_replies" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="thread_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="you_reposted" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="you_starred" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <relationship name="annotations" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Annotation" inverseName="post" inverseEntity="Annotation" syncable="YES"/>
-        <relationship name="replies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Post" inverseName="replyTo" inverseEntity="Post" syncable="YES"/>
-        <relationship name="replyTo" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Post" inverseName="replies" inverseEntity="Post" syncable="YES"/>
+        <relationship name="annotations" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="Annotation" inverseName="post" inverseEntity="Annotation" syncable="YES"/>
+        <relationship name="replies" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Post" inverseName="reply_to" inverseEntity="Post" syncable="YES"/>
+        <relationship name="reply_to" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Post" inverseName="replies" inverseEntity="Post" syncable="YES"/>
+        <relationship name="repost_of" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Post" inverseName="reposts" inverseEntity="Post" syncable="YES"/>
+        <relationship name="reposts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Post" inverseName="repost_of" inverseEntity="Post" syncable="YES"/>
         <relationship name="text" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="RichText" inverseName="post" inverseEntity="RichText" syncable="YES"/>
         <relationship name="user" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="posts" inverseEntity="User" syncable="YES"/>
     </entity>
-    <entity name="RichText" syncable="YES">
+    <entity name="RichText" representedClassName="RichText" syncable="YES">
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="entities" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="TextEntity" inverseName="text" inverseEntity="TextEntity" syncable="YES"/>
         <relationship name="post" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Post" inverseName="text" inverseEntity="Post" syncable="YES"/>
-        <relationship name="user" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="userDescription" inverseEntity="User" syncable="YES"/>
+        <relationship name="user" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="user_description" inverseEntity="User" syncable="YES"/>
     </entity>
-    <entity name="TextEntity" syncable="YES">
+    <entity name="TextEntity" representedClassName="TextEntity" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="len" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -55,32 +59,32 @@
         <attribute name="url" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="text" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="RichText" inverseName="entities" inverseEntity="RichText" syncable="YES"/>
     </entity>
-    <entity name="User" syncable="YES">
+    <entity name="User" representedClassName="User" syncable="YES">
         <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="followersCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="followingCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="followers_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="following_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="follows_you" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="locale" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="postsCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="starsCount" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="posts_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="stars_count" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="timezone" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
         <attribute name="you_follow" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="you_muted" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <relationship name="avatarImage" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="Image" inverseName="user" inverseEntity="Image" syncable="YES"/>
-        <relationship name="coverImage" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="user" inverseEntity="Image" syncable="YES"/>
+        <relationship name="avatar_image" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="Image" inverseName="user" inverseEntity="Image" syncable="YES"/>
+        <relationship name="cover_image" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="Image" inverseName="user" inverseEntity="Image" syncable="YES"/>
         <relationship name="posts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Post" inverseName="user" inverseEntity="Post" syncable="YES"/>
-        <relationship name="userDescription" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="RichText" inverseName="user" inverseEntity="RichText" syncable="YES"/>
+        <relationship name="user_description" optional="YES" minCount="1" maxCount="1" deletionRule="Cascade" destinationEntity="RichText" inverseName="user" inverseEntity="RichText" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Post" positionX="-99" positionY="324" width="128" height="193"/>
-        <element name="User" positionX="99" positionY="567" width="128" height="315"/>
-        <element name="TextEntity" positionX="-99" positionY="99" width="128" height="150"/>
-        <element name="Annotation" positionX="270" positionY="126" width="128" height="328"/>
+        <element name="Annotation" positionX="133" positionY="-198" width="128" height="330"/>
+        <element name="Image" positionX="414" positionY="201" width="128" height="120"/>
+        <element name="Post" positionX="-99" positionY="324" width="128" height="255"/>
         <element name="RichText" positionX="502" positionY="468" width="128" height="105"/>
-        <element name="Image" positionX="414" positionY="201" width="128" height="118"/>
+        <element name="TextEntity" positionX="-99" positionY="99" width="128" height="150"/>
+        <element name="User" positionX="99" positionY="567" width="128" height="315"/>
     </elements>
 </model>

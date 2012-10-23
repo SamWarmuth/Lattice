@@ -31,6 +31,6 @@ typedef enum {
 - (void)loadItemsWithBlock:(void (^)(NSError *error, NSMutableArray *posts))block;
 - (void)loadOlderItemsWithBlock:(void (^)(NSError *error, NSMutableArray *posts))block;
 - (void)loadNewerItemsWithBlock:(void (^)(NSError *error, NSMutableArray *posts))block;
-
+- (NSPredicate *)predicate;
 
 @end

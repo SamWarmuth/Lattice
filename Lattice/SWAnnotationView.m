@@ -12,6 +12,7 @@
 #import <MapKit/MapKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "SWMapAnnotation.h"
+#import "RichText.h"
 #import "SWFullScreenImageView.h"
 
 @implementation SWAnnotationView
@@ -25,35 +26,34 @@
     return self;
 }
 
-+ (NSMutableArray *)annotationViewsFromPostDictionary:(NSDictionary *)postDict includeAuto:(BOOL)includeAuto fullscreen:(BOOL)fullscreen
++ (NSMutableArray *)annotationViewsFromPost:(Post *)post includeAuto:(BOOL)includeAuto fullscreen:(BOOL)fullscreen
 {
     NSMutableArray *annotationViews = [NSMutableArray new];
     if (includeAuto) {
-        NSLog(@"AUTO IS BROKEN.");
-        NSURL *youtubeURL = [self youtubeURLWithinString:[postDict objectForKey:@"text"]];
+        NSURL *youtubeURL = [self youtubeURLWithinString:post.text.text];
         if (youtubeURL) {
             [annotationViews addObject:[self annotationViewWithYoutubeURL:youtubeURL fullscreen:fullscreen]];
         }
     }
     
-    NSArray *annotations = [postDict objectForKey:@"annotations"];
+    NSOrderedSet *annotations = post.annotations;
     if (!annotations) return annotationViews;
             
-    for (NSDictionary *annotationDict in annotations){
-        SWAnnotationView *newAnnotationView = [SWAnnotationView annotationViewFromAnnotationDictionary:annotationDict fullscreen:fullscreen];
+    for (Annotation *annotation in annotations){
+        SWAnnotationView *newAnnotationView = [SWAnnotationView annotationViewFromAnnotation:annotation fullscreen:fullscreen];
         if (newAnnotationView) [annotationViews addObject:newAnnotationView];
     }
     return annotationViews;
 }
 
-+ (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData fullscreen:(BOOL)fullscreen
++ (SWAnnotationView *)annotationViewFromAnnotation:(Annotation *)annotation fullscreen:(BOOL)fullscreen
 {
-    SWAnnotationType type = [self typeForAnnotationData:annotationData];
+    SWAnnotationType type = [self typeForAnnotationData:annotation];
     switch (type) {
         case SWAnnotationTypePhoto:
-            return [self annotationViewWithPhotoData:annotationData fullscreen:fullscreen];
+            return [self annotationViewWithPhotoData:annotation fullscreen:fullscreen];
         case SWAnnotationTypeGeolocation:
-            return [self annotationViewWithGeoData:annotationData fullscreen:fullscreen];
+            return [self annotationViewWithGeoData:annotation fullscreen:fullscreen];
         case SWAnnotationTypeUnknown:
             return nil;
         default:
@@ -63,33 +63,30 @@
     return nil;
 }
 
-+ (SWAnnotationType)typeForAnnotationData:(NSDictionary *)annotationData
++ (SWAnnotationType)typeForAnnotationData:(Annotation *)annotation
 {
-    NSString *typeString = [annotationData objectForKey:@"type"];
-    if ([typeString isEqualToString:@"net.app.core.oembed"]) {
-        NSString *subTypeString = [[annotationData objectForKey:@"value"] objectForKey:@"type"];
-        
-        if ([subTypeString isEqualToString:@"photo"]) return SWAnnotationTypePhoto;
-        
-    } else if ([typeString isEqualToString:@"net.app.core.geolocation"]) {
+    if ([annotation.type isEqualToString:@"net.app.core.oembed"]) {        
+        if ([annotation.subType isEqualToString:@"photo"]) return SWAnnotationTypePhoto;
+    } else if ([annotation.type isEqualToString:@"net.app.core.geolocation"]) {
         return SWAnnotationTypeGeolocation;
     }
     
     return SWAnnotationTypeUnknown;
 }
 
-+ (SWAnnotationView *)annotationViewWithPhotoData:(NSDictionary *)annotationData fullscreen:(BOOL)fullscreen
++ (SWAnnotationView *)annotationViewWithPhotoData:(Annotation *)annotation fullscreen:(BOOL)fullscreen
 {
     SWAnnotationView *annotationView = [SWAnnotationView new];
-    annotationView.annotation = annotationData;
+    annotationView.annotation = annotation;
     annotationView.backgroundColor = [UIColor clearColor];
     annotationView.clipsToBounds = TRUE;
     annotationView.type = SWAnnotationTypePhoto;
     
-    NSDictionary *valueDict = [annotationData objectForKey:@"value"];
-    NSString *photoURLString = [valueDict objectForKey:@"file_url"];
-    CGFloat width = [[valueDict objectForKey:@"width"] floatValue];
-    CGFloat height = [[valueDict objectForKey:@"height"] floatValue];
+    NSString *photoURLString = annotation.url;
+    CGFloat width = [annotation.width floatValue];
+    CGFloat height = [annotation.height floatValue];
+    CGFloat scale = 1.0;
+    
     
     if (fullscreen) {
         annotationView.frame = CGRectMake(0, 0, 320, 416); //set the annotationView.frame to what it is in storyboard
@@ -126,24 +123,35 @@
         [imageView setBorderWidth:3.0];
         [annotationView addSubview:imageView];
     }
+    
+    CGFloat scaledWidth = width * scale;
+    CGFloat scaledHeight = height * scale;
+    
+    annotationView.frame = CGRectMake(0, 0, 320, scaledHeight + 20);
+
+    SWPhotoImageView *imageView = [[SWPhotoImageView alloc] initWithFrame:CGRectMake((320-scaledWidth)/2, 10.0, scaledWidth, scaledHeight)];
+    [annotationView addSubview:imageView];
+    imageView.clipsToBounds = FALSE;
+    imageView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1];
+    imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [imageView setImageWithURL:[NSURL URLWithString:photoURLString]];
+    [imageView setBorderWidth:3.0];
     return annotationView;
 }
 
-+ (SWAnnotationView *)annotationViewWithGeoData:(NSDictionary *)annotationData fullscreen:(BOOL)fullscreen
++ (SWAnnotationView *)annotationViewWithGeoData:(Annotation *)annotation fullscreen:(BOOL)fullscreen
 {
     SWAnnotationView *annotationView = [SWAnnotationView new];
     annotationView.autoresizesSubviews = YES;
     annotationView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
-    annotationView.annotation = annotationData;
+    annotationView.annotation = annotation;
     annotationView.backgroundColor = [UIColor clearColor];
     annotationView.clipsToBounds = TRUE;
     annotationView.type = SWAnnotationTypeGeolocation;
-    annotationView.frame = CGRectMake(0, 0, 320, 240);
-
+    annotationView.frame = CGRectMake(0, 10, 320, 240);
     
-    NSDictionary *valueDict = [annotationData objectForKey:@"value"];
-    CGFloat latitude = [[valueDict objectForKey:@"latitude"] floatValue];
-    CGFloat longitude = [[valueDict objectForKey:@"longitude"] floatValue];
+    CGFloat latitude = [annotation.latitude floatValue];
+    CGFloat longitude = [annotation.longitude floatValue];
     
 
     MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(20, 0, annotationView.frame.size.width - 40, annotationView.frame.size.height - 20)];
@@ -178,7 +186,6 @@
     shadowLayer.shadowRadius = 0.5;
     [shadowLayer setShadowPath:[[UIBezierPath bezierPathWithRect:mapView.bounds] CGPath]];
     
-    
     if (fullscreen) {
         annotationView.frame = CGRectMake(0, 0, 320, 416);
         mapView.frame = annotationView.frame;
@@ -205,20 +212,21 @@
     SWAnnotationView *annotationView = [SWAnnotationView new];
     annotationView.backgroundColor = [UIColor clearColor];
     annotationView.clipsToBounds = TRUE;
-    annotationView.type = SWAnnotationTypePhoto;
+    annotationView.type = SWAnnotationTypeYoutube;
     annotationView.frame = CGRectMake(0, 0, 320, 220);
 
-    KLog(@"YOUTUBE WITH URL: %@", videoURL);
+    KLog(@"Youtube WITH URL: %@",videoURL);
+
     
     LBYouTubePlayerViewController *youtubeController = [[LBYouTubePlayerViewController alloc] initWithYouTubeURL:videoURL];
     //self.controller.delegate = self;
-    youtubeController.quality = LBYouTubePlayerQualityLarge;
-    youtubeController.view.frame = CGRectMake(20.0, 0, 280.0, 200.0);
+    youtubeController.quality = LBYouTubePlayerQualityMedium;
+    youtubeController.view.frame = CGRectMake(10.0, 10.0, 280.0, 200.0);
     youtubeController.delegate = annotationView;
     youtubeController.view.center = annotationView.center;
 
     [annotationView addSubview:youtubeController.view];
-    
+
     return annotationView;
 }
 

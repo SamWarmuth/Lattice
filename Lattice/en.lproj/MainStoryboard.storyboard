@@ -640,7 +640,6 @@
                                             </connections>
                                         </barButtonItem>
                                         <barButtonItem key="rightBarButtonItem" title="Post" id="jjk-wa-1t7">
-                                            <color key="tintColor" red="0.26037720959595956" green="0.26037720959595956" blue="0.26037720959595956" alpha="1" colorSpace="calibratedRGB"/>
                                             <connections>
                                                 <action selector="doneButtonPressed:" destination="yGa-F6-gR0" id="5ow-0X-TNZ"/>
                                             </connections>
@@ -675,7 +674,7 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="6hB-Zl-ULH"/>
-                                    <barButtonItem image="cameraIconSmall.png" id="jA4-gk-HvG"/>
+                                    <barButtonItem systemItem="camera" id="jA4-gk-HvG"/>
                                 </items>
                             </toolbar>
                             <view contentMode="scaleToFill" id="Rpk-OD-TuX">
@@ -890,7 +889,6 @@
         <image name="atIcon.png" width="20" height="20"/>
         <image name="avatarExample.png" width="100" height="100"/>
         <image name="back.png" width="15" height="18"/>
-        <image name="cameraIconSmall.png" width="20" height="20"/>
         <image name="chatIcon.png" width="128" height="128"/>
         <image name="forward.png" width="15" height="18"/>
         <image name="goToTopIconSmall.png" width="20" height="20"/>

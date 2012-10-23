@@ -221,7 +221,7 @@
 {    
     if (indexPath.row >= self.users.count) return;
     
-    NSDictionary *user = [self.users objectAtIndex:indexPath.row];
+    User *user = [self.users objectAtIndex:indexPath.row];
 
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWUserDetailViewController *threadViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWUserDetailViewController"];

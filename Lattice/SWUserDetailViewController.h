@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "User.h"
 
 @interface SWUserDetailViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, strong) IBOutlet UITableView *tv;
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *followButton;
-@property (nonatomic, strong) NSDictionary *user;
+@property (nonatomic, strong) User *user;
 @property (nonatomic, strong) NSString *userID;
 @property BOOL loadingUser;
 

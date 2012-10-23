@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "LBYouTubePlayerViewController.h"
+#import "Post.h"
+#import "Annotation.h"
 #import <MapKit/MapKit.h>
 
 typedef enum {
@@ -21,17 +23,16 @@ typedef enum {
 @interface SWAnnotationView : UIView <LBYouTubePlayerControllerDelegate, MKMapViewDelegate, UIScrollViewDelegate>
 
 @property SWAnnotationType type;
-@property NSDictionary *annotation;
+@property Annotation *annotation;
 @property BOOL fullscreen;
 @property (nonatomic, strong) IBOutlet UIImageView *imageView;
 
-+ (NSMutableArray *)annotationViewsFromPostDictionary:(NSDictionary *)postDict includeAuto:(BOOL)includeAuto fullscreen:(BOOL)fullscreen;
-+ (SWAnnotationView *)annotationViewFromAnnotationDictionary:(NSDictionary *)annotationData fullscreen:(BOOL)fullscreen;
-+ (SWAnnotationType)typeForAnnotationData:(NSDictionary *)annotationData;
-+ (SWAnnotationView *)annotationViewWithPhotoData:(NSDictionary *)annotationData fullscreen:(BOOL)fullscreen;
-+ (SWAnnotationView *)annotationViewWithGeoData:(NSDictionary *)annotationData fullscreen:(BOOL)fullscreen;
++ (NSMutableArray *)annotationViewsFromPost:(Post *)post includeAuto:(BOOL)includeAuto fullscreen:(BOOL)fullscreen;
++ (SWAnnotationView *)annotationViewFromAnnotation:(Annotation *)annotationData fullscreen:(BOOL)fullscreen;
++ (SWAnnotationType)typeForAnnotationData:(Annotation *)annotationData;
++ (SWAnnotationView *)annotationViewWithPhotoData:(Annotation *)annotationData fullscreen:(BOOL)fullscreen;
++ (SWAnnotationView *)annotationViewWithGeoData:(Annotation *)annotationData fullscreen:(BOOL)fullscreen;
 + (SWAnnotationView *)annotationViewWithYoutubeURL:(NSURL *)videoURL fullscreen:(BOOL)fullscreen;
-
 
 + (NSURL *)youtubeURLWithinString:(NSString *)string;
 

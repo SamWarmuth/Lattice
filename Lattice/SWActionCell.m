@@ -37,21 +37,22 @@
 {
 }
 
-- (void)prepareUIWithUser:(NSDictionary *)user
+- (void)prepareUIWithUser:(User *)user
 {
-    NSDictionary *counts = [user objectForKey:@"counts"];
     
-    [self.postsButton     setTitle:[NSString stringWithFormat:@"%@ Posts",     [counts objectForKey:@"posts"]]     forState:UIControlStateNormal];
-    [self.starredButton   setTitle:[NSString stringWithFormat:@"%@ Starred",   [counts objectForKey:@"stars"]]     forState:UIControlStateNormal];
-    [self.followingButton setTitle:[NSString stringWithFormat:@"%@ Following", [counts objectForKey:@"following"]] forState:UIControlStateNormal];
-    [self.followersButton setTitle:[NSString stringWithFormat:@"%@ Followers", [counts objectForKey:@"followers"]] forState:UIControlStateNormal];
+    [self.postsButton     setTitle:[NSString stringWithFormat:@"%@ Posts",     user.posts_count]     forState:UIControlStateNormal];
+    [self.starredButton   setTitle:[NSString stringWithFormat:@"%@ Starred",   user.stars_count]     forState:UIControlStateNormal];
+    [self.followingButton setTitle:[NSString stringWithFormat:@"%@ Following", user.following_count] forState:UIControlStateNormal];
+    [self.followersButton setTitle:[NSString stringWithFormat:@"%@ Followers", user.followers_count] forState:UIControlStateNormal];
     
 }
 
-- (void)prepareUIWithPost:(NSDictionary *)post
-{    
-    self.starButton.highlighted = ([[post objectForKey:@"you_starred"] intValue] == 1);
-    self.repostButton.highlighted = ([[post objectForKey:@"you_reposted"] intValue] == 1);
+- (void)prepareUIWithPost:(Post *)post
+{
+    if (post.repost_of) post = post.repost_of;
+    
+    self.starButton.highlighted = ([post.you_starred intValue] == 1);
+    self.repostButton.highlighted = ([post.you_reposted intValue] == 1);
 
 }
 
