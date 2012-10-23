@@ -19,6 +19,7 @@
 #import "SWAnnotationCell.h"
 #import "Post.h"
 #import "RichText.h"
+#import "SWAnnotationDetailViewController.h"
 
 @interface SWFeedViewController ()
 
@@ -185,7 +186,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"HI!?");
     if (!self.showAnnotations) return 1;
     
     Post *post = [[self.fetchedResultsController fetchedObjects] objectAtIndex:section];
@@ -216,8 +216,7 @@
         } else {
             [self loadOlderPosts];
         }
-    }
-    
+    }    
     if (indexPath.row == 0) {
         return [self postCellForIndexPath:indexPath];
     } else {
@@ -311,15 +310,23 @@
 
     Post *post = [[self.fetchedResultsController fetchedObjects] objectAtIndex:indexPath.section];
     NSLog(@"Hm? %@", post.text.text);
-    BOOL threadExists = (post.num_replies != @0 || post.reply_to);
-    //If we're in a thread, go to item detail
-    if (self.feed.type == SWFeedTypeConversation || !threadExists){
-        [self performSegueWithIdentifier:@"SWFeedToPostDetail" sender:self];
-    } else {
+    
+    if (indexPath.row > 0) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
-        SWFeedViewController *threadViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
-        threadViewController.feed = [SWFeed feedWithType:SWFeedTypeConversation keyID:post.thread_id];
-        [self.navigationController pushViewController:threadViewController animated:TRUE];
+        SWAnnotationDetailViewController *annotationDetailViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWAnnotationDetailViewController"];
+        NSArray *annoViews = [SWAnnotationView annotationViewsFromPost:post includeAuto:FALSE];
+        annotationDetailViewController.annotationView = (SWAnnotationView *)[annoViews objectAtIndex:indexPath.row - 1];
+        [self.navigationController pushViewController:annotationDetailViewController animated:TRUE];
+    } else {
+        BOOL threadExists = (post.num_replies != @0 || post.reply_to);
+        if (self.feed.type == SWFeedTypeConversation || !threadExists){
+            [self performSegueWithIdentifier:@"SWFeedToPostDetail" sender:self];
+        } else {
+            UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+            SWFeedViewController *threadViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
+            threadViewController.feed = [SWFeed feedWithType:SWFeedTypeConversation keyID:post.id];
+            [self.navigationController pushViewController:threadViewController animated:TRUE];
+        }
     }
 }
 

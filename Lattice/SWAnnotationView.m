@@ -13,6 +13,7 @@
 #import <QuartzCore/QuartzCore.h>
 #import "SWMapAnnotation.h"
 #import "RichText.h"
+#import "SWFullScreenImageView.h"
 
 @implementation SWAnnotationView
 
@@ -28,11 +29,12 @@
 + (NSMutableArray *)annotationViewsFromPost:(Post *)post includeAuto:(BOOL)includeAuto
 {
     NSMutableArray *annotationViews = [NSMutableArray new];
-    
+    NSLog(@"PROPAGATE FULLSCREEN");
+    BOOL fullscreen = FALSE;
     if (includeAuto) {
         NSURL *youtubeURL = [self youtubeURLWithinString:post.text.text];
         if (youtubeURL) {
-            [annotationViews addObject:[self annotationViewWithYoutubeURL:youtubeURL]];
+            [annotationViews addObject:[self annotationViewWithYoutubeURL:youtubeURL fullscreen:fullscreen]];
         }
     }
     
@@ -77,6 +79,7 @@
 + (SWAnnotationView *)annotationViewWithPhotoData:(Annotation *)annotation
 {
     SWAnnotationView *annotationView = [SWAnnotationView new];
+    annotationView.annotation = annotation;
     annotationView.backgroundColor = [UIColor clearColor];
     annotationView.clipsToBounds = TRUE;
     annotationView.type = SWAnnotationTypePhoto;
@@ -86,8 +89,43 @@
     CGFloat height = [annotation.height floatValue];
     CGFloat scale = 1.0;
     
-    if (width > 280.0f){
-        scale = 280.0f / width;
+    NSLog(@"PROPAGATE FULLSCREEN!");
+    BOOL fullscreen = FALSE;
+    
+    if (fullscreen) {
+        annotationView.frame = CGRectMake(0, 0, 320, 416); //set the annotationView.frame to what it is in storyboard
+        SWFullScreenImageView *fullScreenImageView = [[SWFullScreenImageView alloc] initWithFrame:annotationView.frame]; //create fullScreenImageView with annotationView's frame settings
+        fullScreenImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth; //resize fullScreenImageView to match annotationView always
+        
+        fullScreenImageView.imageView.frame = CGRectMake(0, 0, width, height); //set the frame of the imageview to the image size
+        [fullScreenImageView.imageView setImageWithURL:[NSURL URLWithString:photoURLString]]; //set the image from the url in annotation data
+        fullScreenImageView.scrollView.contentSize = CGSizeMake(width, height); //content size is actual size of image
+        CGFloat scaledWidth = fullScreenImageView.scrollView.frame.size.width / fullScreenImageView.scrollView.contentSize.width; //scale the width of (screen size / image size)
+        CGFloat scaledHeight = fullScreenImageView.scrollView.frame.size.height / fullScreenImageView.scrollView.contentSize.height; //scale the height of (screen size / image size)
+        CGFloat minScale = MIN(scaledWidth, scaledHeight); //get the minimum between scaledWidth and scaledHeight
+        fullScreenImageView.scrollView.minimumZoomScale = minScale; //minimum zoom scale is above value (meaning whole image will fit on screen)
+        fullScreenImageView.scrollView.maximumZoomScale = 2.0f; //set max zoom (arbitrairily set to 2x regular image)
+        fullScreenImageView.scrollView.zoomScale = minScale; //set the zoomScale at start to the minimum (what fits on screen)
+        
+        [fullScreenImageView centerScrollViewContents]; //centers the contents inside the screen
+        
+        [annotationView addSubview:fullScreenImageView]; //add the fullScreenImageView to the annotationView so all the above is useful
+        
+    } else {
+        CGFloat scale = 1.0;
+        if (width > 280.0f){
+            scale = 280.0f / width;
+        }
+        CGFloat scaledWidth = width * scale;
+        CGFloat scaledHeight = height * scale;
+        annotationView.frame = CGRectMake(0, 0, 320, scaledHeight + 20);
+        
+        SWPhotoImageView *imageView = [[SWPhotoImageView alloc] initWithFrame:CGRectMake((320-scaledWidth)/2, 0, scaledWidth, scaledHeight)];
+        imageView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1];
+        imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [imageView setImageWithURL:[NSURL URLWithString:photoURLString]];
+        [imageView setBorderWidth:3.0];
+        [annotationView addSubview:imageView];
     }
     
     CGFloat scaledWidth = width * scale;
@@ -108,6 +146,9 @@
 + (SWAnnotationView *)annotationViewWithGeoData:(Annotation *)annotation
 {
     SWAnnotationView *annotationView = [SWAnnotationView new];
+    annotationView.autoresizesSubviews = YES;
+    annotationView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+    annotationView.annotation = annotation;
     annotationView.backgroundColor = [UIColor clearColor];
     annotationView.clipsToBounds = TRUE;
     annotationView.type = SWAnnotationTypeGeolocation;
@@ -116,9 +157,10 @@
     CGFloat latitude = [annotation.latitude floatValue];
     CGFloat longitude = [annotation.longitude floatValue];
     
-    MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(20, 0, 280, 220)];
-    mapView.scrollEnabled = FALSE;
-    mapView.zoomEnabled = FALSE;
+
+    MKMapView *mapView = [[MKMapView alloc] initWithFrame:CGRectMake(20, 0, annotationView.frame.size.width - 40, annotationView.frame.size.height - 20)];
+    mapView.userInteractionEnabled = FALSE;
+    mapView.delegate = annotationView;
 
     [annotationView addSubview:mapView];
     
@@ -129,14 +171,12 @@
     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(zoomLocation, 25000, 25000);
     MKCoordinateRegion adjustedRegion = [mapView regionThatFits:viewRegion];
     [mapView setRegion:adjustedRegion animated:TRUE];
-    [mapView setScrollEnabled:FALSE];
     
     SWMapAnnotation *annotationToAdd = [[SWMapAnnotation alloc] initWithCoordinate:zoomLocation];
     [mapView addAnnotation:annotationToAdd];
     
     mapView.layer.borderColor = [UIColor colorWithRed:0.992 green:0.886 blue:0.616 alpha:1].CGColor;
     mapView.layer.borderWidth = 4.0;
-
     
     UIView *shadowView = [[UIView alloc] initWithFrame:mapView.frame];
     [mapView.superview insertSubview:shadowView belowSubview:mapView];
@@ -149,6 +189,16 @@
     shadowLayer.shadowOffset = CGSizeMake(0, 0.5);
     shadowLayer.shadowRadius = 0.5;
     [shadowLayer setShadowPath:[[UIBezierPath bezierPathWithRect:mapView.bounds] CGPath]];
+    
+    NSLog(@"PROPAGATE FULLSCREEN");
+    BOOL fullscreen = FALSE;
+    
+    if (fullscreen) {
+        annotationView.frame = CGRectMake(0, 0, 320, 416);
+        mapView.frame = annotationView.frame;
+        mapView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
+        mapView.userInteractionEnabled = TRUE;
+    }
     
     return annotationView;    
 
@@ -164,7 +214,7 @@
     return [NSURL URLWithString:[@"http://" stringByAppendingString:[string substringWithRange:matchRange]]];
 }
 
-+ (SWAnnotationView *)annotationViewWithYoutubeURL:(NSURL *)videoURL
++ (SWAnnotationView *)annotationViewWithYoutubeURL:(NSURL *)videoURL fullscreen:(BOOL)fullscreen
 {
     SWAnnotationView *annotationView = [SWAnnotationView new];
     annotationView.backgroundColor = [UIColor clearColor];
@@ -173,6 +223,7 @@
     annotationView.frame = CGRectMake(0, 0, 320, 220);
 
     KLog(@"Youtube WITH URL: %@",videoURL);
+
     
     LBYouTubePlayerViewController *youtubeController = [[LBYouTubePlayerViewController alloc] initWithYouTubeURL:videoURL];
     //self.controller.delegate = self;

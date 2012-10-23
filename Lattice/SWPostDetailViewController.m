@@ -18,6 +18,7 @@
 #import "SWAnnotationCell.h"
 #import "User.h"
 #import "Post.h"
+#import "SWAnnotationDetailViewController.h"
 
 @interface SWPostDetailViewController ()
 
@@ -205,6 +206,15 @@
     Post *selectedPost = (self.post.repost_of ? self.post.repost_of : self.post);
 
     [self performSegueWithIdentifier:@"SWPostDetailToUserDetail" sender:selectedPost.user];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    SWAnnotationDetailViewController *annotationDetailViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWAnnotationDetailViewController"];
+    annotationDetailViewController.annotation = [(SWAnnotationView *)[self.annotationViews objectAtIndex:indexPath.row - 2] annotation];
+    
+    [self.navigationController pushViewController:annotationDetailViewController animated:TRUE];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

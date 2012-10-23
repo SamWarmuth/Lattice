@@ -538,6 +538,28 @@
             </objects>
             <point key="canvasLocation" x="1955" y="-554"/>
         </scene>
+        <!--Annotation Detail View Controller - Annotation-->
+        <scene sceneID="GMq-kG-TP1">
+            <objects>
+                <viewController storyboardIdentifier="SWAnnotationDetailViewController" id="fHU-FJ-qk8" customClass="SWAnnotationDetailViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="3PK-hH-Y3x">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Annotation" id="nAJ-nK-jsA">
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="mo5-RL-LCr">
+                            <connections>
+                                <action selector="activityButtonTapped:" destination="fHU-FJ-qk8" id="st0-pg-vfQ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dFp-3B-mJk" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2432" y="204"/>
+        </scene>
         <!--Web View Controller - Loading...-->
         <scene sceneID="UBH-Oq-mOh">
             <objects>
@@ -878,6 +900,124 @@
         <image name="starIconSmall.png" width="32" height="32"/>
         <image name="starIconSmallWhite.png" width="32" height="32"/>
     </resources>
+    <classes>
+        <class className="OHAttributedLabel" superclassName="UILabel">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OHAttributedLabel.h"/>
+            <relationships>
+                <relationship kind="outlet" name="delegate"/>
+            </relationships>
+        </class>
+        <class className="SWActionCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWActionCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="followersButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="followingButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="postsButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="replyButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="repostButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="starButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="starredButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="SWAnnotationCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWAnnotationCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="annotationView" candidateClass="SWAnnotationView"/>
+            </relationships>
+        </class>
+        <class className="SWAnnotationDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWAnnotationDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="activityButtonTapped:"/>
+                <relationship kind="outlet" name="annotationView" candidateClass="SWAnnotationView"/>
+            </relationships>
+        </class>
+        <class className="SWAnnotationView" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWAnnotationView.h"/>
+            <relationships>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
+        <class className="SWComposeViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWComposeViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelButtonPressed:"/>
+                <relationship kind="action" name="doneButtonPressed:"/>
+                <relationship kind="action" name="hashtagButtonTapped:"/>
+                <relationship kind="action" name="mentionButtonTapped:"/>
+                <relationship kind="outlet" name="autocompletePlaceholderView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="keyboardAccessoryView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="messageTextView" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="progressContainerView" candidateClass="UIView"/>
+                <relationship kind="outlet" name="progressView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="SWConnectViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWConnectViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="connectPressed:"/>
+            </relationships>
+        </class>
+        <class className="SWFeedViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWFeedViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="composeButtonPressed:"/>
+                <relationship kind="outlet" name="tv" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="SWMainMenuViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWMainMenuViewController.h"/>
+        </class>
+        <class className="SWPostCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWPostCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="avatarImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="conversationMarkerImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="messageLabel" candidateClass="OHAttributedLabel"/>
+                <relationship kind="outlet" name="profileButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="repostLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="usernameLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="SWPostDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWPostDetailViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tv" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="SWUserCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWUserCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="avatarImageView" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="messageLabel" candidateClass="OHAttributedLabel"/>
+                <relationship kind="outlet" name="usernameLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="SWUserDetailViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWUserDetailViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="followButtonPressed:"/>
+                <relationship kind="outlet" name="followButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="tv" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="SWUserListViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWUserListViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="tv" candidateClass="UITableView"/>
+            </relationships>
+        </class>
+        <class className="SWWebViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWWebViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="backButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="forwardButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="shareButton" candidateClass="UIBarButtonItem"/>
+                <relationship kind="outlet" name="webview" candidateClass="UIWebView"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
