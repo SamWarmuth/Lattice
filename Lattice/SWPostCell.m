@@ -65,7 +65,6 @@
     self.repostLabel.hidden = !isRepost;
     Post *originalPost;
     if (isRepost) {
-        NSLog(@"Repost");
         originalPost = post;
         post = post.repost_of;
     }

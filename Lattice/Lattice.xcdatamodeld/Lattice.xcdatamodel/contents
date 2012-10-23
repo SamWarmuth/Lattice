@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1810" systemVersion="12C54" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1811" systemVersion="12C60" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Annotation" representedClassName="Annotation" syncable="YES">
         <attribute name="annotationDescription" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="author_name" optional="YES" attributeType="String" syncable="YES"/>
@@ -31,6 +31,7 @@
     <entity name="Post" representedClassName="Post" syncable="YES">
         <attribute name="created_at" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="String" indexed="YES" syncable="YES"/>
+        <attribute name="int_id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="num_replies" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="thread_id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="you_reposted" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -81,7 +82,7 @@
     <elements>
         <element name="Annotation" positionX="133" positionY="-198" width="128" height="330"/>
         <element name="Image" positionX="414" positionY="201" width="128" height="120"/>
-        <element name="Post" positionX="-99" positionY="324" width="128" height="240"/>
+        <element name="Post" positionX="-99" positionY="324" width="128" height="255"/>
         <element name="RichText" positionX="502" positionY="468" width="128" height="105"/>
         <element name="TextEntity" positionX="-99" positionY="99" width="128" height="150"/>
         <element name="User" positionX="99" positionY="567" width="128" height="315"/>

@@ -68,7 +68,7 @@
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         fetchRequest.fetchBatchSize = 20;
         fetchRequest.entity = [NSEntityDescription entityForName:@"Post" inManagedObjectContext:context];
-        NSArray *sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"id" ascending:NO]];
+        NSArray *sortDescriptors = @[[[NSSortDescriptor alloc] initWithKey:@"int_id" ascending:NO]];
         [fetchRequest setSortDescriptors:sortDescriptors];
         if (self.feed && self.feed.predicate) fetchRequest.predicate = self.feed.predicate;
         NSLog(@"predicate: %@", self.feed.predicate);
@@ -77,14 +77,12 @@
                                                                             managedObjectContext:context
                                                                               sectionNameKeyPath:nil
                                                                                        cacheName:[NSString stringWithFormat:@"%dCache", self.feed.type]];
-        
         self.fetchedResultsController.delegate = self;
         NSError *error;
         BOOL success = [self.fetchedResultsController performFetch:&error];
         if (!success){
             NSLog(@"Fetch Failed!");
         } 
-        
         [self loadPosts];
     }
     
@@ -117,6 +115,13 @@
     }
 }
 
+- (void)resetPredicate
+{
+    if (!self.fetchedResultsController) return;
+    [NSFetchedResultsController deleteCacheWithName:[NSString stringWithFormat:@"%dCache", self.feed.type]];
+    self.fetchedResultsController.fetchRequest.predicate = self.feed.predicate;
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
@@ -130,11 +135,11 @@
     [self.refreshControl beginRefreshing];
     [SVProgressHUD show];
     
-    
     [self.feed loadItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
         self.loadingPosts = FALSE;
         [self.refreshControl endRefreshing];
         [SVProgressHUD dismiss];
+        [self resetPredicate];
     }];
     
 }
@@ -147,6 +152,7 @@
     [self.feed loadOlderItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
         self.loadingPosts = FALSE;
         [self.refreshControl endRefreshing];
+        [self resetPredicate];
     }];
     
 }
@@ -159,6 +165,7 @@
     [self.feed loadNewerItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
         self.loadingPosts = FALSE;
         [self.refreshControl endRefreshing];
+        [self resetPredicate];
     }];
 }
 
@@ -174,13 +181,11 @@
     id  sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:0];
     NSLog(@"number of sections: %d", [sectionInfo numberOfObjects]);
     return [sectionInfo numberOfObjects];
-    
-    //this returns 1
-    return [[self.fetchedResultsController sections] count];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+    NSLog(@"HI!?");
     if (!self.showAnnotations) return 1;
     
     Post *post = [[self.fetchedResultsController fetchedObjects] objectAtIndex:section];

@@ -62,7 +62,6 @@
     
 
     NSDictionary *counts = [dictionary objectForKey:@"counts"];
-    NSLog(@"COUNTS: %@", counts);
     
     if ([counts objectForKey:@"followers"]) user.followers_count = [counts objectForKey:@"followers"];
     if ([counts objectForKey:@"following"]) user.following_count = [counts objectForKey:@"following"];
