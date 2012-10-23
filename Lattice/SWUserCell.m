@@ -11,12 +11,16 @@
 #import "AFNetworking.h"
 #import "SWUserCell.h"
 #import "SWHelpers.h"
+#import "RichText.h"
+#import "Image.h"
 
 @implementation SWUserCell
 
-+ (CGFloat)shortCellMessageHeightForUser:(NSDictionary *)user
++ (CGFloat)shortCellMessageHeightForUser:(User *)user
 {
-    NSString *text = [SWHelpers fixNewlinesInString:[[user objectForKey:@"description"] objectForKey:@"text"]];
+    DLog(@"User@! %@", user);
+
+    NSString *text = [SWHelpers fixNewlinesInString:user.user_description.text];
     
     NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:text];
     [messageString setFont:[UIFont systemFontOfSize:13]];
@@ -27,9 +31,10 @@
     
 }
 
-+ (CGFloat)messageHeightForUser:(NSDictionary *)user
++ (CGFloat)messageHeightForUser:(User *)user
 {
-    NSString *text = [SWHelpers fixNewlinesInString:[[user objectForKey:@"description"] objectForKey:@"text"]];
+    DLog(@"User@!! %@", user);
+    NSString *text = [SWHelpers fixNewlinesInString:user.user_description.text];
 
     NSMutableAttributedString *messageString = [NSMutableAttributedString attributedStringWithString:text];
     [messageString setFont:[UIFont systemFontOfSize:13]];
@@ -39,13 +44,13 @@
     
 }
 
-+ (CGFloat)shortCellHeightForUser:(NSDictionary *)user
++ (CGFloat)shortCellHeightForUser:(User *)user
 {
     CGFloat height = MAX([self shortCellMessageHeightForUser:user] + 61.0, 91.0);
     return height;
 }
 
-+ (CGFloat)heightForUser:(NSDictionary *)user
++ (CGFloat)heightForUser:(User *)user
 {
     CGFloat height = MAX([self messageHeightForUser:user] + 72.0, 141.0);
     return height;
@@ -69,28 +74,26 @@
     // Configure the view for the selected state
 }
 
-- (void)prepareUIWithUser:(NSDictionary *)user
+- (void)prepareUIWithUser:(User *)user
 {
     self.avatarImageView.layer.cornerRadius = 4.0;
     self.contentView.backgroundColor = [UIColor whiteColor];
 
     if (!user) return;
     
-    //DLog(@"User! %@", user);
+    DLog(@"User! %@", user);
 
-    self.usernameLabel.text = [user objectForKey:@"username"];
+    self.usernameLabel.text = user.username;
     
-    NSString *text = [SWHelpers fixNewlinesInString:[[user objectForKey:@"description"] objectForKey:@"text"]];
-
+    NSString *text = [SWHelpers fixNewlinesInString:user.user_description.text];
 
     CGRect oldFrame = self.messageLabel.frame;
     self.messageLabel.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, oldFrame.size.width, [[self class] messageHeightForUser:user]);
     self.messageLabel.text = text;
         
-    NSDictionary *avatarInfo = [user objectForKey:@"avatar_image"];
+    Image *avatarInfo = user.avatar_image;
     
-    
-    NSURL *avatarURL = [NSURL URLWithString:[avatarInfo objectForKey:@"url"]];    
+    NSURL *avatarURL = [NSURL URLWithString:avatarInfo.url];
     [self.avatarImageView setImageWithURL:avatarURL];
     
     

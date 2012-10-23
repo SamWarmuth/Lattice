@@ -42,6 +42,7 @@
 {
     [super viewWillAppear:animated];
     [self updateFollowButton];
+    NSLog(@"User? %@ %@", self.user, self.userID);
     if (!self.user && self.userID){
         [self loadUser];
     }
@@ -53,13 +54,13 @@
         
     self.loadingUser = TRUE;
     [SVProgressHUD show];
-    if (self.user) self.userID = [self.user objectForKey:@"id"];
+    if (self.user) self.userID = self.user.id;
 
-    [SWUserAPI getUserWithID:self.userID completed:^(NSError *error, NSDictionary *user, NSDictionary *metadata) {
+    [SWUserAPI getUserWithID:self.userID completed:^(NSError *error, NSDictionary *userDict, NSDictionary *metadata) {
         self.loadingUser = FALSE;
         [SVProgressHUD dismiss];
         @synchronized(self.user) {
-            self.user = user;
+            self.user = [User createOrUpdateUserFromDictionary:userDict];
         }
         [self.tv reloadData];
         [self updateFollowButton];
@@ -71,9 +72,9 @@
     self.followButton.enabled = !!self.user;
     if (!self.user) return;
     
-    if ([[self.user objectForKey:@"you_follow"] intValue] == 1){
+    if ([self.user.you_follow intValue] == 1) {
         self.followButton.title = @"Unfollow";
-    } else if (![self.user objectForKey:@"you_follow"]){
+    } else if (self.user.you_follow == nil) {
         self.followButton.enabled = FALSE;
         self.followButton.title = @"You";
     } else {
@@ -155,7 +156,8 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
-    feedViewController.feed = [SWFeed feedWithType:SWFeedTypeUserPosts keyID:[self.user objectForKey:@"id"]];
+    NSLog(@"New Feed with user id: %@", self.user.id);
+    feedViewController.feed = [SWFeed feedWithType:SWFeedTypeUserPosts keyID:self.user.id];
     [self.navigationController pushViewController:feedViewController animated:TRUE];
 }
 
@@ -163,7 +165,7 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
-    feedViewController.feed = [SWFeed feedWithType:SWFeedTypeUserStars keyID:[self.user objectForKey:@"id"]];
+    feedViewController.feed = [SWFeed feedWithType:SWFeedTypeUserStars keyID:self.user.id];
     [self.navigationController pushViewController:feedViewController animated:TRUE];
 }
 
@@ -171,7 +173,7 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWUserListViewController *userListViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWUserListViewController"];
-    userListViewController.feed = [SWFeed feedWithType:SWFeedTypeUserFollowing keyID:[self.user objectForKey:@"id"]];
+    userListViewController.feed = [SWFeed feedWithType:SWFeedTypeUserFollowing keyID:self.user.id];
     [self.navigationController pushViewController:userListViewController animated:TRUE];
 }
 
@@ -179,22 +181,22 @@
 {    
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWUserListViewController *userListViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWUserListViewController"];
-    userListViewController.feed = [SWFeed feedWithType:SWFeedTypeUserFollowers keyID:[self.user objectForKey:@"id"]];
+    userListViewController.feed = [SWFeed feedWithType:SWFeedTypeUserFollowers keyID:self.user.id];
     [self.navigationController pushViewController:userListViewController animated:TRUE];
 }
 
 - (IBAction)followButtonPressed:(id)sender
 {
-    if ([[self.user objectForKey:@"you_follow"] intValue] == 1){
+    if ([self.user.you_follow intValue] == 1){
         DLog(@"un.");
         [SVProgressHUD show];
         self.loadingUser = TRUE;
-        if (!self.userID) self.userID = [self.user objectForKey:@"id"];
-        [SWUserAPI unfollowUserID:self.userID completed:^(NSError *error, NSDictionary *user, NSDictionary *metadata) {
+        if (!self.userID) self.userID = self.user.id;
+        [SWUserAPI unfollowUserID:self.userID completed:^(NSError *error, NSDictionary *userDict, NSDictionary *metadata) {
             [SVProgressHUD dismiss];
             self.loadingUser = FALSE;
             @synchronized(self.user) {
-                self.user = user;
+                self.user = [User createOrUpdateUserFromDictionary:userDict];
             }
             [self.tv reloadData];
             [self updateFollowButton];
@@ -204,12 +206,12 @@
         
         [SVProgressHUD show];
         self.loadingUser = TRUE;
-        if (!self.userID) self.userID = [self.user objectForKey:@"id"];
-        [SWUserAPI followUserID:self.userID completed:^(NSError *error, NSDictionary *user, NSDictionary *metadata) {
+        if (!self.userID) self.userID = self.user.id;
+        [SWUserAPI followUserID:self.userID completed:^(NSError *error, NSDictionary *userDict, NSDictionary *metadata) {
             [SVProgressHUD dismiss];
             self.loadingUser = FALSE;
             @synchronized(self.user) {
-                self.user = user;
+                self.user = [User createOrUpdateUserFromDictionary:userDict];
             }
             [self.tv reloadData];
             [self updateFollowButton];

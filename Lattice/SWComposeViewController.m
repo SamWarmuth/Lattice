@@ -61,7 +61,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self.autocompletePicker reloadData];
+    [self.autocompletePicker reloadData];    
 }
 
 
@@ -78,7 +78,6 @@
     CGSize nameSize = [[self.matchingAutocompleteStrings objectAtIndex:index] sizeWithFont:[UIFont boldSystemFontOfSize:14]];
     return (int)(nameSize.width + 20.0);
 }
-
 
 
 - (NSString *)horizontalPickerView:(V8HorizontalPickerView *)picker titleForElementAtIndex:(NSInteger)index
@@ -159,7 +158,6 @@
 - (void)checkForAutocomplete:(NSString *)text
 {
     NSRange matchRange = [self autocompleteMatchRangeForText:text];
-    
     if (matchRange.location == NSNotFound) {
         if (!self.autocompletePicker.hidden) self.autocompletePicker.hidden = TRUE;
         return;
@@ -203,7 +201,7 @@
         return;
     }
     
-    [SWPostAPI createPostWithText:self.messageTextView.text replyTo:self.replyToID completed:^(NSError *error, NSDictionary *post, NSDictionary *metadata) {
+    [SWPostAPI createPostWithText:self.messageTextView.text replyTo:self.replyToID completed:^(NSError *error, Post *post, NSDictionary *metadata) {
         [SVProgressHUD dismissWithSuccess:@"Posted!"];
         DLog(@"Created Post! %@", post);
         [self dismissModalViewControllerAnimated:TRUE];

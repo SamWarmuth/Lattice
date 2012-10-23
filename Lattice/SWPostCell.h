@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "OHAttributedLabel.h"
+#import "Post.h"
 
 typedef void ((^SWURLCallbackBlock)(NSTextCheckingResult *linkInfo));
 
@@ -23,8 +24,8 @@ typedef void ((^SWURLCallbackBlock)(NSTextCheckingResult *linkInfo));
 @property BOOL suppressConversationMarker, marked;
 
 
-+ (CGFloat)heightForPost:(NSDictionary *)post;
-- (void)prepareUIWithPost:(NSDictionary *)post;
++ (CGFloat)heightForPost:(Post *)post;
+- (void)prepareUIWithPost:(Post *)post;
 
 - (void)handleLinkTappedWithBlock:(void (^)(NSTextCheckingResult *linkInfo))block;
 

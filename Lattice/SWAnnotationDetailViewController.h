@@ -13,8 +13,7 @@
 
 @property (nonatomic, strong) IBOutlet SWAnnotationView *annotationView;
 
-- (void)setAnnotation:(NSDictionary *)annotation;
-
+- (void)setAnnotation:(Annotation *)annotation;
 - (IBAction)activityButtonTapped:(id)sender;
 
 @end
