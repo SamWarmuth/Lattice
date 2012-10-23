@@ -210,6 +210,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (indexPath.row == 0) return;
+    if (indexPath.row - 2 < 0) return;
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
     SWAnnotationDetailViewController *annotationDetailViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWAnnotationDetailViewController"];
     annotationDetailViewController.annotation = [(SWAnnotationView *)[self.annotationViews objectAtIndex:indexPath.row - 2] annotation];
