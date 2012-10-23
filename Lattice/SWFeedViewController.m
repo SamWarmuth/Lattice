@@ -314,7 +314,7 @@
     if (indexPath.row > 0) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         SWAnnotationDetailViewController *annotationDetailViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWAnnotationDetailViewController"];
-        NSArray *annoViews = [SWAnnotationView annotationViewsFromPost:post includeAuto:FALSE fullscreen:FALSE];
+        NSArray *annoViews = [SWAnnotationView annotationViewsFromPost:post includeAuto:FALSE fullscreen:TRUE];
         annotationDetailViewController.annotationView = (SWAnnotationView *)[annoViews objectAtIndex:indexPath.row - 1];
         [self.navigationController pushViewController:annotationDetailViewController animated:TRUE];
     } else {
