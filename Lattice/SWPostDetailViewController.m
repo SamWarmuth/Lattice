@@ -52,7 +52,7 @@
 - (void)identifyAnnotations
 {
     @synchronized(self.annotationViews) {
-        self.annotationViews = [SWAnnotationView annotationViewsFromPost:self.post includeAuto:TRUE];
+        self.annotationViews = [SWAnnotationView annotationViewsFromPost:self.post includeAuto:TRUE fullscreen:FALSE];
     }
     [self.tv reloadData];
 }

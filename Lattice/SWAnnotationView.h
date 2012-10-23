@@ -27,11 +27,11 @@ typedef enum {
 @property BOOL fullscreen;
 @property (nonatomic, strong) IBOutlet UIImageView *imageView;
 
-+ (NSMutableArray *)annotationViewsFromPost:(Post *)post includeAuto:(BOOL)includeAuto;
-+ (SWAnnotationView *)annotationViewFromAnnotation:(Annotation *)annotationData;
++ (NSMutableArray *)annotationViewsFromPost:(Post *)post includeAuto:(BOOL)includeAuto fullscreen:(BOOL)fullscreen;
++ (SWAnnotationView *)annotationViewFromAnnotation:(Annotation *)annotationData fullscreen:(BOOL)fullscreen;
 + (SWAnnotationType)typeForAnnotationData:(Annotation *)annotationData;
-+ (SWAnnotationView *)annotationViewWithPhotoData:(Annotation *)annotationData;
-+ (SWAnnotationView *)annotationViewWithGeoData:(Annotation *)annotationData;
++ (SWAnnotationView *)annotationViewWithPhotoData:(Annotation *)annotationData fullscreen:(BOOL)fullscreen;
++ (SWAnnotationView *)annotationViewWithGeoData:(Annotation *)annotationData fullscreen:(BOOL)fullscreen;
 + (SWAnnotationView *)annotationViewWithYoutubeURL:(NSURL *)videoURL fullscreen:(BOOL)fullscreen;
 
 + (NSURL *)youtubeURLWithinString:(NSString *)string;

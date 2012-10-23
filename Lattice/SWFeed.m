@@ -26,16 +26,11 @@
 
 - (NSPredicate *)predicate
 {
-    NSLog(@"A");
-    NSLog(@"MA %@ MA %@", [self.minID class], self.maxID);
-
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-    NSLog(@"Q");
 
     NSNumber *max = [formatter numberFromString:self.maxID];
     NSNumber *min = [formatter numberFromString:self.minID];
-    NSLog(@"M %@ M %@", min, max);
     
     switch (self.type) {
         case SWFeedTypeConversation:
@@ -60,7 +55,7 @@
         self.minID = [[metadata objectForKey:@"min_id"] stringValue];
         self.maxID = [[metadata objectForKey:@"max_id"] stringValue];
         self.moreItemsAvailable = [[metadata objectForKey:@"more"] boolValue];
-        
+        NSLog(@"Loaded %d posts", posts.count);
         [Post createOrUpdatePostsFromArray:posts];
         block(nil, nil);
     }];

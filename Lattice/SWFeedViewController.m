@@ -189,7 +189,7 @@
     if (!self.showAnnotations) return 1;
     
     Post *post = [[self.fetchedResultsController fetchedObjects] objectAtIndex:section];
-    return [[SWAnnotationView annotationViewsFromPost:post includeAuto:TRUE] count] + 1;
+    return [[SWAnnotationView annotationViewsFromPost:post includeAuto:TRUE fullscreen:FALSE] count] + 1;
     
     //Post *post = [[self.fetchedResultsController fetchedObjects] objectAtIndex:section];
 }
@@ -200,7 +200,7 @@
 
     if (indexPath.row == 0) return [SWPostCell heightForPost:post];
 
-    NSArray *annotationViews = [SWAnnotationView annotationViewsFromPost:post includeAuto:TRUE];
+    NSArray *annotationViews = [SWAnnotationView annotationViewsFromPost:post includeAuto:TRUE fullscreen:FALSE];
     SWAnnotationView *annotationView = [annotationViews objectAtIndex:indexPath.row - 1];
     return annotationView.frame.size.height;
 }
@@ -234,7 +234,7 @@
     }
     
     Post *post = [[self.fetchedResultsController fetchedObjects] objectAtIndex:indexPath.section];
-    NSArray *annotationViews = [SWAnnotationView annotationViewsFromPost:post includeAuto:TRUE];
+    NSArray *annotationViews = [SWAnnotationView annotationViewsFromPost:post includeAuto:TRUE fullscreen:FALSE];
     
     [cell prepareUIWithAnnotationView:[annotationViews objectAtIndex:indexPath.row - 1]];
     return cell;
@@ -314,7 +314,7 @@
     if (indexPath.row > 0) {
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         SWAnnotationDetailViewController *annotationDetailViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWAnnotationDetailViewController"];
-        NSArray *annoViews = [SWAnnotationView annotationViewsFromPost:post includeAuto:FALSE];
+        NSArray *annoViews = [SWAnnotationView annotationViewsFromPost:post includeAuto:FALSE fullscreen:FALSE];
         annotationDetailViewController.annotationView = (SWAnnotationView *)[annoViews objectAtIndex:indexPath.row - 1];
         [self.navigationController pushViewController:annotationDetailViewController animated:TRUE];
     } else {
@@ -324,7 +324,7 @@
         } else {
             UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
             SWFeedViewController *threadViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
-            threadViewController.feed = [SWFeed feedWithType:SWFeedTypeConversation keyID:post.id];
+            threadViewController.feed = [SWFeed feedWithType:SWFeedTypeConversation keyID:post.thread_id];
             [self.navigationController pushViewController:threadViewController animated:TRUE];
         }
     }
@@ -517,6 +517,7 @@
         case NSFetchedResultsChangeUpdate:
             NSLog(@"Fix me!");
             //[self.tv cellForRowAtIndexPath:indexPath];
+            [self.tv reloadData];
             break;
         case NSFetchedResultsChangeMove:
             [self.tv deleteSections:[NSIndexSet indexSetWithIndex:indexPath.row] withRowAnimation:UITableViewRowAnimationFade];

@@ -38,9 +38,9 @@
     return self.annotationView.annotation;
 }
 
-- (void)setAnnotation:(NSDictionary *)annotation
+- (void)setAnnotation:(Annotation *)annotation
 {
-    self.annotationView = [SWAnnotationView annotationViewFromAnnotation:annotation];
+    self.annotationView = [SWAnnotationView annotationViewFromAnnotation:annotation fullscreen:TRUE];
 }
 
 - (void)viewWillAppear:(BOOL)animated

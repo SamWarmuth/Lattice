@@ -26,11 +26,9 @@
     return self;
 }
 
-+ (NSMutableArray *)annotationViewsFromPost:(Post *)post includeAuto:(BOOL)includeAuto
++ (NSMutableArray *)annotationViewsFromPost:(Post *)post includeAuto:(BOOL)includeAuto fullscreen:(BOOL)fullscreen
 {
     NSMutableArray *annotationViews = [NSMutableArray new];
-    NSLog(@"PROPAGATE FULLSCREEN");
-    BOOL fullscreen = FALSE;
     if (includeAuto) {
         NSURL *youtubeURL = [self youtubeURLWithinString:post.text.text];
         if (youtubeURL) {
@@ -42,20 +40,20 @@
     if (!annotations) return annotationViews;
             
     for (Annotation *annotation in annotations){
-        SWAnnotationView *newAnnotationView = [SWAnnotationView annotationViewFromAnnotation:annotation];
+        SWAnnotationView *newAnnotationView = [SWAnnotationView annotationViewFromAnnotation:annotation fullscreen:fullscreen];
         if (newAnnotationView) [annotationViews addObject:newAnnotationView];
     }
     return annotationViews;
 }
 
-+ (SWAnnotationView *)annotationViewFromAnnotation:(Annotation *)annotation
++ (SWAnnotationView *)annotationViewFromAnnotation:(Annotation *)annotation fullscreen:(BOOL)fullscreen
 {
     SWAnnotationType type = [self typeForAnnotationData:annotation];
     switch (type) {
         case SWAnnotationTypePhoto:
-            return [self annotationViewWithPhotoData:annotation];
+            return [self annotationViewWithPhotoData:annotation fullscreen:fullscreen];
         case SWAnnotationTypeGeolocation:
-            return [self annotationViewWithGeoData:annotation];
+            return [self annotationViewWithGeoData:annotation fullscreen:fullscreen];
         case SWAnnotationTypeUnknown:
             return nil;
         default:
@@ -76,7 +74,7 @@
     return SWAnnotationTypeUnknown;
 }
 
-+ (SWAnnotationView *)annotationViewWithPhotoData:(Annotation *)annotation
++ (SWAnnotationView *)annotationViewWithPhotoData:(Annotation *)annotation fullscreen:(BOOL)fullscreen
 {
     SWAnnotationView *annotationView = [SWAnnotationView new];
     annotationView.annotation = annotation;
@@ -89,8 +87,6 @@
     CGFloat height = [annotation.height floatValue];
     CGFloat scale = 1.0;
     
-    NSLog(@"PROPAGATE FULLSCREEN!");
-    BOOL fullscreen = FALSE;
     
     if (fullscreen) {
         annotationView.frame = CGRectMake(0, 0, 320, 416); //set the annotationView.frame to what it is in storyboard
@@ -143,7 +139,7 @@
     return annotationView;
 }
 
-+ (SWAnnotationView *)annotationViewWithGeoData:(Annotation *)annotation
++ (SWAnnotationView *)annotationViewWithGeoData:(Annotation *)annotation fullscreen:(BOOL)fullscreen
 {
     SWAnnotationView *annotationView = [SWAnnotationView new];
     annotationView.autoresizesSubviews = YES;
@@ -189,9 +185,6 @@
     shadowLayer.shadowOffset = CGSizeMake(0, 0.5);
     shadowLayer.shadowRadius = 0.5;
     [shadowLayer setShadowPath:[[UIBezierPath bezierPathWithRect:mapView.bounds] CGPath]];
-    
-    NSLog(@"PROPAGATE FULLSCREEN");
-    BOOL fullscreen = FALSE;
     
     if (fullscreen) {
         annotationView.frame = CGRectMake(0, 0, 320, 416);

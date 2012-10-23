@@ -71,7 +71,6 @@
     
     if (!post) return;
     
-    
     //NSLog(@"Post? %@", post);
 
     CGFloat messageHeight = [SWPostCell messageHeightForPost:post];
@@ -88,7 +87,8 @@
         
     oldFrame = self.conversationMarkerImageView.frame;
     
-    BOOL threadExists = ([post valueForKey:@"num_replies"] != @0 || [post valueForKey:@"reply_to"]);
+    NSLog(@"Replies : %@, reply_to: %@", post.num_replies, post.reply_to);
+    BOOL threadExists = (post.num_replies != @0 || post.reply_to);
     if (!self.suppressConversationMarker && threadExists) {
         self.conversationMarkerImageView.hidden = FALSE;
         //self.conversationMarkerView.frame = CGRectMake(oldFrame.origin.x, oldFrame.origin.y, oldFrame.size.width, [SWPostCell heightForPost:post] - 40.0);
