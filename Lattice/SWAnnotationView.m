@@ -84,11 +84,10 @@
     
     NSString *photoURLString = annotation.url;
     CGFloat width = [annotation.width floatValue];
-    CGFloat height = [annotation.height floatValue];
-    CGFloat scale = 1.0;
-    
+    CGFloat height = [annotation.height floatValue];    
     
     if (fullscreen) {
+        KLog(@"Fullscreen photo");
         annotationView.frame = CGRectMake(0, 0, 320, 416); //set the annotationView.frame to what it is in storyboard
         SWFullScreenImageView *fullScreenImageView = [[SWFullScreenImageView alloc] initWithFrame:annotationView.frame]; //create fullScreenImageView with annotationView's frame settings
         fullScreenImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth; //resize fullScreenImageView to match annotationView always
@@ -109,14 +108,15 @@
         
     } else {
         CGFloat scale = 1.0;
-        if (width > 280.0f){
+        if (width > 280.0f) {
             scale = 280.0f / width;
         }
         CGFloat scaledWidth = width * scale;
         CGFloat scaledHeight = height * scale;
-        annotationView.frame = CGRectMake(0, 0, 320, scaledHeight + 20);
+        annotationView.frame = CGRectMake(0, 10, 320, scaledHeight + 20);
         
         SWPhotoImageView *imageView = [[SWPhotoImageView alloc] initWithFrame:CGRectMake((320-scaledWidth)/2, 0, scaledWidth, scaledHeight)];
+        imageView.clipsToBounds = FALSE;
         imageView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1];
         imageView.contentMode = UIViewContentModeScaleAspectFit;
         [imageView setImageWithURL:[NSURL URLWithString:photoURLString]];
@@ -124,18 +124,6 @@
         [annotationView addSubview:imageView];
     }
     
-    CGFloat scaledWidth = width * scale;
-    CGFloat scaledHeight = height * scale;
-    
-    annotationView.frame = CGRectMake(0, 0, 320, scaledHeight + 20);
-
-    SWPhotoImageView *imageView = [[SWPhotoImageView alloc] initWithFrame:CGRectMake((320-scaledWidth)/2, 10.0, scaledWidth, scaledHeight)];
-    [annotationView addSubview:imageView];
-    imageView.clipsToBounds = FALSE;
-    imageView.backgroundColor = [UIColor colorWithRed:0.9 green:0.9 blue:0.9 alpha:1];
-    imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [imageView setImageWithURL:[NSURL URLWithString:photoURLString]];
-    [imageView setBorderWidth:3.0];
     return annotationView;
 }
 

@@ -180,7 +180,6 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     id  sectionInfo = [[self.fetchedResultsController sections] objectAtIndex:0];
-    NSLog(@"number of sections: %d", [sectionInfo numberOfObjects]);
     return [sectionInfo numberOfObjects];
 }
 
