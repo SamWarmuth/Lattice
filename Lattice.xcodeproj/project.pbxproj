@@ -83,6 +83,7 @@
 		8887C1611603CFCC0035E804 /* cameraIconSmall.png in Resources */ = {isa = PBXBuildFile; fileRef = 8887C15D1603CFCC0035E804 /* cameraIconSmall.png */; };
 		8887C1621603CFCC0035E804 /* cameraIconSmall@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8887C15E1603CFCC0035E804 /* cameraIconSmall@2x.png */; };
 		8887C1631603CFCC0035E804 /* cameraIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8887C15F1603CFCC0035E804 /* cameraIcon@2x.png */; };
+		888BE2471637C91D00445BFA /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 888BE2451637C85C00445BFA /* Post.m */; };
 		88AA3BFB15FF8BB800B550D2 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AA3BFA15FF8BB800B550D2 /* UIKit.framework */; };
 		88AA3BFD15FF8BB800B550D2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AA3BFC15FF8BB800B550D2 /* Foundation.framework */; };
 		88AA3BFF15FF8BB800B550D2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AA3BFE15FF8BB800B550D2 /* CoreGraphics.framework */; };
@@ -853,6 +854,7 @@
 				8846B5A81610F7EE0003AC1C /* Annotation.m in Sources */,
 				373665FC1611171A00D65A9F /* SWAnnotationDetailViewController.m in Sources */,
 				37277348162F79E5008B9808 /* SWFullScreenImageView.m in Sources */,
+				888BE2471637C91D00445BFA /* Post.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
