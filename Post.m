@@ -55,6 +55,7 @@
 
 + (Post *)createOrUpdatePostFromDictionary:(NSDictionary *)dictionary
 {
+    KLog(@"Fire");
     SWAppDelegate *appDelegate = (SWAppDelegate *)[[UIApplication sharedApplication] delegate];
     NSManagedObjectContext *managedObjectContext = appDelegate.managedObjectContext;
 
