@@ -137,6 +137,65 @@
     }    
 }
 
+- (void)cameraButtonActionSheet:(id)sender
+{
+    UIActionSheet *popupQuery = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Photo", @"Choose Existing", nil];
+    popupQuery.actionSheetStyle = UIActionSheetStyleAutomatic;
+    [popupQuery showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    UIImagePickerController *imagePicker = [UIImagePickerController new];
+    imagePicker.delegate = self;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unavailable" message:@"UH Oh, Bug!" delegate:self cancelButtonTitle:@"Dismiss" otherButtonTitles:nil, nil];
+    
+    switch (buttonIndex) {
+        case 0: { //Take Photo
+            
+            KLog(@"\"Take Photo\" action sheet button");
+            
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera]) {
+                imagePicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+            } else {
+                alert.message = @"This device does not support taking pictures";
+                [alert show];
+                return;
+            }
+            
+            break;
+        }
+            
+        case 1: { //Choose Existing
+            
+            KLog(@"\"Choose Existing\" action sheet button");
+            
+            if ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary]) {
+                imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+            } else {
+                alert.message = @"This device does not have a photo library";
+                [alert show];
+                return;
+            }
+            
+            break;
+        }
+            
+        default: {
+            KLog(@"default action sheet button fired.... NOT GOOD");
+            break;
+        }
+            
+    } //End of switch statement
+    
+    [self presentModalViewController:imagePicker animated:TRUE];
+}
+
+- (IBAction)cameraButtonTapped:(id)sender
+{
+    [self cameraButtonActionSheet:sender];
+}
+
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
@@ -203,7 +262,7 @@
     
     [SWPostAPI createPostWithText:self.messageTextView.text replyTo:self.replyToID completed:^(NSError *error, Post *post, NSDictionary *metadata) {
         [SVProgressHUD dismissWithSuccess:@"Posted!"];
-        DLog(@"Created Post! %@", post);
+        KLog(@"Created Post! %@", post);
         [self dismissModalViewControllerAnimated:TRUE];
     }];
 }

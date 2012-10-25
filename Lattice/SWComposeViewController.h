@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "V8HorizontalPickerView.h"
-@interface SWComposeViewController : UIViewController <UITextViewDelegate, V8HorizontalPickerViewDataSource, V8HorizontalPickerViewDelegate>
+@interface SWComposeViewController : UIViewController <UITextViewDelegate, V8HorizontalPickerViewDataSource, V8HorizontalPickerViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong) IBOutlet UITextView *messageTextView;
 @property (nonatomic, strong) IBOutlet UIView *progressContainerView, *progressView, *keyboardAccessoryView, *autocompletePlaceholderView;
@@ -22,6 +22,7 @@
 
 - (IBAction)mentionButtonTapped:(id)sender;
 - (IBAction)hashtagButtonTapped:(id)sender;
+- (IBAction)cameraButtonTapped:(id)sender;
 
 
 @end
