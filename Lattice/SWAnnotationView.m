@@ -37,6 +37,7 @@
     }
     
     NSOrderedSet *annotations = post.annotations;
+    KLog(@"annotations: %@",annotations);
     if (!annotations) return annotationViews;
             
     for (Annotation *annotation in annotations){

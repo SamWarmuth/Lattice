@@ -15,6 +15,7 @@
 @property (nonatomic, strong) NSMutableArray *autocompleteStrings, *matchingAutocompleteStrings;
 @property (nonatomic, strong) V8HorizontalPickerView *autocompletePicker;
 @property (nonatomic, strong) NSString *replyToID, *prefillText;
+@property (nonatomic, strong) UIImage *image;
 
 
 - (IBAction)cancelButtonPressed:(id)sender;

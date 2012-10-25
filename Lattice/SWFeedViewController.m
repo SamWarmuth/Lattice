@@ -219,7 +219,6 @@
     if (indexPath.row == 0) {
         return [self postCellForIndexPath:indexPath];
     } else {
-        KLog(@"indexPath: %i, %i", indexPath.row, indexPath.section);
         return [self annotationCellForIndexPath:indexPath];
     }
 }
@@ -234,7 +233,6 @@
     
     Post *post = [[self.fetchedResultsController fetchedObjects] objectAtIndex:indexPath.section];
     NSArray *annotationViews = [SWAnnotationView annotationViewsFromPost:post includeAuto:TRUE fullscreen:FALSE];
-    
     [cell prepareUIWithAnnotationView:[annotationViews objectAtIndex:indexPath.row - 1]];
     return cell;
 }

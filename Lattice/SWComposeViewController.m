@@ -137,11 +137,13 @@
     }    
 }
 
-- (void)cameraButtonActionSheet:(id)sender
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    UIActionSheet *popupQuery = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Photo", @"Choose Existing", nil];
-    popupQuery.actionSheetStyle = UIActionSheetStyleAutomatic;
-    [popupQuery showInView:self.view];
+    UIImage *originalImage=[info objectForKey:UIImagePickerControllerOriginalImage];
+    KLog(@"OriginalImage width:%f height:%f", originalImage.size.width, originalImage.size.height);
+    self.image = originalImage;
+    [self dismissModalViewControllerAnimated:YES];
+    
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -189,6 +191,13 @@
     } //End of switch statement
     
     [self presentModalViewController:imagePicker animated:TRUE];
+}
+
+- (void)cameraButtonActionSheet:(id)sender
+{
+    UIActionSheet *popupQuery = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Take Photo", @"Choose Existing", nil];
+    popupQuery.actionSheetStyle = UIActionSheetStyleAutomatic;
+    [popupQuery showInView:self.view];
 }
 
 - (IBAction)cameraButtonTapped:(id)sender
