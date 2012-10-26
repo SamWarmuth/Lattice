@@ -31,13 +31,40 @@
 + (void)loadMyFollowingAndSave
 {
     [SWFeedAPI getFeedWithType:SWFeedTypeUserFollowers keyID:@"me" Min:nil max:nil reversed:FALSE completed:^(NSError *error, NSMutableArray *posts, NSDictionary *metadata) {
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSMutableArray *followerUsernames = [NSMutableArray new];
         for (NSDictionary *user in posts){
             [followerUsernames addObject:[NSString stringWithFormat:@"@%@", [user objectForKey:@"username"]]];
         }
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:followerUsernames forKey:@"SWMyFollowingUsernames"];
     }];
+}
+
++ (void)loadMyProfileAndSave
+{
+    [self getUserWithID:@"me" completed:^(NSError *error, NSDictionary *user, NSDictionary *metadata) {
+        NSLog(@"user: %@", user);
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        [defaults setObject:[NSString stringWithFormat:@"%@", [user objectForKey:@"id"]] forKey:@"SWMyID"];
+        [defaults setObject:[NSString stringWithFormat:@"%@", [user objectForKey:@"username"]] forKey:@"SWMyUsername"];
+
+    }];
+}
+
++ (NSString *)myID
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *myID = [defaults stringForKey:@"SWMyID"];
+    if (!myID) return @"me";
+    return myID;
+}
+
++ (NSString *)myUsername
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *myID = [defaults stringForKey:@"SWMyUsername"];
+    if (!myID) return @"me";
+    return myID;
 }
 
 + (void)followUserID:(NSString *)userID completed:(void (^)(NSError *error, NSDictionary *user, NSDictionary *metadata))block

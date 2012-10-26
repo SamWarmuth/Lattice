@@ -9,6 +9,7 @@
 #import "SWFeed.h"
 #import "SWPostAPI.h"
 #import "SWFeedAPI.h"
+#import "SWUserAPI.h"
 #import "Post.h"
 
 @implementation SWFeed
@@ -34,12 +35,20 @@
     
     switch (self.type) {
         case SWFeedTypeConversation:
-            return [NSPredicate predicateWithFormat:@"thread_id == %@", self.keyID];
+            return [NSPredicate predicateWithFormat:@"thread_id == %@ AND (int_id >= %@) AND (int_id <= %@)", self.keyID, min, max];
         case SWFeedTypeUserStars:
-            return [NSPredicate predicateWithFormat:@"you_starred == TRUE", self.keyID];
+            return [NSPredicate predicateWithFormat:@"you_starred == TRUE", min, max];
         case SWFeedTypeMyFeed:
-            NSLog(@"B");
-            return [NSPredicate predicateWithFormat:@"(user.you_follow == TRUE) AND (int_id > %@) AND (int_id < %@)", min, max];
+            return [NSPredicate predicateWithFormat:@"(user.you_follow == TRUE) AND (int_id >= %@) AND (int_id <= %@)", min, max];
+        case SWFeedTypeUserMentions: {
+            NSString *key = self.keyID;
+            if ([key isEqualToString:@"me"]) key = [SWUserAPI myUsername];
+            NSLog(@"Looking to match %@", key);
+
+            return [NSPredicate predicateWithFormat:@"(text.entities.name CONTAINS[cd] %@)  AND (int_id >= %@) AND (int_id <= %@)", key, min, max];
+        } case SWFeedTypeHashtag:
+            NSLog(@"Looking to match %@", self.keyID);
+            return [NSPredicate predicateWithFormat:@"(text.entities.name CONTAINS[cd] %@)  AND (int_id >= %@) AND (int_id <= %@)", self.keyID, min, max];
         case SWFeedTypeUserPosts:
             return [NSPredicate predicateWithFormat:@"user.id == %@", self.keyID];
         case SWFeedTypeGlobal:
@@ -55,7 +64,7 @@
         self.minID = [[metadata objectForKey:@"min_id"] stringValue];
         self.maxID = [[metadata objectForKey:@"max_id"] stringValue];
         self.moreItemsAvailable = [[metadata objectForKey:@"more"] boolValue];
-        NSLog(@"Loaded %d posts", posts.count);
+        NSLog(@"Loaded %d posts: %@", posts.count, posts);
         [Post createOrUpdatePostsFromArray:posts];
         block(nil, nil);
     }];

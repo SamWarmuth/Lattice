@@ -26,7 +26,6 @@
                                    @(SWFeedTypeConversation)  : [NSString stringWithFormat:@"/stream/0/posts/%@/replies",   keyID],
                                    @(SWFeedTypeGlobal)        : @"/stream/0/posts/stream/global"
     };
-    
     [self loadItemsWithPath:[matchingDict objectForKey:@(type)] min:minID max:maxID reversed:reversed completed:block];
 }
 
@@ -43,10 +42,12 @@
     if (minID) [parameters setObject:minID forKey:@"since_id"];
     if (maxID) [parameters setObject:maxID forKey:@"before_id"];
     
-    [parameters setObject:@20 forKey:@"count"]; //200 for loadUsersWithPath
+    [parameters setObject:@20 forKey:@"count"];
     [parameters setObject:@0 forKey:@"include_deleted"];
     [parameters setObject:@1 forKey:@"include_annotations"];
     [parameters setObject:@0 forKey:@"include_directed_posts"];
+    
+    //NSLog(@"loading url %@, params: %@", path, parameters);
     
     [httpClient getPath:path parameters:parameters success:^(AFHTTPRequestOperation *request, id rawResponseData) {
         NSDictionary *response = [NSJSONSerialization JSONObjectWithData:rawResponseData options:kNilOptions error:nil];

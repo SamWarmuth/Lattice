@@ -515,8 +515,6 @@
             break;
             
         case NSFetchedResultsChangeUpdate:
-            NSLog(@"Fix me!");
-            //[self.tv cellForRowAtIndexPath:indexPath];
             [self.tv reloadData];
             break;
         case NSFetchedResultsChangeMove:

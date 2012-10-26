@@ -13,6 +13,9 @@
 
 + (void)loadMyFollowersAndSave;
 + (void)loadMyFollowingAndSave;
++ (void)loadMyProfileAndSave;
++ (NSString *)myID;
++ (NSString *)myUsername;
 
 + (void)followUserID:(NSString *)userID completed:(void (^)(NSError *error, NSDictionary *user, NSDictionary *metadata))block;
 + (void)unfollowUserID:(NSString *)userID completed:(void (^)(NSError *error, NSDictionary *user, NSDictionary *metadata))block;

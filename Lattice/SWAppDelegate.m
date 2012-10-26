@@ -38,10 +38,6 @@
     
     [self resetCoreData];
     [self downloadUserMetadata];
-    
-
-
-
     [self deleteAllObjects];
 
     
@@ -73,6 +69,7 @@
     if (![SWAuthAPI authenticated]) return;
     [SWUserAPI loadMyFollowersAndSave];
     [SWUserAPI loadMyFollowingAndSave];
+    [SWUserAPI loadMyProfileAndSave];
 }
 
 - (void)saveContext
