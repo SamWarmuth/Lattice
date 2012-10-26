@@ -8,13 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "V8HorizontalPickerView.h"
-@interface SWComposeViewController : UIViewController <UITextViewDelegate, V8HorizontalPickerViewDataSource, V8HorizontalPickerViewDelegate>
+@interface SWComposeViewController : UIViewController <UITextViewDelegate, V8HorizontalPickerViewDataSource, V8HorizontalPickerViewDelegate, UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 
 @property (nonatomic, strong) IBOutlet UITextView *messageTextView;
 @property (nonatomic, strong) IBOutlet UIView *progressContainerView, *progressView, *keyboardAccessoryView, *autocompletePlaceholderView;
 @property (nonatomic, strong) NSMutableArray *autocompleteStrings, *matchingAutocompleteStrings;
 @property (nonatomic, strong) V8HorizontalPickerView *autocompletePicker;
 @property (nonatomic, strong) NSString *replyToID, *prefillText;
+@property (nonatomic, strong) UIImage *image;
 
 
 - (IBAction)cancelButtonPressed:(id)sender;
@@ -22,6 +23,7 @@
 
 - (IBAction)mentionButtonTapped:(id)sender;
 - (IBAction)hashtagButtonTapped:(id)sender;
+- (IBAction)cameraButtonTapped:(id)sender;
 
 
 @end

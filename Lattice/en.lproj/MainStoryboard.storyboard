@@ -674,7 +674,11 @@
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="6hB-Zl-ULH"/>
-                                    <barButtonItem systemItem="camera" id="jA4-gk-HvG"/>
+                                    <barButtonItem systemItem="camera" id="jA4-gk-HvG">
+                                        <connections>
+                                            <action selector="cameraButtonTapped:" destination="yGa-F6-gR0" id="dIy-gL-vEy"/>
+                                        </connections>
+                                    </barButtonItem>
                                 </items>
                             </toolbar>
                             <view contentMode="scaleToFill" id="Rpk-OD-TuX">
@@ -941,6 +945,7 @@
         <class className="SWComposeViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/SWComposeViewController.h"/>
             <relationships>
+                <relationship kind="action" name="cameraButtonTapped:"/>
                 <relationship kind="action" name="cancelButtonPressed:"/>
                 <relationship kind="action" name="doneButtonPressed:"/>
                 <relationship kind="action" name="hashtagButtonTapped:"/>
