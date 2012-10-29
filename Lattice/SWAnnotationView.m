@@ -87,24 +87,23 @@
     CGFloat height = [annotation.height floatValue];    
     
     if (fullscreen) {
-        KLog(@"Fullscreen photo");
         annotationView.frame = CGRectMake(0, 0, 320, 416); //set the annotationView.frame to what it is in storyboard
-        SWFullScreenImageView *fullScreenImageView = [[SWFullScreenImageView alloc] initWithFrame:annotationView.frame]; //create fullScreenImageView with annotationView's frame settings
-        fullScreenImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth; //resize fullScreenImageView to match annotationView always
+        annotationView.fullScreenImageView = [[SWFullScreenImageView alloc] initWithFrame:annotationView.frame]; //create fullScreenImageView with annotationView's frame settings
+        annotationView.fullScreenImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth; //resize fullScreenImageView to match annotationView always
         
-        fullScreenImageView.imageView.frame = CGRectMake(0, 0, width, height); //set the frame of the imageview to the image size
-        [fullScreenImageView.imageView setImageWithURL:[NSURL URLWithString:photoURLString]]; //set the image from the url in annotation data
-        fullScreenImageView.scrollView.contentSize = CGSizeMake(width, height); //content size is actual size of image
-        CGFloat scaledWidth = fullScreenImageView.scrollView.frame.size.width / fullScreenImageView.scrollView.contentSize.width; //scale the width of (screen size / image size)
-        CGFloat scaledHeight = fullScreenImageView.scrollView.frame.size.height / fullScreenImageView.scrollView.contentSize.height; //scale the height of (screen size / image size)
+        annotationView.fullScreenImageView.imageView.frame = CGRectMake(0, 0, width, height); //set the frame of the imageview to the image size
+        [annotationView.fullScreenImageView.imageView setImageWithURL:[NSURL URLWithString:photoURLString]]; //set the image from the url in annotation data
+        annotationView.fullScreenImageView.scrollView.contentSize = CGSizeMake(width, height); //content size is actual size of image
+        CGFloat scaledWidth = annotationView.fullScreenImageView.scrollView.frame.size.width / annotationView.fullScreenImageView.scrollView.contentSize.width; //scale the width of (screen size / image size)
+        CGFloat scaledHeight = annotationView.fullScreenImageView.scrollView.frame.size.height / annotationView.fullScreenImageView.scrollView.contentSize.height; //scale the height of (screen size / image size)
         CGFloat minScale = MIN(scaledWidth, scaledHeight); //get the minimum between scaledWidth and scaledHeight
-        fullScreenImageView.scrollView.minimumZoomScale = minScale; //minimum zoom scale is above value (meaning whole image will fit on screen)
-        fullScreenImageView.scrollView.maximumZoomScale = 2.0f; //set max zoom (arbitrairily set to 2x regular image)
-        fullScreenImageView.scrollView.zoomScale = minScale; //set the zoomScale at start to the minimum (what fits on screen)
+        annotationView.fullScreenImageView.scrollView.minimumZoomScale = minScale; //minimum zoom scale is above value (meaning whole image will fit on screen)
+        annotationView.fullScreenImageView.scrollView.maximumZoomScale = 2.0f; //set max zoom (arbitrairily set to 2x regular image)
+        annotationView.fullScreenImageView.scrollView.zoomScale = minScale; //set the zoomScale at start to the minimum (what fits on screen)
         
-        [fullScreenImageView centerScrollViewContents]; //centers the contents inside the screen
+        [annotationView.fullScreenImageView centerScrollViewContents]; //centers the contents inside the screen
         
-        [annotationView addSubview:fullScreenImageView]; //add the fullScreenImageView to the annotationView so all the above is useful
+        [annotationView addSubview:annotationView.fullScreenImageView]; //add the fullScreenImageView to the annotationView so all the above is useful
         
     } else {
         CGFloat scale = 1.0;

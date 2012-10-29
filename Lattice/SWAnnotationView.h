@@ -10,6 +10,7 @@
 #import "LBYouTubePlayerViewController.h"
 #import "Post.h"
 #import "Annotation.h"
+#import "SWFullScreenImageView.h"
 #import <MapKit/MapKit.h>
 
 typedef enum {
@@ -26,6 +27,7 @@ typedef enum {
 @property Annotation *annotation;
 @property BOOL fullscreen;
 @property (nonatomic, strong) IBOutlet UIImageView *imageView;
+@property (nonatomic, strong) SWFullScreenImageView *fullScreenImageView;
 
 + (NSMutableArray *)annotationViewsFromPost:(Post *)post includeAuto:(BOOL)includeAuto fullscreen:(BOOL)fullscreen;
 + (SWAnnotationView *)annotationViewFromAnnotation:(Annotation *)annotationData fullscreen:(BOOL)fullscreen;

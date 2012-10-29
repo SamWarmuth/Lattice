@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "SWAnnotationView.h"
+#import <MessageUI/MessageUI.h>
 
-@interface SWAnnotationDetailViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate>
+@interface SWAnnotationDetailViewController : UIViewController <UIScrollViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 
 @property (nonatomic, strong) IBOutlet SWAnnotationView *annotationView;
 

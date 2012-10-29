@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3712C412163F43BA0008D41D /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3712C411163F43BA0008D41D /* MessageUI.framework */; };
 		37256876160D4EF6009DF005 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 37256875160D4EF6009DF005 /* MapKit.framework */; };
 		3725687A160D5AEF009DF005 /* SWMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 37256879160D5AEF009DF005 /* SWMapAnnotation.m */; };
 		37277348162F79E5008B9808 /* SWFullScreenImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37277347162F79E5008B9808 /* SWFullScreenImageView.m */; };
@@ -130,6 +131,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3712C411163F43BA0008D41D /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		37256875160D4EF6009DF005 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		37256878160D5AEF009DF005 /* SWMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWMapAnnotation.h; sourceTree = "<group>"; };
 		37256879160D5AEF009DF005 /* SWMapAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWMapAnnotation.m; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3712C412163F43BA0008D41D /* MessageUI.framework in Frameworks */,
 				88DD8A691610C8E800D01941 /* CoreData.framework in Frameworks */,
 				37256876160D4EF6009DF005 /* MapKit.framework in Frameworks */,
 				88AA3BFF15FF8BB800B550D2 /* CoreGraphics.framework in Frameworks */,
@@ -489,6 +492,7 @@
 		88AA3BF915FF8BB800B550D2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3712C411163F43BA0008D41D /* MessageUI.framework */,
 				88DD8A671610C8E200D01941 /* CoreData.framework */,
 				37256875160D4EF6009DF005 /* MapKit.framework */,
 				88F0621A160C1F52003F21AC /* MediaPlayer.framework */,
