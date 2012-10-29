@@ -39,12 +39,10 @@
 
 - (void)prepareUIWithUser:(User *)user
 {
-    NSLog(@"USER! %@", user);
     [self.postsButton     setTitle:[NSString stringWithFormat:@"%@ Posts",     user.posts_count]     forState:UIControlStateNormal];
     [self.starredButton   setTitle:[NSString stringWithFormat:@"%@ Starred",   user.stars_count]     forState:UIControlStateNormal];
     [self.followingButton setTitle:[NSString stringWithFormat:@"%@ Following", user.following_count] forState:UIControlStateNormal];
     [self.followersButton setTitle:[NSString stringWithFormat:@"%@ Followers", user.followers_count] forState:UIControlStateNormal];
-    
 }
 
 - (void)prepareUIWithPost:(Post *)post

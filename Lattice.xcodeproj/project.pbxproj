@@ -12,6 +12,7 @@
 		37277348162F79E5008B9808 /* SWFullScreenImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 37277347162F79E5008B9808 /* SWFullScreenImageView.m */; };
 		373665FC1611171A00D65A9F /* SWAnnotationDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 373665FB1611171A00D65A9F /* SWAnnotationDetailViewController.m */; };
 		37A6059A160BFB700010180A /* SWFeedAPI.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A60599160BFB700010180A /* SWFeedAPI.m */; };
+		8804DAFA163E514900D98732 /* NSDictionary+TypeChecked.m in Sources */ = {isa = PBXBuildFile; fileRef = 8804DAF8163E513300D98732 /* NSDictionary+TypeChecked.m */; };
 		88183289160AD95400B3F6D2 /* SWFeed.m in Sources */ = {isa = PBXBuildFile; fileRef = 88183288160AD95400B3F6D2 /* SWFeed.m */; };
 		8846B59C1610F7EE0003AC1C /* RichText.m in Sources */ = {isa = PBXBuildFile; fileRef = 8846B59B1610F7EE0003AC1C /* RichText.m */; };
 		8846B59F1610F7EE0003AC1C /* TextEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 8846B59E1610F7EE0003AC1C /* TextEntity.m */; };
@@ -138,6 +139,8 @@
 		373665FB1611171A00D65A9F /* SWAnnotationDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWAnnotationDetailViewController.m; sourceTree = "<group>"; };
 		37A60598160BFB700010180A /* SWFeedAPI.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SWFeedAPI.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		37A60599160BFB700010180A /* SWFeedAPI.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SWFeedAPI.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		8804DAF7163E513300D98732 /* NSDictionary+TypeChecked.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+TypeChecked.h"; sourceTree = "<group>"; };
+		8804DAF8163E513300D98732 /* NSDictionary+TypeChecked.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+TypeChecked.m"; sourceTree = "<group>"; };
 		88183287160AD95400B3F6D2 /* SWFeed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SWFeed.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		88183288160AD95400B3F6D2 /* SWFeed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SWFeed.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		8846B59A1610F7EE0003AC1C /* RichText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RichText.h; path = ../RichText.h; sourceTree = "<group>"; };
@@ -339,6 +342,8 @@
 		88510EB216004A28009892C7 /* External */ = {
 			isa = PBXGroup;
 			children = (
+				8804DAF7163E513300D98732 /* NSDictionary+TypeChecked.h */,
+				8804DAF8163E513300D98732 /* NSDictionary+TypeChecked.m */,
 				88F06212160C1F3C003F21AC /* LBYouTubePlayerController */,
 				88F06219160C1F43003F21AC /* JSONKit */,
 				8887C1531603B9090035E804 /* V8HorizontalPickerView */,
@@ -855,6 +860,7 @@
 				373665FC1611171A00D65A9F /* SWAnnotationDetailViewController.m in Sources */,
 				37277348162F79E5008B9808 /* SWFullScreenImageView.m in Sources */,
 				888BE2471637C91D00445BFA /* Post.m in Sources */,
+				8804DAFA163E514900D98732 /* NSDictionary+TypeChecked.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

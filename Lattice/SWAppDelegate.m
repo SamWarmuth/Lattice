@@ -36,9 +36,8 @@
         self.window.rootViewController = menuNavController;        
     }
     
-    [self resetCoreData];
+    //[self resetCoreData];
     [self downloadUserMetadata];
-    [self deleteAllObjects];
 
     
     //NSManagedObject *object = [NSEntityDescription insertNewObjectForEntityForName:@"Post" inManagedObjectContext:self.managedObjectContext];
@@ -221,25 +220,6 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
-
-- (void)deleteAllObjects
-{
-    //Erase the persistent store from coordinator and also file manager.
-    NSPersistentStore *store = [self.persistentStoreCoordinator.persistentStores lastObject];
-    NSError *error = nil;
-    NSURL *storeURL = store.URL;
-    [self.persistentStoreCoordinator removePersistentStore:store error:&error];
-    [[NSFileManager defaultManager] removeItemAtURL:storeURL error:&error];
-    
-    
-    NSLog(@"Data Reset");
-    
-    //Make new persistent store for future saves   (Taken From Above Answer)
-    if (![self.persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
-        // do something with the error
-    }
-    
 }
 
 - (void)resetCoreData

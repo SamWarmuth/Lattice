@@ -7,9 +7,10 @@
 //
 
 #import "Annotation.h"
-#import "Post.h"
-#import "Image.h"
+#import "NSDictionary+TypeChecked.h"
 #import "SWAppDelegate.h"
+#import "Image.h"
+#import "Post.h"
 
 @implementation Annotation
 
@@ -56,20 +57,20 @@
     
     NSDictionary *valueDict = [dictionary objectForKey:@"value"];
     
-    if ([valueDict objectForKey:@"author_name"]) annotation.author_name = [valueDict objectForKey:@"author_name"];
-    if ([valueDict objectForKey:@"author_url"]) annotation.author_url = [valueDict objectForKey:@"author_url"];
-    if ([valueDict objectForKey:@"embeddable_url"]) annotation.embeddable_url = [valueDict objectForKey:@"embeddable_url"];
-    if ([valueDict objectForKey:@"height"]) annotation.height = [valueDict objectForKey:@"height"];
+    if ([valueDict objectForKey:@"author_name"]) annotation.author_name = [valueDict stringForKey:@"author_name"];
+    if ([valueDict objectForKey:@"author_url"]) annotation.author_url = [valueDict stringForKey:@"author_url"];
+    if ([valueDict objectForKey:@"embeddable_url"]) annotation.embeddable_url = [valueDict stringForKey:@"embeddable_url"];
     if ([valueDict objectForKey:@"horizontalAccuracy"]) annotation.horizontalAccuracy = [valueDict objectForKey:@"horizontalAccuracy"];
-    if ([valueDict objectForKey:@"html"]) annotation.html = [valueDict objectForKey:@"html"];
+    if ([valueDict objectForKey:@"html"]) annotation.html = [valueDict stringForKey:@"html"];
     if ([valueDict objectForKey:@"latitude"]) annotation.latitude = [valueDict objectForKey:@"latitude"];
     if ([valueDict objectForKey:@"longitude"]) annotation.longitude = [valueDict objectForKey:@"longitude"];
-    if ([valueDict objectForKey:@"provider_name"]) annotation.provider_name = [valueDict objectForKey:@"provider_name"];
-    if ([valueDict objectForKey:@"provider_url"]) annotation.provider_url = [valueDict objectForKey:@"provider_url"];
-    if ([valueDict objectForKey:@"type"]) annotation.subType = [valueDict objectForKey:@"type"];
-    if ([valueDict objectForKey:@"title"]) annotation.title = [valueDict objectForKey:@"title"];
-    if ([valueDict objectForKey:@"url"]) annotation.url = [valueDict objectForKey:@"url"];
-    if ([valueDict objectForKey:@"width"]) annotation.width = [valueDict objectForKey:@"width"];
+    if ([valueDict objectForKey:@"provider_name"]) annotation.provider_name = [valueDict stringForKey:@"provider_name"];
+    if ([valueDict objectForKey:@"provider_url"]) annotation.provider_url = [valueDict stringForKey:@"provider_url"];
+    if ([valueDict objectForKey:@"type"]) annotation.subType = [valueDict stringForKey:@"type"];
+    if ([valueDict objectForKey:@"title"]) annotation.title = [valueDict stringForKey:@"title"];
+    if ([valueDict objectForKey:@"url"]) annotation.url = [valueDict stringForKey:@"url"];
+    if ([valueDict objectForKey:@"height"]) annotation.height =  [valueDict numberForKey:@"height"];
+    if ([valueDict objectForKey:@"width"]) annotation.width = [valueDict numberForKey:@"width"];
         
     return annotation;
 }

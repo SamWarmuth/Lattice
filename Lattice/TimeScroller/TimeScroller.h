@@ -30,8 +30,6 @@
     id <TimeScrollerDelegate> __unsafe_unretained _delegate;
     UITableView *_tableView;
     UIImageView *_scrollBar;
-    UILabel *_timeLabel;
-    UILabel *_dateLabel;
     UIImageView *_backgroundView;
     NSDate *_lastDate;
     CGSize _saved_tableview_size;
@@ -41,7 +39,7 @@
 @property (nonatomic, unsafe_unretained) id <TimeScrollerDelegate> delegate;
 @property (nonatomic, copy) NSCalendar *calendar;
 @property (nonatomic, strong) UIView *scrollContainer;
-@property (nonatomic, strong) UILabel *largeDisplay;
+@property (nonatomic, strong) UILabel *largeDisplay, *dateLabel, *timeLabel;
 @property BOOL draggingScrollBar;
 @property CGFloat tableViewHeightWhenScrollingBegan;
 

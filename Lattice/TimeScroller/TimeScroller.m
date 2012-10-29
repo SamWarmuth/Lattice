@@ -301,7 +301,7 @@
         self.transform = CGAffineTransformMakeTranslation(10.0f, 0.0f);
         
     } completion:^(BOOL finished) {
-        
+        self.scrollContainer.userInteractionEnabled = FALSE;
     }];
     
 }
@@ -312,13 +312,13 @@
     NSLog(@"begin dragging");
     
     if (!_tableView || !_scrollBar) {
-        
         [self captureTableViewAndScrollBar];
-        
     }
     
-    if (!_scrollBar)
-        return;
+    if (!_scrollBar) return;
+    
+    self.scrollContainer.userInteractionEnabled = TRUE;
+
     
     CGRect selfFrame = self.frame;
     CGRect scrollBarFrame = _scrollBar.frame;
@@ -332,19 +332,23 @@
     [_scrollBar addSubview:self];
     
     [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionBeginFromCurrentState  animations:^{
-        
         self.alpha = 1.0f;
         self.transform = CGAffineTransformIdentity;
         
     } completion:^(BOOL finished) {
-        
+        self.scrollContainer.userInteractionEnabled = TRUE;
+
     }];
     
 }
 
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch {
+        return NO;
+
+}
+
 - (BOOL)scrollbarTouchesBegan:(UITouch *)touch
 {
-    NSLog(@"Began");
     CGPoint touchLocation = [touch locationInView:self.scrollContainer];
     self.tableViewHeightWhenScrollingBegan = _tableView.contentSize.height;
     
@@ -366,13 +370,14 @@
                             CGRectGetHeight(selfFrame));
     self.alpha = 1.0;
     [_tableView.superview addSubview:self];
+    self.scrollContainer.userInteractionEnabled = TRUE;
+
     return TRUE;
 
 }
 
 - (BOOL)scrollBarTouchesMoved:(UITouch *)touch
 {
-    NSLog(@"moved");
 
     if (!self.draggingScrollBar) return FALSE;
     
@@ -411,7 +416,6 @@
 
 - (BOOL)scrollbarTouchesEnded:(UITouch *)touch
 {
-    NSLog(@"ended");
 
     if (!self.draggingScrollBar) return FALSE;
 
@@ -419,7 +423,7 @@
     [UIView animateWithDuration:0.3f delay:0.7f options:UIViewAnimationOptionBeginFromCurrentState  animations:^{
         self.alpha = 0.0f;        
     } completion:^(BOOL finished) {
-        
+        self.scrollContainer.userInteractionEnabled = FALSE;
     }];
     return TRUE;
 }

@@ -351,7 +351,7 @@
         CGFloat distance = currentOffset.y - self.lastTableViewOffset.y;
         CGFloat scrollSpeed = fabsf((distance * 10) / 1000); //in pixels per millisecond
         
-        if (scrollSpeed > 1.25 || self.timeScroller.draggingScrollBar) {
+        if (scrollSpeed > 1 || self.timeScroller.draggingScrollBar) {
             self.isScrollingQuickly = YES;
             [self setDateOverlayVisible:TRUE animated:TRUE];
         } else {
@@ -360,6 +360,10 @@
         }
         self.lastTableViewOffset = currentOffset;
         self.lastOffsetCapture = currentTime;
+        
+        self.dateOverlayTimeLabel.text = self.timeScroller.timeLabel.text;
+        self.dateOverlayDateLabel.text = self.timeScroller.dateLabel.text;
+
     }
 }
 
@@ -368,21 +372,27 @@
     BOOL currentlyDisplayed = (self.dateOverlay && [self.dateOverlay superview]);
     if (currentlyDisplayed == visible) return;
     
-    
     if (visible){
-        self.dateOverlay = [[UIView alloc] initWithFrame:CGRectMake(20, 130, 280, 120)];
+        self.dateOverlay = [[UIView alloc] initWithFrame:CGRectMake(80, 140, 160, 80)];
         self.dateOverlay.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
         self.dateOverlay.layer.cornerRadius = 20;
         self.dateOverlay.userInteractionEnabled = FALSE;
-        UILabel *dateOverlayLabel = [[UILabel alloc] initWithFrame:self.dateOverlay.bounds];
-        dateOverlayLabel.font = [UIFont boldSystemFontOfSize:18];
-        dateOverlayLabel.text = @"Same text as scroll tab.";
-        dateOverlayLabel.backgroundColor = [UIColor clearColor];
-        dateOverlayLabel.textColor = [UIColor whiteColor];
-        dateOverlayLabel.textAlignment = UITextAlignmentCenter;
-        NSLog(@"huh.");
-        [self.dateOverlay addSubview:dateOverlayLabel];
         
+        self.dateOverlayDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 20, 120, 20)];
+        self.dateOverlayDateLabel.minimumFontSize = 14.0;
+        self.dateOverlayDateLabel.font = [UIFont boldSystemFontOfSize:18];
+        self.dateOverlayDateLabel.text = @"Date Label";
+        self.dateOverlayDateLabel.backgroundColor = [UIColor clearColor];
+        self.dateOverlayDateLabel.textColor = [UIColor whiteColor];
+        [self.dateOverlay addSubview:self.dateOverlayDateLabel];
+        
+        self.dateOverlayTimeLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 40, 120, 20)];
+        self.dateOverlayTimeLabel.font = [UIFont boldSystemFontOfSize:18];
+        self.dateOverlayTimeLabel.text = @"Time Label";
+        self.dateOverlayTimeLabel.backgroundColor = [UIColor clearColor];
+        self.dateOverlayTimeLabel.textColor = [UIColor colorWithRed:0.8 green:0.8 blue:0.8 alpha:1];
+        [self.dateOverlay addSubview:self.dateOverlayTimeLabel];
+                
         if (animated) {
             self.dateOverlay.alpha = 0.0;
             [self.view addSubview:self.dateOverlay];
@@ -402,7 +412,7 @@
         
         if (animated) {
             [UIView animateWithDuration:0.5
-                                  delay:0.25
+                                  delay:1.0
                                 options:UIViewAnimationCurveEaseIn | UIViewAnimationOptionAllowUserInteraction
                              animations:^{
                                  self.dateOverlay.alpha = 0.0;
@@ -468,7 +478,6 @@
     if (touch.view == _timeScroller.scrollContainer){
         BOOL success = [_timeScroller scrollbarTouchesBegan:touch];
         if (success) return;
-        DLog(@"NOOOOOO");
     }
 }
 

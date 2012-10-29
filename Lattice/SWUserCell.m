@@ -81,8 +81,6 @@
 
     if (!user) return;
     
-    DLog(@"User! %@", user);
-
     self.usernameLabel.text = user.username;
     
     NSString *text = [SWHelpers fixNewlinesInString:user.user_description.text];

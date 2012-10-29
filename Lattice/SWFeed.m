@@ -43,8 +43,6 @@
         case SWFeedTypeUserMentions: {
             NSString *key = self.keyID;
             if ([key isEqualToString:@"me"]) key = [SWUserAPI myID];
-            NSLog(@"Looking to match %@", key);
-
             return [NSPredicate predicateWithFormat:@"(text.entities.id CONTAINS[cd] %@)  AND (int_id >= %@) AND (int_id <= %@)", key, min, max];
         } case SWFeedTypeHashtag:
             NSLog(@"Looking to match %@", self.keyID);
@@ -64,7 +62,7 @@
         self.minID = [[metadata objectForKey:@"min_id"] stringValue];
         self.maxID = [[metadata objectForKey:@"max_id"] stringValue];
         self.moreItemsAvailable = [[metadata objectForKey:@"more"] boolValue];
-         [Post createOrUpdatePostsFromArray:posts];
+        [Post createOrUpdatePostsFromArray:posts];
         block(nil, nil);
     }];
 }
