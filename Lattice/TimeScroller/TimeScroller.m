@@ -307,7 +307,9 @@
 }
 
 
-- (void)scrollViewWillBeginDragging {
+- (void)scrollViewWillBeginDragging
+{
+    NSLog(@"begin dragging");
     
     if (!_tableView || !_scrollBar) {
         
@@ -342,6 +344,7 @@
 
 - (BOOL)scrollbarTouchesBegan:(UITouch *)touch
 {
+    NSLog(@"Began");
     CGPoint touchLocation = [touch locationInView:self.scrollContainer];
     self.tableViewHeightWhenScrollingBegan = _tableView.contentSize.height;
     
@@ -369,6 +372,8 @@
 
 - (BOOL)scrollBarTouchesMoved:(UITouch *)touch
 {
+    NSLog(@"moved");
+
     if (!self.draggingScrollBar) return FALSE;
     
     CGPoint touchLocation = [touch locationInView:self.scrollContainer];
@@ -406,6 +411,8 @@
 
 - (BOOL)scrollbarTouchesEnded:(UITouch *)touch
 {
+    NSLog(@"ended");
+
     if (!self.draggingScrollBar) return FALSE;
 
     self.draggingScrollBar = FALSE;

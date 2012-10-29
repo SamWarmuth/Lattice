@@ -91,7 +91,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0) return [SWUserCell heightForUser:self.user];
-    return 140.0;
+    return 200.0;
 }
 
 
@@ -149,6 +149,9 @@
     [cell.followersButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
     [cell.followersButton addTarget:self action:@selector(viewFollowers) forControlEvents:UIControlEventTouchUpInside];
     
+    [cell.mentionsButton removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    [cell.mentionsButton addTarget:self action:@selector(viewMentions) forControlEvents:UIControlEventTouchUpInside];
+    
     return cell;
 }
 
@@ -183,6 +186,14 @@
     SWUserListViewController *userListViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWUserListViewController"];
     userListViewController.feed = [SWFeed feedWithType:SWFeedTypeUserFollowers keyID:self.user.id];
     [self.navigationController pushViewController:userListViewController animated:TRUE];
+}
+
+- (void)viewMentions
+{
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
+    SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];
+    feedViewController.feed = [SWFeed feedWithType:SWFeedTypeUserMentions keyID:self.user.id];
+    [self.navigationController pushViewController:feedViewController animated:TRUE];
 }
 
 - (IBAction)followButtonPressed:(id)sender

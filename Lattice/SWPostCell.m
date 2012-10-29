@@ -87,7 +87,6 @@
         
     oldFrame = self.conversationMarkerImageView.frame;
     
-    NSLog(@"Replies : %@, reply_to: %@", post.num_replies, post.reply_to);
     BOOL threadExists = (post.num_replies != @0 || post.reply_to);
     if (!self.suppressConversationMarker && threadExists) {
         self.conversationMarkerImageView.hidden = FALSE;

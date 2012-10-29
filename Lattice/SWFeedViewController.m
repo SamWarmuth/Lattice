@@ -105,7 +105,7 @@
             self.title = @"User Starred";
             break;
         case SWFeedTypeUserMentions:
-            self.title = @"Mentioning Me";
+            self.title = @"Mentions";
             break;
         case SWFeedTypeHashtag:
             self.title = @"Hash Feed";
@@ -342,18 +342,16 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     [_timeScroller scrollViewDidScroll];
     
-    return;
     //this calculates if we're moving quickly, to display the dateoverlay
     CGPoint currentOffset = self.tv.contentOffset;
     NSTimeInterval currentTime = [NSDate timeIntervalSinceReferenceDate];
     
     NSTimeInterval timeDiff = currentTime - self.lastOffsetCapture;
-    if(timeDiff > 0.1) {
+    if (timeDiff > 0.1) {
         CGFloat distance = currentOffset.y - self.lastTableViewOffset.y;
-        CGFloat scrollSpeedNotAbs = (distance * 10) / 1000; //in pixels per millisecond
+        CGFloat scrollSpeed = fabsf((distance * 10) / 1000); //in pixels per millisecond
         
-        CGFloat scrollSpeed = fabsf(scrollSpeedNotAbs);
-        if (scrollSpeed > 1.25) {
+        if (scrollSpeed > 1.25 || self.timeScroller.draggingScrollBar) {
             self.isScrollingQuickly = YES;
             [self setDateOverlayVisible:TRUE animated:TRUE];
         } else {
@@ -370,11 +368,21 @@
     BOOL currentlyDisplayed = (self.dateOverlay && [self.dateOverlay superview]);
     if (currentlyDisplayed == visible) return;
     
+    
     if (visible){
         self.dateOverlay = [[UIView alloc] initWithFrame:CGRectMake(20, 130, 280, 120)];
         self.dateOverlay.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
         self.dateOverlay.layer.cornerRadius = 20;
         self.dateOverlay.userInteractionEnabled = FALSE;
+        UILabel *dateOverlayLabel = [[UILabel alloc] initWithFrame:self.dateOverlay.bounds];
+        dateOverlayLabel.font = [UIFont boldSystemFontOfSize:18];
+        dateOverlayLabel.text = @"Same text as scroll tab.";
+        dateOverlayLabel.backgroundColor = [UIColor clearColor];
+        dateOverlayLabel.textColor = [UIColor whiteColor];
+        dateOverlayLabel.textAlignment = UITextAlignmentCenter;
+        NSLog(@"huh.");
+        [self.dateOverlay addSubview:dateOverlayLabel];
+        
         if (animated) {
             self.dateOverlay.alpha = 0.0;
             [self.view addSubview:self.dateOverlay];
@@ -410,10 +418,12 @@
     }
 }
 
-
-- (IBAction)composeButtonPressed:(id)sender
+- (IBAction)scrollToTopPressed:(id)sender
 {
-
+    NSLog(@"Scroll to top.");
+    [self.feed loadItemsWithBlock:^(NSError *error, NSMutableArray *posts) {
+        [self.tv reloadData];
+    }];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -476,6 +486,8 @@
     UITouch *touch = [touches anyObject];
     if (touch.view == _timeScroller.scrollContainer){
         BOOL success = [_timeScroller scrollbarTouchesEnded:touch];
+        [self setDateOverlayVisible:FALSE animated:TRUE];
+
         if (success) return;
     }
 }

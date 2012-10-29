@@ -27,7 +27,7 @@
 
 @property CGFloat loadingCellHeight;
 
-- (IBAction)composeButtonPressed:(id)sender;
+- (IBAction)scrollToTopPressed:(id)sender;
 
 
 @end
