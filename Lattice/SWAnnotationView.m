@@ -81,7 +81,7 @@
     annotationView.backgroundColor = [UIColor clearColor];
     annotationView.clipsToBounds = TRUE;
     annotationView.type = SWAnnotationTypePhoto;
-    
+
     NSString *photoURLString = annotation.url;
     CGFloat width = [annotation.width floatValue];
     CGFloat height = [annotation.height floatValue];    

@@ -161,7 +161,7 @@
     Post *replyToPost = (self.post.repost_of ? self.post.repost_of : self.post);
     composeViewController.replyToID = replyToPost.id;
     composeViewController.prefillText = [NSString stringWithFormat:@"@%@ ", self.post.user.username];
-    [self.navigationController presentModalViewController:composeViewController animated:TRUE];
+    [self.navigationController presentViewController:composeViewController animated:TRUE completion:nil];
 }
 
 - (void)repostPressed

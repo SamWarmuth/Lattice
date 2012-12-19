@@ -52,7 +52,7 @@
     if (indexPath.row == 0){ // compose
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         SWComposeViewController *composeViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWComposeViewController"];
-        [self.navigationController presentModalViewController:composeViewController animated:TRUE];        
+        [self.navigationController presentViewController:composeViewController animated:TRUE completion:nil];
     } else if (indexPath.row == 1){ // Your Feed
         UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard" bundle:nil];
         SWFeedViewController *feedViewController = [storyboard instantiateViewControllerWithIdentifier:@"SWFeedViewController"];

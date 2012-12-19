@@ -379,7 +379,8 @@
         self.dateOverlay.userInteractionEnabled = FALSE;
         
         self.dateOverlayDateLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 20, 120, 20)];
-        self.dateOverlayDateLabel.minimumFontSize = 14.0;
+//        self.dateOverlayDateLabel.minimumFontSize = 14.0;
+        self.dateOverlayDateLabel.minimumScaleFactor = (14.0/18.0); // minimum font size of 14.0, default is 18.0
         self.dateOverlayDateLabel.font = [UIFont boldSystemFontOfSize:18];
         self.dateOverlayDateLabel.text = @"Date Label";
         self.dateOverlayDateLabel.backgroundColor = [UIColor clearColor];

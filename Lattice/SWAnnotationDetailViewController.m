@@ -108,7 +108,7 @@
 
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:TRUE completion:nil];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -133,7 +133,7 @@
                         [composer addAttachmentData:data mimeType:@"image/jpeg" fileName:@"Picture.jpg"];
                         [composer setModalTransitionStyle:UIModalTransitionStyleFlipHorizontal];
                         
-                        [self presentModalViewController:composer animated:YES];
+                        [self presentViewController:composer animated:TRUE completion:nil];
                         
                     } else {
                         

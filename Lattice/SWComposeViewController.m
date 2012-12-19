@@ -142,7 +142,7 @@
     UIImage *originalImage=[info objectForKey:UIImagePickerControllerOriginalImage];
     KLog(@"OriginalImage width:%f height:%f", originalImage.size.width, originalImage.size.height);
     self.image = originalImage;
-    [self dismissModalViewControllerAnimated:YES];
+    [self dismissViewControllerAnimated:TRUE completion:nil];
     
 }
 
@@ -190,7 +190,7 @@
             
     } //End of switch statement
     
-    [self presentModalViewController:imagePicker animated:TRUE];
+    [self presentViewController:imagePicker animated:TRUE completion:nil];
 }
 
 - (void)cameraButtonActionSheet:(id)sender
@@ -258,7 +258,7 @@
 
 - (IBAction)cancelButtonPressed:(id)sender
 {
-    [self dismissModalViewControllerAnimated:TRUE];
+    [self dismissViewControllerAnimated:TRUE completion:nil];
 }
 
 - (IBAction)doneButtonPressed:(id)sender
@@ -272,7 +272,7 @@
     [SWPostAPI createPostWithText:self.messageTextView.text replyTo:self.replyToID completed:^(NSError *error, Post *post, NSDictionary *metadata) {
         [SVProgressHUD dismissWithSuccess:@"Posted!"];
         KLog(@"Created Post! %@", post);
-        [self dismissModalViewControllerAnimated:TRUE];
+        [self dismissViewControllerAnimated:TRUE completion:nil];
     }];
 }
 

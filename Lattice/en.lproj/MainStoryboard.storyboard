@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2843" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="1cw-ET-mys">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C60" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="1cw-ET-mys">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1929"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
     </dependencies>
     <scenes>
         <!--Feed View Controller - Your Feed-->
@@ -9,11 +9,11 @@
             <objects>
                 <viewController storyboardIdentifier="SWFeedViewController" id="2" customClass="SWFeedViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="16">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="93" sectionHeaderHeight="22" sectionFooterHeight="22" id="Onw-zX-Q9w">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -142,11 +142,11 @@
             <objects>
                 <viewController storyboardIdentifier="SWUserDetailViewController" id="Hac-Rf-bhP" customClass="SWUserDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gqi-XN-eWj">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="yDj-nH-jeC">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -297,11 +297,11 @@
             <objects>
                 <viewController storyboardIdentifier="SWUserListViewController" id="GAx-Mu-XYz" customClass="SWUserListViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gTX-2S-lBZ">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="91" sectionHeaderHeight="22" sectionFooterHeight="22" id="bRk-t6-QVF">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -385,11 +385,11 @@
             <objects>
                 <viewController id="c2v-ny-6jg" customClass="SWPostDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Pu8-v0-yRu">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="94" sectionHeaderHeight="22" sectionFooterHeight="22" id="Roh-YQ-r1O">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="504"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
@@ -556,7 +556,7 @@
             <objects>
                 <viewController storyboardIdentifier="SWAnnotationDetailViewController" id="fHU-FJ-qk8" customClass="SWAnnotationDetailViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3PK-hH-Y3x">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -578,11 +578,11 @@
             <objects>
                 <viewController storyboardIdentifier="SWWebViewController" id="woh-lh-Ywj" customClass="SWWebViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2tv-PT-gdK">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <webView multipleTouchEnabled="YES" contentMode="scaleToFill" scalesPageToFit="YES" id="eUR-CR-HhL">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="372"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="460"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <connections>
@@ -590,7 +590,7 @@
                                 </connections>
                             </webView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="cB4-h5-hU6">
-                                <rect key="frame" x="0.0" y="372" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="460" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem image="back.png" id="lON-ZC-zdc">
@@ -629,7 +629,7 @@
             <objects>
                 <viewController storyboardIdentifier="SWComposeViewController" id="yGa-F6-gR0" customClass="SWComposeViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="JlD-H8-7bJ">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="POb-Qn-RHD">
@@ -673,7 +673,7 @@
                                 <color key="backgroundColor" red="0.94117653369903564" green="0.94117653369903564" blue="0.94117653369903564" alpha="1" colorSpace="deviceRGB"/>
                             </view>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="8t5-jQ-mIA">
-                                <rect key="frame" x="0.0" y="312" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="400" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                 <items>
                                     <barButtonItem image="atIcon.png" width="44" id="RHP-AZ-T80">
@@ -721,7 +721,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="SWMainMenu" id="p43-EC-H7U" customClass="SWMainMenuViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="62" sectionHeaderHeight="22" sectionFooterHeight="22" id="si3-Sh-Jtb">
-                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="504"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <sections>
@@ -854,7 +854,7 @@
             <objects>
                 <viewController id="1cw-ET-mys" customClass="SWConnectViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="53v-JD-ZCv">
-                        <rect key="frame" x="0.0" y="20" width="320" height="460"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="fRu-Sg-WKu">
@@ -917,129 +917,9 @@
         <image name="starIconSmall.png" width="32" height="32"/>
         <image name="starIconSmallWhite.png" width="32" height="32"/>
     </resources>
-    <classes>
-        <class className="OHAttributedLabel" superclassName="UILabel">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/OHAttributedLabel.h"/>
-            <relationships>
-                <relationship kind="outlet" name="delegate"/>
-            </relationships>
-        </class>
-        <class className="SWActionCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWActionCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="followersButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="followingButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="mentionsButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="postsButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="replyButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="repostButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="starButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="starredButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="SWAnnotationCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWAnnotationCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="annotationView" candidateClass="SWAnnotationView"/>
-            </relationships>
-        </class>
-        <class className="SWAnnotationDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWAnnotationDetailViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="activityButtonTapped:"/>
-                <relationship kind="outlet" name="annotationView" candidateClass="SWAnnotationView"/>
-            </relationships>
-        </class>
-        <class className="SWAnnotationView" superclassName="UIView">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWAnnotationView.h"/>
-            <relationships>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="SWComposeViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWComposeViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="cameraButtonTapped:"/>
-                <relationship kind="action" name="cancelButtonPressed:"/>
-                <relationship kind="action" name="doneButtonPressed:"/>
-                <relationship kind="action" name="hashtagButtonTapped:"/>
-                <relationship kind="action" name="mentionButtonTapped:"/>
-                <relationship kind="outlet" name="autocompletePlaceholderView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="keyboardAccessoryView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="messageTextView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="progressContainerView" candidateClass="UIView"/>
-                <relationship kind="outlet" name="progressView" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="SWConnectViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWConnectViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="connectPressed:"/>
-            </relationships>
-        </class>
-        <class className="SWFeedViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWFeedViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="scrollToTopPressed:"/>
-                <relationship kind="outlet" name="tv" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SWMainMenuViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWMainMenuViewController.h"/>
-        </class>
-        <class className="SWPostCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWPostCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="avatarImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="conversationMarkerImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="dateLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="messageLabel" candidateClass="OHAttributedLabel"/>
-                <relationship kind="outlet" name="profileButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="repostLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="usernameLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SWPostDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWPostDetailViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="tv" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SWUserCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWUserCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="avatarImageView" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="messageLabel" candidateClass="OHAttributedLabel"/>
-                <relationship kind="outlet" name="usernameLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="SWUserDetailViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWUserDetailViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="followButtonPressed:"/>
-                <relationship kind="outlet" name="followButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="tv" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SWUserListViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWUserListViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="tv" candidateClass="UITableView"/>
-            </relationships>
-        </class>
-        <class className="SWWebViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/SWWebViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="backButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="forwardButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="shareButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="webview" candidateClass="UIWebView"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
-        <simulatedScreenMetrics key="destination"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
 </document>
