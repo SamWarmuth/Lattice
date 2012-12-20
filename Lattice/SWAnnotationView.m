@@ -78,6 +78,8 @@
 {
     SWAnnotationView *annotationView = [SWAnnotationView new];
     annotationView.annotation = annotation;
+    annotationView.autoresizesSubviews = TRUE;
+    annotationView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     annotationView.backgroundColor = [UIColor clearColor];
     annotationView.clipsToBounds = TRUE;
     annotationView.type = SWAnnotationTypePhoto;
@@ -92,6 +94,7 @@
         annotationView.fullScreenImageView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth; //resize fullScreenImageView to match annotationView always
         
         annotationView.fullScreenImageView.imageView.frame = CGRectMake(0, 0, width, height); //set the frame of the imageview to the image size
+        annotationView.fullScreenImageView.imageView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
         [annotationView.fullScreenImageView.imageView setImageWithURL:[NSURL URLWithString:photoURLString]]; //set the image from the url in annotation data
         annotationView.fullScreenImageView.scrollView.contentSize = CGSizeMake(width, height); //content size is actual size of image
         CGFloat scaledWidth = annotationView.fullScreenImageView.scrollView.frame.size.width / annotationView.fullScreenImageView.scrollView.contentSize.width; //scale the width of (screen size / image size)

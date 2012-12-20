@@ -32,6 +32,7 @@
 {
     self.scrollView = [UIScrollView new]; //make self.scrollView exist and point to something real
     self.scrollView.frame = self.frame; //set the frame of the scrollView to the frame of the SWFullScreenImageView (which is set to the annotationView)
+    self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleHeight|UIViewAutoresizingFlexibleWidth;
     self.imageView = [UIImageView new]; //make self.imageView exist and point to something real
     [self.scrollView addSubview:self.imageView]; //add the imageView to the scrollView
     self.scrollView.delegate = self; //set the SWFullScreenImageView to be the delegate

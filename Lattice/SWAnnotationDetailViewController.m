@@ -52,6 +52,7 @@
     
     self.annotationView.frame = self.view.frame;
     [self.view addSubview:self.annotationView];
+
 }
 
 
